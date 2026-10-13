@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>看不见的距离 · 图书馆 → V27</title>
+<title data-i18n="doc.title">看不见的距离 · 图书馆 → V27</title>
 <style>
   /* ========== CSS Variables ========== */
   :root {
@@ -450,20 +450,50 @@
     table { font-size: 12px; }
     th, td { padding: 7px 6px; }
   }
+
+  /* ========== Language Switch ========== */
+  .lang-switch button { padding: 10px 16px; letter-spacing: .3px; }
+  .lang-switch button.active {
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    color: #fff; box-shadow: 0 4px 12px rgba(15,23,42,0.28);
+  }
+  .lang-switch button:not(.active):hover { color: #0f172a; }
+  header { position: relative; }
+  .lang-top { position: absolute; top: 4px; right: 4px; }
+  @media (max-width: 1100px) {
+    header { display: flex; flex-direction: column; align-items: center; }
+    .lang-top { position: static; margin: 0 auto 14px; }
+  }
+  body.lang-en {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  body.lang-en header h1 { letter-spacing: -0.3px; }
+  body.lang-en .badge { line-height: 1.35; }
+  body.lang-en .legend { line-height: 1.5; }
+  body.lang-en .cmp-table td:first-child { width: 190px; white-space: normal; }
+  body.lang-en .bar-name { width: 96px; }
+  @media (max-width: 768px) {
+    body.lang-en .bar-name { width: 78px; }
+    body.lang-en .cmp-table td:first-child { width: 110px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>看不见的距离 · 图书馆 → V27</h1>
-    <div class="sub">
+    <div class="lang-switch switch-row lang-top" role="group" aria-label="语言 / Language">
+      <button type="button" data-lang-btn="zh" class="active" aria-pressed="true">中文</button>
+      <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+    </div>
+    <h1 data-i18n="h1">看不见的距离 · 图书馆 → V27</h1>
+    <div class="sub" data-i18n-html="sub">
       <strong>同一段路，三种人生，三种「最近」</strong><br>
       底图基于 OpenStreetMap 真实坐标投影 · 路线沿 OSM 真实步道 · 端点楼层与出入口为现场实测
     </div>
   </header>
 
-  <section class="card thesis" aria-label="命题、方法与结论">
-    <div class="thesis-grid">
+  <section class="card thesis" aria-label="命题、方法与结论" data-i18n-aria="th.aria">
+    <div class="thesis-grid" data-i18n-html="th.grid">
       <div class="thesis-cell">
         <h3><span class="t-tag t-prop">命题</span></h3>
         <p>地图上的「最短路径」不等于每个人真实世界里的「最近的路」——常规导航只算平面距离，往往忽略<b>楼层高差、台阶，以及行李、轮椅的通行条件</b>。</p>
@@ -479,51 +509,51 @@
     </div>
   </section>
 
-  <section class="card" style="border-left:4px solid #f59e0b;" aria-label="室内路线C与电梯时段">
+  <section class="card" style="border-left:4px solid #f59e0b;" aria-label="室内路线C与电梯时段" data-i18n-aria="rc.aria">
     <p style="margin:0;font-size:13px;line-height:1.9;color:#92400e;">
-      <b>第三条候选路线（室内）· 走法已确认：</b>图书馆出门到 T4 → 电梯 / 楼梯<b>下 1 层</b> → 教学楼一层室内通道到 T8 → 回地面沿大路到 V27。
+      <span data-i18n-html="rc.body"><b>第三条候选路线（室内）· 走法已确认：</b>图书馆出门到 T4 → 电梯 / 楼梯<b>下 1 层</b> → 教学楼一层室内通道到 T8 → 回地面沿大路到 V27。
       按与 A / B 同口径的坐标累计估算，全程约 <b>510 m</b>（介于 B 的 470 m 与 A 的 537 m 之间；室内段为手绘直线，非 GPS）。
-      它斜切了户外绕行段、全程无台阶、连续行进，所以实地走起来体感更近。<br>
-      <b>电梯等候（教学区）：</b><span id="elevatorWait">…</span>每小时前 45 分钟约 1 分钟、末尾 15 分钟课间约 3–5 分钟（宿舍区电梯无此分时）。
-      可在上方「电梯时段」切换「自动 / 课间 / 非课间」。
+      它斜切了户外绕行段、全程无台阶、连续行进，所以实地走起来体感更近。</span><br>
+      <span data-i18n-html="rc.elev"><b>电梯等候（教学区）：</b></span><span id="elevatorWait">…</span><span data-i18n-html="rc.tail">每小时前 45 分钟约 1 分钟、末尾 15 分钟课间约 3–5 分钟（宿舍区电梯无此分时）。
+      可在上方「电梯时段」切换「自动 / 课间 / 非课间」。</span>
     </p>
   </section>
 
   <div class="control-bar">
     <div class="switch-row" id="desktopSwitch">
-      <button data-view="walker" class="active" aria-pressed="true">普通行人</button>
-      <button data-view="luggage" aria-pressed="false">拖行李</button>
-      <button data-view="wheelchair" aria-pressed="false">轮椅 / 无障碍</button>
+      <button data-view="walker" class="active" aria-pressed="true" data-i18n="view.walker">普通行人</button>
+      <button data-view="luggage" aria-pressed="false" data-i18n="view.luggage">拖行李</button>
+      <button data-view="wheelchair" aria-pressed="false" data-i18n="view.wheelchair">轮椅 / 无障碍</button>
     </div>
     <div class="floor-selector">
-      <label for="floorSelect">当前楼层</label>
-      <select id="floorSelect" aria-label="选择当前楼层">
-        <optgroup label="户外">
-          <option value="ground" selected>地面层</option>
+      <label for="floorSelect" data-i18n="ctrl.floor">当前楼层</label>
+      <select id="floorSelect" aria-label="选择当前楼层" data-i18n-aria="ctrl.floor.aria">
+        <optgroup label="户外" data-i18n-label="og.outdoor">
+          <option value="ground" selected data-i18n="floor.ground">地面层</option>
         </optgroup>
-        <optgroup label="图书馆（学习资源中心）">
-          <option value="lib-1">1F · 无出入口（需上楼）</option>
-          <option value="lib-2">2F · 唯一出入口（朝湖·无台阶）</option>
-          <option value="lib-3">3F · 需电梯下至 2F</option>
-          <option value="lib-4">4F · 需电梯下至 2F</option>
+        <optgroup label="图书馆（学习资源中心）" data-i18n-label="og.library">
+          <option value="lib-1" data-i18n="floor.lib1">1F · 无出入口（需上楼）</option>
+          <option value="lib-2" data-i18n="floor.lib2">2F · 唯一出入口（朝湖·无台阶）</option>
+          <option value="lib-3" data-i18n="floor.lib3">3F · 需电梯下至 2F</option>
+          <option value="lib-4" data-i18n="floor.lib4">4F · 需电梯下至 2F</option>
         </optgroup>
-        <optgroup label="V27 雨果楼">
-          <option value="v27-1">1F · 入口（无台阶·有电梯）</option>
-          <option value="v27-2">2F · 需电梯下至 1F</option>
-          <option value="v27-3">3F · 需电梯下至 1F</option>
-          <option value="v27-4">4F · 需电梯下至 1F</option>
-          <option value="v27-5">5F · 需电梯下至 1F</option>
-          <option value="v27-6">6F · 需电梯下至 1F</option>
-          <option value="v27-7">7F · 需电梯下至 1F</option>
+        <optgroup label="V27 雨果楼" data-i18n-label="og.v27">
+          <option value="v27-1" data-i18n="floor.v271">1F · 入口（无台阶·有电梯）</option>
+          <option value="v27-2" data-i18n="floor.v272">2F · 需电梯下至 1F</option>
+          <option value="v27-3" data-i18n="floor.v273">3F · 需电梯下至 1F</option>
+          <option value="v27-4" data-i18n="floor.v274">4F · 需电梯下至 1F</option>
+          <option value="v27-5" data-i18n="floor.v275">5F · 需电梯下至 1F</option>
+          <option value="v27-6" data-i18n="floor.v276">6F · 需电梯下至 1F</option>
+          <option value="v27-7" data-i18n="floor.v277">7F · 需电梯下至 1F</option>
         </optgroup>
       </select>
     </div>
-    <div class="floor-selector" title="教学区电梯等候时间按课间/非课间变化；宿舍区无此分时">
-      <label for="elevatorPeriod">电梯时段</label>
-      <select id="elevatorPeriod" aria-label="选择电梯时段">
-        <option value="auto" selected>自动（按系统时间）</option>
-        <option value="offpeak">非课间（等候约 1 分钟）</option>
-        <option value="peak">课间（等候约 3–5 分钟）</option>
+    <div class="floor-selector" title="教学区电梯等候时间按课间/非课间变化；宿舍区无此分时" data-i18n-title="ctrl.elev.title">
+      <label for="elevatorPeriod" data-i18n="ctrl.elev">电梯时段</label>
+      <select id="elevatorPeriod" aria-label="选择电梯时段" data-i18n-aria="ctrl.elev.aria">
+        <option value="auto" selected data-i18n="elev.auto">自动（按系统时间）</option>
+        <option value="offpeak" data-i18n="elev.offpeak">非课间（等候约 1 分钟）</option>
+        <option value="peak" data-i18n="elev.peak">课间（等候约 3–5 分钟）</option>
       </select>
     </div>
   </div>
@@ -532,15 +562,15 @@
     <!-- 左侧：真实地图 -->
     <div class="card map-panel">
       <div class="map-toolbar">
-        <label><input type="checkbox" id="cbFoot" checked> <span>步行小径</span></label>
-        <label><input type="checkbox" id="cbLabel" checked> <span>楼栋标注</span></label>
-        <label><input type="checkbox" id="cbRoute" checked> <span>路线</span></label>
-        <label><input type="checkbox" id="cbAccess"> <span>无障碍视角</span></label>
-        <button type="button" class="map-reset" id="mapReset">复位视图</button>
+        <label><input type="checkbox" id="cbFoot" checked> <span data-i18n="mt.path">步行小径</span></label>
+        <label><input type="checkbox" id="cbLabel" checked> <span data-i18n="mt.label">楼栋标注</span></label>
+        <label><input type="checkbox" id="cbRoute" checked> <span data-i18n="mt.route">路线</span></label>
+        <label><input type="checkbox" id="cbAccess"> <span data-i18n="mt.access">无障碍视角</span></label>
+        <button type="button" class="map-reset" id="mapReset" data-i18n="mt.reset">复位视图</button>
       </div>
       <div class="map-hint" id="mapHint"></div>
       <div class="map-stage">
-        <svg id="campusMap" viewBox="0 0 1200 840" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, Microsoft YaHei, sans-serif" role="img" aria-label="BNBU 一期校园平面图，标注图书馆到 V27 的两条路线">
+        <svg id="campusMap" viewBox="0 0 1200 840" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, Microsoft YaHei, sans-serif" role="img" aria-label="BNBU 一期校园平面图，标注图书馆到 V27 的两条路线" data-i18n-aria="svg.aria">
 <defs><style>
 .bld { stroke:#ffffff; stroke-width:1; cursor:pointer; transition:opacity .15s; }
 .bld:hover { opacity:.75; }
@@ -562,11 +592,7 @@
 </style>
 <rect width="1200" height="840" fill="#eef3ea"/>
 <path class="lyr-water" d="M 994.9 383.9 L 991.3 399.3 L 994.1 425.3 L 1014.8 460.5 L 1018.5 479.9 L 1030.5 483.0 L 1068.1 452.4 L 1130.2 435.6 L 1208.8 420.5 L 1219.1 400.9 L 1221.6 377.4 L 1197.2 371.5 L 1162.6 381.6 L 1125.7 379.5 L 1102.7 395.2 L 1061.5 399.0 L 1027.7 391.8 L 1006.8 380.0 L 994.9 383.9 Z" fill="#bcd9f0" stroke="#9cc4e4" stroke-width="1"/>
-<path class="lyr-lake" d="M 613 377 L 660 382 L 700 390 L 760 378 L 850 362 L 875 395 L 862 428 L 820 458 L 740 468 L 680 468 L 639 449 L 606 416 Z" fill="rgba(170,205,235,0.45)" stroke="#9cc4e4" stroke-width="1.2"/>
-<path d="M 702 390 L 715 405" fill="none" stroke="#d97757" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-<path d="M 678 414 L 730 380 L 810 410 L 783 437 L 742 445 L 698 433 Z" fill="#a5d6a7" stroke="#66bb6a" stroke-width="1.2"/>
-<path d="M 758 442 L 760 461" fill="none" stroke="#d97757" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-<text class="lbl" x="740" y="418" font-size="12" font-weight="700" fill="#1b5e20" paint-order="stroke" stroke="#ffffff" stroke-width="3">中心岛</text>
+<path class="lyr-lake" d="M 707.6 474.1 L 746.8 459.9 L 789.3 449.0 L 837.0 435.9 L 884.7 418.4 L 927.0 398.7 L 960.6 376.8 L 973.7 350.4 L 979.8 374.6 L 971.9 398.8 L 981.3 427.4 L 969.2 453.8 L 945.2 475.7 L 916.9 497.7 L 892.9 519.6 L 868.9 539.3 L 843.6 555.8 L 813.9 563.4 L 787.2 566.7 L 762.4 558.9 L 743.8 544.6 L 729.4 525.9 L 719.2 508.3 L 711.3 491.7 Z" fill="rgba(170,205,235,0.45)" stroke="#5aa7d0" stroke-width="1.6"/>
 <path class="lyr-green" d="M 366.0 596.9 L 413.9 544.2 L 506.1 628.2 L 458.2 680.8 L 396.4 624.5 L 366.0 596.9 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
 <path class="lyr-green" d="M 485.2 697.9 L 556.0 598.2 L 560.3 597.5 L 563.4 599.8 L 556.5 608.4 L 587.9 621.1 L 495.3 706.2 L 485.2 697.9 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
 <path class="lyr-green" d="M 897.8 271.7 L 883.2 303.6 L 911.8 318.8 L 927.1 285.3 L 897.8 271.7 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
@@ -574,8 +600,8 @@
 <path class="lyr-green" d="M 806.0 296.4 L 802.2 304.2 L 808.7 304.8 L 814.3 295.9 L 808.2 296.1 L 806.0 296.4 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
 <path d="M 375.9 475.4 L 375.9 463.1 L 520.9 456.9 L 520.9 469.2" fill="rgba(16,185,129,0.10)" stroke="none"/>
 <path d="M 151.8 327.7 L 151.8 266.2 L 217.7 266.2 L 217.7 327.7" fill="rgba(16,185,129,0.08)" stroke="none"/>
-<text class="lbl" x="448" y="469" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2">有盖连廊</text>
-<text class="lbl" x="185" y="297" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2">林荫道</text>
+<text class="lbl" x="448" y="469" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2" data-i18n="svg.covered">有盖连廊</text>
+<text class="lbl" x="185" y="297" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2" data-i18n="svg.treeline">林荫道</text>
 <path class="lyr-road-edge" d="M 276.8 567.9 L 337.6 623.2 L 440.5 716.9 L 451.0 726.4 L 469.3 742.7 L 484.1 755.8 L 530.1 796.7 L 532.0 798.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
 <path class="lyr-road-edge" d="M 532.0 798.5 L 546.0 811.4 L 560.1 827.7 L 579.9 849.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
 <path class="lyr-road-edge" d="M 153.9 463.3 L 175.2 481.4 L 276.8 567.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
@@ -853,32 +879,35 @@
   <path d="M 666 360 L 560 318 L 470 288 L 420 272" fill="none" stroke="#ea580c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" stroke-dasharray="9 5"/>
   <path d="M 420 272 L 330 282 L 240 292 L 150 301" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
 </g>
-<text class="lbl lyr-route" x="560" y="306" font-size="11.5" font-weight="700" fill="#c2410c" paint-order="stroke" stroke="#ffffff" stroke-width="3">路线 C · 室内 1F 通道（手绘估算）</text>
+<text class="lbl lyr-route" x="560" y="306" font-size="11.5" font-weight="700" fill="#c2410c" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.routeC">路线 C · 室内 1F 通道（手绘估算）</text>
 <circle class="lyr-route" cx="534" cy="426" r="8" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
-<text class="lbl lyr-route" x="534" y="446" font-size="13" font-weight="700" fill="#15803d" paint-order="stroke" stroke="#fff" stroke-width="3">起·图书馆 2F出口</text>
+<text class="lbl lyr-route" x="534" y="446" font-size="13" font-weight="700" fill="#15803d" paint-order="stroke" stroke="#fff" stroke-width="3" data-i18n="svg.start">起·图书馆 2F出口</text>
 <circle class="lyr-route" cx="139" cy="303" r="8" fill="#dc2626" stroke="#fff" stroke-width="2.5"/>
-<text class="lbl lyr-route" x="139" y="291" font-size="13" font-weight="700" fill="#b91c1c" paint-order="stroke" stroke="#fff" stroke-width="3">终·V27 1F入口</text>
-<g class="lyr-gate"><circle cx="85" cy="194" r="5" fill="#475569"/><text class="lbl" x="85" y="185" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
-<g class="lyr-gate"><circle cx="292" cy="553" r="5" fill="#475569"/><text class="lbl" x="292" y="544" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南3门</text></g>
-<g class="lyr-gate"><circle cx="544" cy="785" r="5" fill="#475569"/><text class="lbl" x="544" y="776" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南1门</text></g>
-<g class="lyr-gate"><circle cx="473" cy="720" r="5" fill="#475569"/><text class="lbl" x="473" y="711" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南2门</text></g>
-<g class="lyr-gate"><circle cx="265" cy="99" r="5" fill="#475569"/><text class="lbl" x="265" y="90" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
-<g class="lyr-gate"><circle cx="159" cy="377" r="5" fill="#475569"/><text class="lbl" x="159" y="368" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南5门</text></g>
-<g class="lyr-gate"><circle cx="932" cy="327" r="5" fill="#475569"/><text class="lbl" x="932" y="318" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
-<g class="lyr-gate"><circle cx="567" cy="787" r="5" fill="#475569"/><text class="lbl" x="567" y="778" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
-<text class="lbl" x="655" y="440" font-size="13" font-weight="700" fill="#3b82a0" font-style="italic" paint-order="stroke" stroke="#ffffff" stroke-width="3">中心湖（岸线参照卫星图描绘）</text>
-<text class="lbl" x="420" y="766" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(0 420 766)">金同路 Jintong Rd</text>
-<text class="lbl" x="78" y="420" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-78 78 420)">明德路</text>
-<text class="lbl" x="563" y="605" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-84 563 605)">大学学道</text>
-<text class="lbl" x="791" y="759" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-30 791 759)">亲民路</text>
-<text class="lbl" x="919" y="204" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-42 919 204)">至善路</text>
+<text class="lbl lyr-route" x="139" y="291" font-size="13" font-weight="700" fill="#b91c1c" paint-order="stroke" stroke="#fff" stroke-width="3" data-i18n="svg.end">终·V27 1F入口</text>
+<g class="lyr-gate"><circle cx="85" cy="194" r="5" fill="#475569"/><text class="lbl" x="85" y="185" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate">门</text></g>
+<g class="lyr-gate"><circle cx="292" cy="553" r="5" fill="#475569"/><text class="lbl" x="292" y="544" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate.s3">南3门</text></g>
+<g class="lyr-gate"><circle cx="544" cy="785" r="5" fill="#475569"/><text class="lbl" x="544" y="776" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate.s1">南1门</text></g>
+<g class="lyr-gate"><circle cx="473" cy="720" r="5" fill="#475569"/><text class="lbl" x="473" y="711" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate.s2">南2门</text></g>
+<g class="lyr-gate"><circle cx="265" cy="99" r="5" fill="#475569"/><text class="lbl" x="265" y="90" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate">门</text></g>
+<g class="lyr-gate"><circle cx="159" cy="377" r="5" fill="#475569"/><text class="lbl" x="159" y="368" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate.s5">南5门</text></g>
+<g class="lyr-gate"><circle cx="932" cy="327" r="5" fill="#475569"/><text class="lbl" x="932" y="318" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate">门</text></g>
+<g class="lyr-gate"><circle cx="567" cy="787" r="5" fill="#475569"/><text class="lbl" x="567" y="778" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.gate">门</text></g>
+<text class="lbl" x="655" y="440" font-size="13" font-weight="700" fill="#3b82a0" font-style="italic" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.lake">中心湖</text>
+<text class="lbl" x="720" y="445" font-size="10" font-style="italic" fill="#3b82a0" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.lake.note">（岸线按用户手绘 2026-10-13）</text>
+<path d="M 788.7 429.2 L 825.8 418.3 L 861.0 412.9 L 890.0 416.2 L 906.4 429.5 L 909.1 449.3 L 902.2 469.0 L 884.4 482.2 L 863.2 488.7 L 841.7 486.5 L 822.2 477.7 L 804.6 462.2 Z" fill="#a5d6a7" stroke="#66bb6a" stroke-width="1.4"/>
+<text class="lbl" x="850" y="458" font-size="12" font-weight="700" fill="#1b5e20" paint-order="stroke" stroke="#ffffff" stroke-width="3" data-i18n="svg.island">中心岛</text>
+<text class="lbl" x="420" y="766" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(0 420 766)" data-i18n="svg.rd.jintong">金同路 Jintong Rd</text>
+<text class="lbl" x="78" y="420" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-78 78 420)" data-i18n="svg.rd.mingde">明德路</text>
+<text class="lbl" x="563" y="605" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-84 563 605)" data-i18n="svg.rd.daxue">大学学道</text>
+<text class="lbl" x="791" y="759" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-30 791 759)" data-i18n="svg.rd.qinmin">亲民路</text>
+<text class="lbl" x="919" y="204" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-42 919 204)" data-i18n="svg.rd.zhishan">至善路</text>
 <text class="lbl lbl-code" x="452" y="492">T2</text>
 <text class="lbl lbl-code" x="410" y="436">T3</text>
 <text class="lbl lbl-code" x="503" y="552">T1</text>
-<text class="lbl lbl-fac" x="671" y="655">演艺厅</text>
-<text class="lbl lbl-fac" x="631" y="717">行政楼</text>
-<text class="lbl lbl-fac" x="585" y="698">大学会堂</text>
-<text class="lbl lbl-fac" x="418" y="612">体育馆</text>
+<text class="lbl lbl-fac" x="671" y="655" data-i18n="svg.f.perf">演艺厅</text>
+<text class="lbl lbl-fac" x="631" y="717" data-i18n="svg.f.admin">行政楼</text>
+<text class="lbl lbl-fac" x="585" y="698" data-i18n="svg.f.hall">大学会堂</text>
+<text class="lbl lbl-fac" x="418" y="612" data-i18n="svg.f.sport">体育馆</text>
 <text class="lbl lbl-code" x="720" y="384">T4</text>
 <text class="lbl lbl-code" x="657" y="363">T5</text>
 <text class="lbl lbl-code" x="580" y="341">T6</text>
@@ -898,10 +927,10 @@
 <text class="lbl lbl-code" x="596" y="128">V17</text>
 <text class="lbl lbl-code" x="751" y="254">V16</text>
 <text class="lbl lbl-code" x="723" y="203">V15</text>
-<text class="lbl lbl-fac" x="804" y="592">文化创意群落</text>
+<text class="lbl lbl-fac" x="804" y="592" data-i18n="svg.f.cultural">文化创意群落</text>
 <text class="lbl lbl-code" x="320" y="235">T29</text>
 <text class="lbl lbl-code" x="213" y="386">V29</text>
-<text class="lbl lbl-fac" x="581" y="464">学习资源中心</text>
+<text class="lbl lbl-fac" x="581" y="464" data-i18n="svg.f.library">学习资源中心</text>
 
 
 <!-- 路线关键点指引标记 -->
@@ -932,7 +961,7 @@
 </g>
 
 <!-- 指引弹窗（默认隐藏，通过JS控制显示） -->
-<g class="route-guide" id="guide-lib-exit" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-lib-exit" opacity="0" style="pointer-events:none" data-i18n-html="guide.libexit">
   <rect x="544" y="400" width="200" height="90" rx="10" fill="rgba(255,255,255,0.98)" stroke="#3b82f6" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="554" y="422" font-size="12" font-weight="700" fill="#1e40af">图书馆 2F 出口</text>
   <text x="554" y="440" font-size="11" fill="#475576">唯一出入口，朝东南（湖方向）</text>
@@ -940,7 +969,7 @@
   <text x="554" y="472" font-size="11" fill="#475576">出门后左转选路线A，右转选路线B</text>
   <polygon points="534,426 544,416 544,436" fill="#3b82f6"/>
 </g>
-<g class="route-guide" id="guide-steps-down" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-steps-down" opacity="0" style="pointer-events:none" data-i18n-html="guide.steps">
   <rect x="471" y="340" width="180" height="80" rx="10" fill="rgba(255,255,255,0.98)" stroke="#dc2626" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="481" y="362" font-size="12" font-weight="700" fill="#991b1b">台阶路段 · 下坡 -1 层</text>
   <text x="481" y="380" font-size="11" fill="#475576">从此处下台阶，直达地面层</text>
@@ -948,13 +977,13 @@
   <text x="481" y="412" font-size="11" fill="#475576">拖行李/轮椅：建议绕行路线B</text>
   <polygon points="461,412 471,402 471,422" fill="#dc2626"/>
 </g>
-<g class="route-guide" id="guide-turn-a1" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-turn-a1" opacity="0" style="pointer-events:none" data-i18n-html="guide.turna1">
   <rect x="561" y="435" width="150" height="55" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="571" y="457" font-size="12" font-weight="700" fill="#92400e">转角 · 向V27方向</text>
   <text x="571" y="475" font-size="11" fill="#475576">沿步道继续向西，直达V27入口</text>
   <polygon points="551,455 561,445 561,465" fill="#f59e0b"/>
 </g>
-<g class="route-guide" id="guide-plaza" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-plaza" opacity="0" style="pointer-events:none" data-i18n-html="guide.plaza">
   <rect x="229" y="252" width="196" height="100" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="239" y="274" font-size="12" font-weight="700" fill="#065f46">会贤邨广场</text>
   <text x="239" y="292" font-size="11" fill="#475576">路线B经过的开放广场区域</text>
@@ -963,13 +992,13 @@
   <text x="239" y="340" font-size="11" fill="#475576">从这里继续向西可达V28→V29</text>
   <polygon points="219,292 229,282 229,302" fill="#10b981"/>
 </g>
-<g class="route-guide" id="guide-turn-b1" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-turn-b1" opacity="0" style="pointer-events:none" data-i18n-html="guide.turnb1">
   <rect x="302" y="270" width="150" height="55" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="312" y="292" font-size="12" font-weight="700" fill="#065f46">转角 · 向南绕行</text>
   <text x="312" y="310" font-size="11" fill="#475576">转向南，经体育馆方向绕行</text>
   <polygon points="292,290 302,280 302,300" fill="#10b981"/>
 </g>
-<g class="route-guide" id="guide-v27-entry" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-v27-entry" opacity="0" style="pointer-events:none" data-i18n-html="guide.v27">
   <rect x="155" y="275" width="170" height="80" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="165" y="297" font-size="12" font-weight="700" fill="#065f46">V27 雨果楼 1F 入口</text>
   <text x="165" y="315" font-size="11" fill="#475576">入口位于楼栋拐弯处</text>
@@ -977,7 +1006,7 @@
   <text x="165" y="347" font-size="11" fill="#475576">路线A和路线B均到达此入口</text>
   <polygon points="145,305 155,295 155,315" fill="#10b981"/>
 </g>
-<g class="route-guide" id="guide-turnback" opacity="0" style="pointer-events:none">
+<g class="route-guide" id="guide-turnback" opacity="0" style="pointer-events:none" data-i18n-html="guide.turnback">
   <rect x="358" y="428" width="215" height="88" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
   <text x="368" y="450" font-size="12" font-weight="700" fill="#92400e">最后折返点 · 改主意要趁现在</text>
   <text x="368" y="468" font-size="11" fill="#475576">拖着行李走到这里还来得及掉头</text>
@@ -987,7 +1016,7 @@
 </g>
 </svg>
       </div>
-      <div class="legend">
+      <div class="legend" data-i18n-html="legend">
         <span><span class="dot" style="background:linear-gradient(135deg,#3b82f6,#2563eb)"></span> 路线 A（台阶/坡道路·实测 537 m）</span>
         <span><span class="dot" style="background:linear-gradient(135deg,#34d399,#10b981)"></span> 路线 B（户外平路·实测 470 m）</span>
         <span><span class="dot" style="background:#ea580c"></span> 路线 C（室内·手绘估算，长度待定）</span>
@@ -999,14 +1028,14 @@
         <span><span class="dot" style="background:#a7d8d0"></span> 大型设施</span>
       </div>
       <div class="source">
-        <b>数据来源：</b>OpenStreetMap 真实坐标（relation 18704403）+ 校方《Campus Discovery》官方手册 + 用户现场实测。<br>
-        图书馆 4 层（唯一出入口 2F 朝湖）/ V27 7 层（入口无台阶·有电梯）。路线 A 沿真实 OSM 步道（含台阶下坡），路线 B 沿真实 OSM 步道经体育馆→V28→V29 绕行（本次现场查看未见台阶）。点击地图上的彩色圆点可查看详细指引。
+        <span data-i18n-html="src.head"><b>数据来源：</b>OpenStreetMap 真实坐标（relation 18704403）+ 校方《Campus Discovery》官方手册 + 用户现场实测。<br>
+        图书馆 4 层（唯一出入口 2F 朝湖）/ V27 7 层（入口无台阶·有电梯）。路线 A 沿真实 OSM 步道（含台阶下坡），路线 B 沿真实 OSM 步道经体育馆→V28→V29 绕行（本次现场查看未见台阶）。点击地图上的彩色圆点可查看详细指引。</span>
 
         <table class="grade">
           <thead>
-            <tr><th>层级</th><th>数据项</th><th>来源</th></tr>
+            <tr><th data-i18n="grade1.h1">层级</th><th data-i18n="grade1.h2">数据项</th><th data-i18n="grade1.h3">来源</th></tr>
           </thead>
-          <tbody>
+          <tbody data-i18n-html="grade1.body">
             <tr>
               <td>现场实测</td>
               <td>图书馆/V27 楼层数、出入口位置与朝向、入口有无台阶、电梯通达范围、全程楼层高差、台阶段落、<b>两条路线的长度与耗时</b>（2026-10-12 运动 App 实测：A 537 m / 6:31、B 470 m / 6:00）、<b>台阶旁坡道可用性</b>（电动/人推可上，坡度与宽度未测量）、<b>沿途补给分布</b>（A 沿途商铺/厕所丰富，B 沿途暂未发现直达补给）</td>
@@ -1014,7 +1043,7 @@
             </tr>
             <tr>
               <td>卫星图参照</td>
-              <td>中心湖岸线与湖心岛形状（<b>目测描绘自 2026-10-12 高德卫星图</b>，以 T4 教学楼 / 文化创意群落 / 演艺厅等地物对齐位置，非 GPS 轨迹）</td>
+              <td>中心湖岸线与中心岛形状（<b>按队员 2026-10-13 手绘轨迹数字化</b>，以学习资源中心 / T4 / 文化创意群落等地物对齐位置，非 GPS 轨迹）</td>
               <td>高德卫星截图 + OSM 地物锚点</td>
             </tr>
             <tr>
@@ -1039,22 +1068,22 @@
             </tr>
           </tbody>
         </table>
-        <div style="margin-top:8px;color:#92400e;">
+        <div style="margin-top:8px;color:#92400e;" data-i18n-html="sim.decl">
           <b>模拟数据声明：</b>本作品涉及校方信息的部分（楼栋楼层、出入口、连廊/遮阴范围、中心岛形态）中，<b>标注为「示意/模拟」的均为推断或经验值</b>；
           <b>未接入任何校方真实业务系统</b>，不读取、不写入学校数据库，全部数据以静态文件形式内置于本页面。
         </div>
-        <div style="margin-top:10px;padding:10px 12px;background:#fef3c7;border-left:4px solid #d97706;border-radius:6px;color:#92400e;">
+        <div style="margin-top:10px;padding:10px 12px;background:#fef3c7;border-left:4px solid #d97706;border-radius:6px;color:#92400e;" data-i18n-html="sim.limit">
           <b>使用限制（重要）：</b>本作品为比赛演示原型，路线结论基于<b>有限次数的步行现场查看</b>得出，<b>未测量坡度、路面宽度、路缘高差、铺装状况，也未纳入实时状况</b>（施工、临时围挡、天气、人流、季节性积水等）。
           页面中「未见台阶」等表述<b>仅描述本次查看所见</b>，<b>不构成任何路线绝对安全或完全无障碍的保证</b>。实际出行请以现场标识、校方信息与自身判断为准。
         </div>
         <details style="margin-top:12px;">
-          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;">模型参数（点开可复算结论）</summary>
+          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;" data-i18n="details.model">模型参数（点开可复算结论）</summary>
           <div style="margin-top:8px;">
             <table class="grade">
               <thead>
-                <tr><th>参数</th><th>取值</th><th>性质</th></tr>
+                <tr><th data-i18n="model.h1">参数</th><th data-i18n="model.h2">取值</th><th data-i18n="model.h3">性质</th></tr>
               </thead>
-              <tbody>
+              <tbody data-i18n-html="model.body">
                 <tr>
                   <td>行人时间</td>
                   <td>实测：A 537 m → 6 分 31 秒、B 470 m → 6 分 00 秒（均速 78–82 m/min）</td>
@@ -1096,17 +1125,17 @@
                 </tr>
               </tbody>
             </table>
-            <p style="margin:8px 0 0;font-size:12px;color:#64748b;">换任何一组参数（比如你认为拖行李惩罚应是 1.5 倍），结论的边界就会移动——这正是本作品想展示的：推荐不是客观事实，而是模型与参数的函数。</p>
+            <p style="margin:8px 0 0;font-size:12px;color:#64748b;" data-i18n="model.foot">换任何一组参数（比如你认为拖行李惩罚应是 1.5 倍），结论的边界就会移动——这正是本作品想展示的：推荐不是客观事实，而是模型与参数的函数。</p>
           </div>
         </details>
         <details style="margin-top:10px;">
-          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;">现场核查记录（哪些字段是怎么核实的）</summary>
+          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;" data-i18n="details.check">现场核查记录（哪些字段是怎么核实的）</summary>
           <div style="margin-top:8px;">
             <table class="grade">
               <thead>
-                <tr><th>核查项</th><th>方式</th><th>结果</th></tr>
+                <tr><th data-i18n="check.h1">核查项</th><th data-i18n="check.h2">方式</th><th data-i18n="check.h3">结果</th></tr>
               </thead>
-              <tbody>
+              <tbody data-i18n-html="check.body">
                 <tr>
                   <td>图书馆楼层数</td>
                   <td>电梯楼层按键 + 楼层索引牌</td>
@@ -1149,7 +1178,7 @@
                 </tr>
               </tbody>
             </table>
-            <p style="margin:8px 0 0;font-size:12px;color:#64748b;">核查时间：比赛筹备期间（2026 年 10 月）；方式为步行实地查看与拍照记录。</p>
+            <p style="margin:8px 0 0;font-size:12px;color:#64748b;" data-i18n="check.foot">核查时间：比赛筹备期间（2026 年 10 月）；方式为步行实地查看与拍照记录。</p>
           </div>
         </details>
       </div>
@@ -1158,44 +1187,44 @@
     <!-- 右侧：楼层信息 + 路线对比 -->
     <div class="side-panel">
       <div class="card floor-info" id="floorCard">
-        <h2>楼层状态</h2>
-        <div class="hint">选择上方「当前楼层」，查看该层的出入口与可达性。</div>
+        <h2 data-i18n="panel.floor">楼层状态</h2>
+        <div class="hint" data-i18n="panel.floor.hint">选择上方「当前楼层」，查看该层的出入口与可达性。</div>
         <div id="floorContent"></div>
       </div>
 
       <div class="card">
-        <h2>路线对比</h2>
-        <div class="hint">切换上方视角，观察推荐如何反转。</div>
+        <h2 data-i18n="panel.cmp">路线对比</h2>
+        <div class="hint" data-i18n="panel.cmp.hint">切换上方视角，观察推荐如何反转。</div>
         <div id="recBadge" class="badge rec-a">推荐路线 A</div>
         <div class="note" id="note"></div>
 
         <div style="overflow-x:auto;">
           <table>
             <thead>
-              <tr><th>指标</th><th>路线 A</th><th>路线 B</th></tr>
+              <tr><th data-i18n="tbl.metric">指标</th><th data-i18n="tbl.a">路线 A</th><th data-i18n="tbl.b">路线 B</th></tr>
             </thead>
             <tbody id="tbody"></tbody>
           </table>
         </div>
-        <div class="table-footnote">
+        <div class="table-footnote" data-i18n-html="tbl.foot">
           *「未见台阶」仅指<b>本次步行现场查看未发现台阶</b>；未测量坡度、路面宽度、路缘高差与铺装状况，<b>不代表该路线绝对安全或完全无障碍</b>。
         </div>
 
         <div class="bars">
           <div class="bar-group">
-            <div class="bar-title">距离 <span style="font-weight:400;color:var(--text-muted)">(m)</span></div>
-            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barDistA"></span></span><span class="bar-val" id="valDistA"></span></div>
-            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barDistB"></span></span><span class="bar-val" id="valDistB"></span></div>
+            <div class="bar-title"><span data-i18n="bar.dist">距离</span> <span style="font-weight:400;color:var(--text-muted)">(m)</span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameA">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barDistA"></span></span><span class="bar-val" id="valDistA"></span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameB">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barDistB"></span></span><span class="bar-val" id="valDistB"></span></div>
           </div>
           <div class="bar-group">
-            <div class="bar-title">预估时间 <span style="font-weight:400;color:var(--text-muted)">(min)</span></div>
-            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barTimeA"></span></span><span class="bar-val" id="valTimeA"></span></div>
-            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barTimeB"></span></span><span class="bar-val" id="valTimeB"></span></div>
+            <div class="bar-title"><span data-i18n="bar.time">预估时间</span> <span style="font-weight:400;color:var(--text-muted)">(min)</span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameA">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barTimeA"></span></span><span class="bar-val" id="valTimeA"></span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameB">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barTimeB"></span></span><span class="bar-val" id="valTimeB"></span></div>
           </div>
           <div class="bar-group">
-            <div class="bar-title">楼层高差 <span style="font-weight:400;color:var(--text-muted)">(层)</span></div>
-            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barFloorA"></span></span><span class="bar-val" id="valFloorA"></span></div>
-            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barFloorB"></span></span><span class="bar-val" id="valFloorB"></span></div>
+            <div class="bar-title"><span data-i18n="bar.floor">楼层高差</span> <span style="font-weight:400;color:var(--text-muted)" data-i18n="unit.floor">(层)</span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameA">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barFloorA"></span></span><span class="bar-val" id="valFloorA"></span></div>
+            <div class="bar-row"><span class="bar-name" data-i18n="bar.nameB">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barFloorB"></span></span><span class="bar-val" id="valFloorB"></span></div>
           </div>
         </div>
       </div>
@@ -1204,13 +1233,13 @@
 
   <!-- 相近产品对比（P0-5：与 Google Maps/高德、Wheelmap.org 的差异，一句话说明白本作品做了什么它们没做的） -->
   <div class="card compare" aria-label="与相近产品的对比">
-    <h2>和现成导航/无障碍产品比，这个作品做了什么不同的？</h2>
-    <p class="cmp-hint">三款相近产品各自解决了「路怎么走」或「哪里能去」的一部分，但都没把「<b>同一条路，对不同的人最近程度不同</b>」这件事作为核心来算。</p>
+    <h2 data-i18n="cmp.h2">和现成导航/无障碍产品比，这个作品做了什么不同的？</h2>
+    <p class="cmp-hint" data-i18n-html="cmp.hint">三款相近产品各自解决了「路怎么走」或「哪里能去」的一部分，但都没把「<b>同一条路，对不同的人最近程度不同</b>」这件事作为核心来算。</p>
     <table class="cmp-table">
       <thead>
-        <tr><th>产品</th><th>已做到</th><th>没做到（正是本作品的切入点）</th></tr>
+        <tr><th data-i18n="cmp.h1">产品</th><th data-i18n="cmp.h2b">已做到</th><th data-i18n="cmp.h3">没做到（正是本作品的切入点）</th></tr>
       </thead>
-      <tbody>
+      <tbody data-i18n-html="cmp.body">
         <tr>
           <td>Google Maps / 高德</td>
           <td>完整步行导航、实时路况、公交换乘，覆盖范围极广。</td>
@@ -1231,26 +1260,26 @@
   </div>
 
   <footer>
-    <strong>核心洞察：</strong>实测数据反转了预设——原以为的「台阶近路」A 实测 537 m，比户外平路 B（470 m）更远；而距离更短的室内路线，要付楼梯 / 电梯的代价（数据采集中）。地图上的最短，从来就不等于你脚下最近的那条。<br>
-    图书馆 4 层、出入口在 2 层朝湖；V27 入口无台阶有电梯；路线 A（实测 537 m）有 −1 层台阶、旁有坡道可替代、沿途补给丰富；路线 B（实测 470 m）全程未见台阶、最近补给点偏离约 30 m。长度与耗时为 2026-10-12 运动 App 实测。
-    <span style="display:block;margin-top:8px;color:#92400e;font-size:12.5px;">路况数据基于有限次现场查看，未测量坡度与路面宽度，不构成无障碍通行保证；出行请以现场实际情况为准。</span>
+    <span data-i18n-html="footer.insight"><strong>核心洞察：</strong>实测数据反转了预设——原以为的「台阶近路」A 实测 537 m，比户外平路 B（470 m）更远；而距离更短的室内路线，要付楼梯 / 电梯的代价（数据采集中）。地图上的最短，从来就不等于你脚下最近的那条。<br>
+    图书馆 4 层、出入口在 2 层朝湖；V27 入口无台阶有电梯；路线 A（实测 537 m）有 −1 层台阶、旁有坡道可替代、沿途补给丰富；路线 B（实测 470 m）全程未见台阶、最近补给点偏离约 30 m。长度与耗时为 2026-10-12 运动 App 实测。</span>
+    <span style="display:block;margin-top:8px;color:#92400e;font-size:12.5px;" data-i18n="footer.warn">路况数据基于有限次现场查看，未测量坡度与路面宽度，不构成无障碍通行保证；出行请以现场实际情况为准。</span>
   </footer>
 </div>
 
 <!-- Mobile Bottom Navigation -->
-<nav class="mobile-nav" aria-label="视角切换">
+<nav class="mobile-nav" aria-label="视角切换" data-i18n-aria="nav.aria">
   <div class="nav-row">
     <button class="nav-btn active" data-view="walker" aria-pressed="true">
       <span class="nav-icon">🚶</span>
-      <span>行人</span>
+      <span data-i18n="nav.walker">行人</span>
     </button>
     <button class="nav-btn" data-view="luggage" aria-pressed="false">
       <span class="nav-icon">🧳</span>
-      <span>行李</span>
+      <span data-i18n="nav.luggage">行李</span>
     </button>
     <button class="nav-btn" data-view="wheelchair" aria-pressed="false">
       <span class="nav-icon">♿</span>
-      <span>轮椅</span>
+      <span data-i18n="nav.wheelchair">轮椅</span>
     </button>
   </div>
 </nav>
@@ -1258,184 +1287,418 @@
 <div id="tip"></div>
 
 <script>
-  // ===== Floor Data =====
-  var FLOOR_DATA = {
-    'ground': {
-      title: '户外地面层',
-      status: 'status-ok',
-      statusText: '可自由通行',
-      desc: '地面层视角：所有户外路线均可通行。图书馆 2F 出口和 V27 1F 入口均直接可达。',
-      routeNote: '从地面出发，路线选择取决于你的身体条件。'
-    },
-    'lib-1': {
-      title: '图书馆 1F',
-      status: 'status-warn',
-      statusText: '无直接出入口',
-      desc: '1F 没有通往户外的出入口。你必须乘坐电梯或走楼梯到 2F，才能从唯一的出口离开建筑。',
-      routeNote: '先上楼到 2F，再选择路线 A 或路线 B。'
-    },
-    'lib-2': {
-      title: '图书馆 2F · 唯一出入口',
-      status: 'status-ok',
-      statusText: '唯一出入口·可直接出发',
-      desc: '2F 是图书馆唯一有出入口的楼层，出口朝东南（中心湖方向），无台阶。出门后可选路线 A（台阶/坡道路）或路线 B（户外平路）。',
-      routeNote: '这是理想的出发楼层，出门即可选择任意路线。'
-    },
-    'lib-3': {
-      title: '图书馆 3F',
-      status: 'status-info',
-      statusText: '需下至 2F',
-      desc: '3F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
-      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。'
-    },
-    'lib-4': {
-      title: '图书馆 4F',
-      status: 'status-info',
-      statusText: '需下至 2F',
-      desc: '4F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
-      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。'
-    },
-    'v27-1': {
-      title: 'V27 1F · 入口层',
-      status: 'status-ok',
-      statusText: '入口层·可直接到达',
-      desc: '1F 是 V27 的入口层，入口位于整栋楼的拐弯处，无台阶。楼内有电梯可通达全楼层（1F–7F）。',
-      routeNote: '从户外到达后可直接从 1F 入口进入。'
-    },
-    'v27-2': {
-      title: 'V27 2F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '2F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    },
-    'v27-3': {
-      title: 'V27 3F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '3F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    },
-    'v27-4': {
-      title: 'V27 4F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '4F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    },
-    'v27-5': {
-      title: 'V27 5F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '5F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    },
-    'v27-6': {
-      title: 'V27 6F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '6F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    },
-    'v27-7': {
-      title: 'V27 7F',
-      status: 'status-info',
-      statusText: '需下至 1F',
-      desc: '7F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
-      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
-    }
-  };
+/* ============================================================
+   i18n —— 中英文界面切换
+   · 静态节点用 data-i18n / data-i18n-html / data-i18n-label /
+     data-i18n-aria / data-i18n-title 标注；首次运行快照中文原文，
+     切到 EN 时用 EN 词典替换，切回 ZH 时还原快照（无需中文词典）。
+   · 动态内容（楼层、路线对比、提示条、电梯时段、建筑名）用双语
+     数据 + 重新渲染。
+   ============================================================ */
+var LANG = 'zh';
 
-  // 【P1-1】楼层数值表：把「当前楼层」接进代价模型。
-  // 口径：图书馆唯一出入口在 2F；V27 入口在 1F；户外没有楼内移动。
-  // 楼内移动时间系数（分钟/层，模拟·经验值）：行人走楼梯 0.5 / 行李须乘电梯 1.0 / 轮椅必须乘电梯 1.0。
-  var FLOOR_META = {
-    'ground': { building: 'outdoor', floorNum: 0, exitFloor: 0 },
-    'lib-1':   { building: 'library', floorNum: 1, exitFloor: 2 },
-    'lib-2':   { building: 'library', floorNum: 2, exitFloor: 2 },
-    'lib-3':   { building: 'library', floorNum: 3, exitFloor: 2 },
-    'lib-4':   { building: 'library', floorNum: 4, exitFloor: 2 },
-    'v27-1':   { building: 'v27',    floorNum: 1, exitFloor: 1 },
-    'v27-2':   { building: 'v27',    floorNum: 2, exitFloor: 1 },
-    'v27-3':   { building: 'v27',    floorNum: 3, exitFloor: 1 },
-    'v27-4':   { building: 'v27',    floorNum: 4, exitFloor: 1 },
-    'v27-5':   { building: 'v27',    floorNum: 5, exitFloor: 1 },
-    'v27-6':   { building: 'v27',    floorNum: 6, exitFloor: 1 },
-    'v27-7':   { building: 'v27',    floorNum: 7, exitFloor: 1 }
-  };
-  var INDOOR_COEF = { walker: 0.5, luggage: 1.0, wheelchair: 1.0 };
-  var currentFloor = 'ground';
-  // 楼内前置信息：图书馆是「出发前先到出口」，V27 是「到达后上/下到目标层」——语义相反，分开措辞
-  function indoorInfo(floorKey) {
-    var m = FLOOR_META[floorKey];
-    if (!m || m.building === 'outdoor') return null;
-    var n = Math.abs(m.floorNum - m.exitFloor);
-    if (n === 0) return null;
-    var dir = m.floorNum > m.exitFloor ? '下' : '上';
-    var isLib = m.building === 'library';
-    // 图书馆：floorNum → exitFloor（出门）；V27：exitFloor → floorNum（到达目标层），两者方向相反
-    var action = isLib
-      ? '从 ' + m.floorNum + 'F ' + dir + '到 ' + m.exitFloor + 'F 出口'
-      : '从 ' + m.exitFloor + 'F 入口 ' + (m.floorNum > m.exitFloor ? '上' : '下') + '到 ' + m.floorNum + 'F 目标层';
-    return { n: n, action: action, isLib: isLib };
-  }
+var EN = {
+  'doc.title': 'The Invisible Distance · Library → V27',
+  'h1': 'The Invisible Distance · Library → V27',
+  'sub': '<strong>One path, three lives, three ways of being “nearest”</strong><br>Base map projected from real OpenStreetMap coordinates · Routes follow real OSM footpaths · Building floors and entrances at the endpoints verified on site',
 
-  // ===== SVG class 状态机 =====
-  // 【修复】原版 renderView() 用 setAttribute('class', ...) 整体覆盖 class，
-  // 会把 routes-visible / mode-access 一起清掉——勾选“路线”后再切视角，路线就消失了。
-  // 现在所有开关统一记在 svgState 里，每次由 applySvgClass() 重新拼装 class。
-  var svgState = { view: 'walker', routes: false, access: false, floorActive: false };
-  var floorTimer = null;
-  function applySvgClass() {
-    var svg = document.getElementById('campusMap');
-    var cls = ['view-' + svgState.view];
-    if (svgState.routes) cls.push('routes-visible');
-    if (svgState.access) cls.push('mode-access');
-    if (svgState.floorActive) cls.push('floor-active');
-    svg.setAttribute('class', cls.join(' '));
-  }
+  'th.aria': 'Thesis, method and conclusion',
+  'th.grid': '<div class="thesis-cell">\n        <h3><span class="t-tag t-prop">Thesis</span></h3>\n        <p>The “shortest path” on a map is not the “nearest way” for every person in the real world — conventional navigation measures flat distance only, and usually ignores <b>floor differences, stairs, and whether a route is passable with luggage or in a wheelchair</b>.</p>\n      </div>\n      <div class="thesis-cell">\n        <h3><span class="t-tag t-meth">Method</span></h3>\n        <p>Using “Library → V27 Hugo House” as an example, we combine <b>real OpenStreetMap coordinates and footpaths</b> with <b>on-site measurements</b> of floors, entrances and stairs, and for three personas — <b>pedestrian / with luggage / wheelchair</b> — compare Route A (stairs / sloped path) and Route B (outdoor flat path) quantitatively, using <b>distance + floor difference × base time + supply points along the way</b>.</p>\n      </div>\n      <div class="thesis-cell conclusion">\n        <h3><span class="t-tag t-conc">Conclusion</span></h3>\n        <p>Field work on 2026-10-12 overturned our assumption: the supposed “stairs shortcut” A measured <span class="thesis-num">537 m / 6 min 31 s</span>, actually longer than the outdoor flat path B at <span class="thesis-num">470 m / 6 min 00 s</span>; and the newly found indoor route is shorter in distance yet charges a stair / lift cost (data still being collected). <b>The path with the shortest distance is not necessarily the nearest one for everyone.</b></p>\n      </div>',
 
-  function renderFloor(floorKey) {
-    var d = FLOOR_DATA[floorKey];
-    currentFloor = floorKey;   // 【P1-1】记录当前楼层，供路线对比读取楼内前置成本
-    var info = indoorInfo(floorKey);
-    var html = '<div class="floor-title">' + d.title + '</div>' +
-               '<div class="floor-status ' + d.status + '">' + d.statusText + '</div>' +
-               '<div class="floor-meta">' + d.desc + '</div>';
-    if (info) {
-      html += '<div class="indoor-cost"><b>楼内前置（接进代价模型）：</b>' + info.action + '，共 ' + info.n +
-              ' 层——行人楼梯 +约 ' + (info.n * 0.5).toFixed(1) + ' 分 · 行李电梯 +约 ' + info.n +
-              ' 分 · 轮椅必须电梯 +约 ' + info.n + ' 分。</div>';
-    }
-    if (d.routeNote) {
-      html += '<div class="note">' + d.routeNote + '</div>';
-    }
-    document.getElementById('floorContent').innerHTML = html;
+  'rc.aria': 'Indoor route C and lift waiting time',
+  'rc.body': '<b>Third candidate route (indoor) · the way through is confirmed:</b> from the library exit to T4 → take the lift / stairs <b>down 1 floor</b> → indoor 1F corridor to T8 → back to ground level and along the main path to V27.\n      Estimated by accumulating coordinates on the same basis as A / B, about <b>510 m</b> in total (between B’s 470 m and A’s 537 m; the indoor leg is a hand-drawn straight line, not GPS).\n      It cuts across the outdoor detour, stays on one level and keeps moving, so it feels closer on foot.',
+  'rc.elev': '<b>Lift waiting (teaching area):</b>&nbsp;',
+  'rc.tail': '— normally about 1 min in the first 45 minutes of each hour, and about 3–5 min during the 15-minute class break at the end (dormitory lifts have no such pattern). You can switch “Lift period” above between Auto / Class break / Off-peak.',
 
-    // 选中楼内楼层时，地图上高亮对应的楼栋（依赖 #bld-library / #bld-v27，已在 SVG 中补上 id）
-    var isBuilding = floorKey.indexOf('lib-') === 0 || floorKey.indexOf('v27-') === 0;
-    svgState.floorActive = isBuilding;
-    if (floorTimer) { clearTimeout(floorTimer); floorTimer = null; }
-    if (isBuilding) {
-      floorTimer = setTimeout(function() {
-        svgState.floorActive = false;
-        applySvgClass();
-      }, 2000);
-    }
-    applySvgClass();
-  }
-  document.getElementById('floorSelect').addEventListener('change', function() {
-    renderFloor(this.value);
-    renderView(currentView);   // 【P1-1】楼层变化会改变楼内前置成本，刷新路线对比
+  'view.walker': 'Pedestrian',
+  'view.luggage': 'With luggage',
+  'view.wheelchair': 'Wheelchair / Accessible',
+  'ctrl.floor': 'Current floor',
+  'ctrl.floor.aria': 'Select current floor',
+  'ctrl.elev': 'Lift period',
+  'ctrl.elev.aria': 'Select lift period',
+  'ctrl.elev.title': 'Teaching-area lift waiting varies between class breaks and normal hours; dormitory lifts have no such pattern',
+  'og.outdoor': 'Outdoor',
+  'og.library': 'Library (Learning Resource Center)',
+  'og.v27': 'V27 Hugo House',
+  'floor.ground': 'Ground level',
+  'floor.lib1': '1F · No entrance (must go up)',
+  'floor.lib2': '2F · Only entrance (faces lake · no stairs)',
+  'floor.lib3': '3F · Take lift down to 2F',
+  'floor.lib4': '4F · Take lift down to 2F',
+  'floor.v271': '1F · Entrance (no stairs · lift available)',
+  'floor.v272': '2F · Take lift down to 1F',
+  'floor.v273': '3F · Take lift down to 1F',
+  'floor.v274': '4F · Take lift down to 1F',
+  'floor.v275': '5F · Take lift down to 1F',
+  'floor.v276': '6F · Take lift down to 1F',
+  'floor.v277': '7F · Take lift down to 1F',
+  'elev.auto': 'Auto (by system time)',
+  'elev.offpeak': 'Off-peak (about 1 min wait)',
+  'elev.peak': 'Class break (about 3–5 min wait)',
+
+  'mt.path': 'Footpaths',
+  'mt.label': 'Building labels',
+  'mt.route': 'Routes',
+  'mt.access': 'Accessible view',
+  'mt.reset': 'Reset view',
+
+  'legend': '<span><span class="dot" style="background:linear-gradient(135deg,#3b82f6,#2563eb)"></span> Route A (stairs / sloped path · measured 537 m)</span>\n        <span><span class="dot" style="background:linear-gradient(135deg,#34d399,#10b981)"></span> Route B (outdoor flat path · measured 470 m)</span>\n        <span><span class="dot" style="background:#ea580c"></span> Route C (indoor · hand-drawn estimate, length TBD)</span>\n        <span><span class="dot" style="background:#ef4444"></span> Straight-line direction</span>\n        <span><span class="dot" style="background:rgba(16,185,129,0.3);border:1px solid #10b981"></span> Shaded / covered area</span>\n        <span><span class="dot" style="background:#f59e0b"></span> Clickable guide points</span>\n        <span><span class="dot" style="background:#c7d2fe"></span> Teaching building</span>\n        <span><span class="dot" style="background:#fde68a"></span> Dormitory</span>\n        <span><span class="dot" style="background:#a7d8d0"></span> Major facility</span>',
+
+  'src.head': '<b>Data sources:</b> real OpenStreetMap coordinates (relation 18704403) + the official “Campus Discovery” handbook + on-site measurements by the team.<br>\n        Library: 4 floors (only entrance on 2F, facing the lake) / V27: 7 floors (entrance with no stairs · lift available). Route A follows real OSM footpaths (including the staircase downhill); Route B follows real OSM footpaths, detouring via the Sport Complex → V28 → V29 (no stairs seen during this visit). Click a coloured dot on the map for detailed guidance.',
+
+  'grade1.h1': 'Level',
+  'grade1.h2': 'Item',
+  'grade1.h3': 'Source',
+  'grade1.body': '<tr>\n              <td>On-site measurement</td>\n              <td>Floors of Library / V27, entrance position and orientation, whether the entrance has stairs, lift coverage, total floor difference, stair segments, <b>length and time of both routes</b> (measured 2026-10-12 with a sports app: A 537 m / 6:31, B 470 m / 6:00), <b>availability of a ramp beside the stairs</b> (powered or pushed, slope and width not measured), <b>supply points along the way</b> (A has shops and toilets along it; B has none directly on the route)</td>\n              <td>Team members walked and verified on site / sports-app tracks</td>\n            </tr>\n            <tr>\n              <td>Satellite reference</td>\n              <td>Central Lake shoreline and Central Island shape (<b>digitized from a hand-drawn trace by a teammate on 2026-10-13</b>, aligned to the Learning Resource Center / T4 / Cultural Creativity Clusters, not a GPS track)</td>\n              <td>Amap satellite screenshot + OSM feature anchors</td>\n            </tr>\n            <tr>\n              <td>Open map</td>\n              <td>Building outlines and coordinates, road / footpath / stair alignment, water bodies, campus gates</td>\n              <td>OpenStreetMap (ODbL), fetched 2026-10-11</td>\n            </tr>\n            <tr>\n              <td>Official material</td>\n              <td>Building names, covered walkways and tree-lined paths, campus master plan</td>\n              <td>Official “Campus Discovery” handbook / official 3D tour</td>\n            </tr>\n            <tr>\n              <td><span class="tag tag-sim">Illustrative</span> simulated</td>\n              <td>Shaded / covered polygons, the 1 min-per-floor and 2× luggage time coefficients, vertical movement coefficients inside buildings (stairs 0.5 min/floor for pedestrians, lift 1 min/floor for luggage and wheelchair), estimated times for wheelchair and luggage (empirical coefficients, pending measurement)</td>\n              <td>Inferred from aerial / design descriptions or empirical values, <b>not measured</b></td>\n            </tr>\n            <tr>\n              <td><span class="tag tag-sim">To verify</span></td>\n              <td>Indoor route C (Library → T4 → lift/stairs down 1 floor → indoor 1F corridor to T8 → main path → V27): <b>the way through was confirmed by a teammate’s hand drawing (2026-10-13)</b>, but indoors cannot be GPS-tracked, so the length is <b>estimated at about 510 m</b> by accumulating coordinates on the same basis as A/B, and is drawn as a hand-drawn sketch on the map; apart from the Library and V27, all other buildings’ floor counts come directly from OSM community tags (<code>building:levels</code>) and were not verified on site one by one, so deviations are possible</td>\n              <td>Teammate hand drawing + oral account / OpenStreetMap community tags</td>\n            </tr>',
+
+  'model.h1': 'Parameter',
+  'model.h2': 'Value',
+  'model.h3': 'Nature',
+  'model.body': '<tr>\n                  <td>Pedestrian time</td>\n                  <td>Measured: A 537 m → 6 min 31 s, B 470 m → 6 min 00 s (78–82 m/min)</td>\n                  <td>Measured 2026-10-12 with a sports app</td>\n                </tr>\n                <tr>\n                  <td>Luggage time penalty</td>\n                  <td>Whole route ×2 (only when the chosen route contains a stair segment: measured A 6:31 × 2 ≈ 13 min)</td>\n                  <td><span class="tag tag-sim">Simulated</span> empirical</td>\n                </tr>\n                <tr>\n                  <td>Wheelchair flat time</td>\n                  <td>470 m ≈ 7 min (empirical estimate below pedestrian speed, pending wheelchair measurement)</td>\n                  <td><span class="tag tag-sim">Simulated</span> empirical</td>\n                </tr>\n                <tr>\n                  <td>Base time per floor</td>\n                  <td>1 min / floor</td>\n                  <td><span class="tag tag-sim">Simulated</span> empirical</td>\n                </tr>\n                <tr>\n                  <td>Vertical movement indoors</td>\n                  <td>Stairs 0.5 min/floor for pedestrians; lift 1 min/floor for luggage and wheelchair</td>\n                  <td><span class="tag tag-sim">Simulated</span> empirical</td>\n                </tr>\n                <tr>\n                  <td>Wheelchair × stairs</td>\n                  <td>A ramp beside the stairs can substitute (powered or pushed this visit; slope and width not measured); time for Route A estimated via the ramp detour</td>\n                  <td>On-site visit (photo record)</td>\n                </tr>\n                <tr>\n                  <td>Lift waiting (teaching area)</td>\n                  <td>Off-peak (first 45 min of each hour) about 1 min; class break (last 15 min) about 3–5 min; dormitory lifts have no such pattern</td>\n                  <td><span class="tag tag-sim">Simulated</span> teammate field estimate</td>\n                </tr>\n                <tr>\n                  <td>Recommendation rule</td>\n                  <td colspan="2">Real cost = flat time + floor difference × base time per floor × persona factor + lift waiting; of the two routes the lower cost wins, and a stair segment is a veto for a wheelchair</td>\n                </tr>',
+  'model.foot': 'Change any single parameter (say you think the luggage penalty should be 1.5×) and the boundary of the conclusion moves — which is exactly what this work wants to show: a recommendation is not an objective fact, but a function of the model and its parameters.',
+
+  'check.h1': 'Item',
+  'check.h2': 'Method',
+  'check.h3': 'Result',
+  'check.body': '<tr>\n                  <td>Library floors</td>\n                  <td>Lift buttons + floor directory board</td>\n                  <td>4 floors (OSM community tag said 1; <b>corrected on site</b>)</td>\n                </tr>\n                <tr>\n                  <td>Library entrance</td>\n                  <td>Walked a full loop around the building</td>\n                  <td>Only entrance on 2F southeast side (facing the Central Lake); no stairs at the exit</td>\n                </tr>\n                <tr>\n                  <td>V27 floors and entrance</td>\n                  <td>Visual check + lift buttons on site</td>\n                  <td>7 floors; entrance at the building corner, no stairs; lift serves 1–7F</td>\n                </tr>\n                <tr>\n                  <td>Total floor difference</td>\n                  <td>Walked from the Library 2F exit to the V27 1F entrance</td>\n                  <td>Net 1 floor down (the downhill stair segment, i.e. Route A’s stairs)</td>\n                </tr>\n                <tr>\n                  <td>Stairs along Route B</td>\n                  <td>Walked the Sport Complex → V28 → V29 route</td>\n                  <td>No stairs found this visit (<b>slope and path width not measured</b>)</td>\n                </tr>\n                <tr>\n                  <td>Length and time of both routes</td>\n                  <td>Sports-app track (start/end strictly Library 2F exit → V27 1F entrance)</td>\n                  <td>A measured 537 m / 6 min 31 s; B measured 470 m / 6 min 00 s; the ramp beside the stairs can be powered or pushed up</td>\n                </tr>\n                <tr>\n                  <td>Supply points along the way</td>\n                  <td>Walked and recorded both routes</td>\n                  <td>A: coffee shop, convenience store, teaching buildings, toilets just off the route; B: nearest supply about 30 m off-route</td>\n                </tr>\n                <tr>\n                  <td>Indoor route C alignment</td>\n                  <td>A teammate walked it once and drew the track by hand (indoors cannot be GPS-tracked)</td>\n                  <td>Library → T4 → lift/stairs down 1 floor → indoor 1F corridor to T8 → back to ground along the main path → V27; length pending the final hand drawing</td>\n                </tr>',
+  'check.foot': 'Verification time: during competition preparation (October 2026); method: on-site walking visits and photo records.',
+
+  'sim.decl': '<b>Simulated-data statement:</b> among the campus-related information in this work (building floors, entrances, covered / shaded areas, the shape of the Central Island), <b>everything labelled “illustrative / simulated” is inferred or empirical</b>; <b>no real campus system is connected</b> — nothing is read from or written to any university database, and all data is embedded in this page as static files.',
+  'sim.limit': '<b>Usage limitations (important):</b> this work is a competition demonstration prototype; the routing conclusions are based on a <b>limited number of on-site walks</b>, and <b>no slope, path width, kerb height or paving condition was measured, nor any real-time condition</b> (construction, temporary barriers, weather, crowding, seasonal flooding). Statements such as “no stairs seen” <b>describe only what was observed during this visit</b> and <b>do not constitute any guarantee that a route is absolutely safe or fully accessible</b>. For actual travel, follow on-site signs, official information and your own judgement.',
+  'details.model': 'Model parameters (expand to recompute the conclusion)',
+  'details.check': 'Field-verification log (how each field was checked)',
+
+  'panel.floor': 'Floor status',
+  'panel.floor.hint': 'Choose “Current floor” above to see that floor’s entrances and accessibility.',
+  'panel.cmp': 'Route comparison',
+  'panel.cmp.hint': 'Switch the persona above and watch how the recommendation flips.',
+
+  'tbl.metric': 'Metric',
+  'tbl.a': 'Route A',
+  'tbl.b': 'Route B',
+  'tbl.foot': '* “No stairs seen” means only that <b>no stairs were found during this on-site walk</b>; slope, path width, kerb height and paving were not measured, and it <b>does not mean the route is absolutely safe or fully accessible</b>.',
+  'bar.dist': 'Distance',
+  'bar.time': 'Estimated time',
+  'bar.floor': 'Floor difference',
+  'unit.floor': '(floors)',
+  'bar.nameA': 'Route A',
+  'bar.nameB': 'Route B',
+
+  'cmp.h2': 'What does this work do differently from existing navigation / accessibility products?',
+  'cmp.hint': 'The three similar products each solve part of “how do I get there” or “where can I go”, but none of them treats “<b>the same path is nearer or farther for different people</b>” as its core calculation.',
+  'cmp.h1': 'Product',
+  'cmp.h2b': 'What it does',
+  'cmp.h3': 'What it leaves out (the gap this work targets)',
+  'cmp.body': '<tr>\n          <td>Google Maps / Amap</td>\n          <td>Full walking navigation, live traffic, transit transfers, with an extremely wide coverage.</td>\n          <td>Route recommendations follow a <b>single “fastest / shortest” criterion</b> and do not change because the user is “dragging 20 kg of luggage” or “in a wheelchair”; stairs and floor differences barely enter the route weight.</td>\n        </tr>\n        <tr>\n          <td>Wheelmap.org</td>\n          <td>Global crowdsourced tagging of <b>accessible places</b> (can I enter, is there a ramp, etc.).</td>\n          <td>It only answers “can I get into this building / shop”, <b>without any point-to-point route recommendation</b>, and does not quantify “how much extra cost this stretch of path takes”.</td>\n        </tr>\n        <tr class="this-row">\n          <td>This work (The Invisible Distance)</td>\n          <td>Along real OSM footpaths plus on-site measured floors / entrances / stairs, it folds <b>floor differences, stairs, and the passability for luggage and wheelchairs</b> into the recommendation weight, and shows how the recommendation flips across three personas for the same path.</td>\n          <td>Coverage is limited to a <b>single example route (Library → V27)</b>, not the whole campus and not real-time; the routing conclusions rest on a limited number of on-site visits and <b>do not constitute a guarantee of accessibility</b>.</td>\n        </tr>',
+
+  'footer.insight': '<strong>Key insight:</strong> measured data overturned our assumption — the supposed “stairs shortcut” A measured 537 m, farther than the outdoor flat path B (470 m); and the shorter indoor route charges a stair / lift cost (data still being collected). The shortest on the map has never been the nearest under your feet.<br>\n    Library: 4 floors, entrance on 2F facing the lake; V27: entrance with no stairs and a lift; Route A (measured 537 m) has a −1 floor stair segment with a ramp alternative beside it and plenty of supply points; Route B (measured 470 m) showed no stairs at all, with the nearest supply about 30 m off-route. Length and time measured 2026-10-12 with a sports app.',
+  'footer.warn': 'Route data is based on a limited number of on-site visits, with no measurement of slope or path width, and does not constitute a guarantee of accessibility; when travelling, follow the actual on-site conditions.',
+
+  'nav.walker': 'Walk',
+  'nav.luggage': 'Luggage',
+  'nav.wheelchair': 'Wheelchair',
+  'nav.aria': 'Switch persona',
+
+  'svg.aria': 'BNBU Phase-1 campus plan, showing the two routes from the Library to V27',
+  'svg.covered': 'Covered walkway',
+  'svg.treeline': 'Tree-lined path',
+  'svg.routeC': 'Route C · indoor 1F corridor (hand-drawn estimate)',
+  'svg.start': 'Start · Library 2F exit',
+  'svg.end': 'End · V27 1F entrance',
+  'svg.gate': 'Gate',
+  'svg.gate.s3': 'South Gate 3',
+  'svg.gate.s1': 'South Gate 1',
+  'svg.gate.s2': 'South Gate 2',
+  'svg.gate.s5': 'South Gate 5',
+  'svg.lake': 'Central Lake',
+  'svg.lake.note': '(shoreline digitized from a hand-drawn trace, 2026-10-13)',
+  'svg.island': 'Central Island',
+  'svg.rd.jintong': 'Jintong Rd',
+  'svg.rd.mingde': 'Mingde Rd',
+  'svg.rd.daxue': 'University Avenue',
+  'svg.rd.qinmin': 'Qinmin Rd',
+  'svg.rd.zhishan': 'Zhishan Rd',
+  'svg.f.perf': 'Performance Theatre',
+  'svg.f.admin': 'Administration',
+  'svg.f.hall': 'University Hall',
+  'svg.f.sport': 'Sport Complex',
+  'svg.f.cultural': 'Cultural Creativity Clusters',
+  'svg.f.library': 'Learning Resource Center',
+
+  'guide.libexit': '<rect x="544" y="400" width="216" height="92" rx="10" fill="rgba(255,255,255,0.98)" stroke="#3b82f6" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="554" y="422" font-size="12" font-weight="700" fill="#1e40af">Library 2F exit</text>\n  <text x="554" y="440" font-size="11" fill="#475576">The only entrance, facing the lake (SE)</text>\n  <text x="554" y="456" font-size="11" fill="#475576">No stairs at the exit</text>\n  <text x="554" y="472" font-size="11" fill="#475576">Left → Route A · Right → Route B</text>\n  <polygon points="534,426 544,416 544,436" fill="#3b82f6"/>',
+  'guide.steps': '<rect x="471" y="340" width="214" height="82" rx="10" fill="rgba(255,255,255,0.98)" stroke="#dc2626" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="481" y="362" font-size="12" font-weight="700" fill="#991b1b">Stair segment · downhill −1 floor</text>\n  <text x="481" y="380" font-size="11" fill="#475576">Stairs down to ground level here</text>\n  <text x="481" y="396" font-size="11" fill="#475576">Pedestrian: a labour-saving shortcut</text>\n  <text x="481" y="412" font-size="11" fill="#475576">Luggage / wheelchair: take Route B</text>\n  <polygon points="461,412 471,402 471,422" fill="#dc2626"/>',
+  'guide.turna1': '<rect x="561" y="435" width="228" height="56" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="571" y="457" font-size="12" font-weight="700" fill="#92400e">Corner · head toward V27</text>\n  <text x="571" y="475" font-size="11" fill="#475576">Keep west along the path to the V27 entrance</text>\n  <polygon points="551,455 561,445 561,465" fill="#f59e0b"/>',
+  'guide.plaza': '<rect x="229" y="252" width="228" height="100" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="239" y="274" font-size="12" font-weight="700" fill="#065f46">Huixian Village Plaza</text>\n  <text x="239" y="292" font-size="11" fill="#475576">Open plaza area on Route B</text>\n  <text x="239" y="308" font-size="11" fill="#475576">No stairs seen during this visit</text>\n  <text x="239" y="324" font-size="11" fill="#475576">(slope and width not measured)</text>\n  <text x="239" y="340" font-size="11" fill="#475576">Continue west to V28 → V29</text>\n  <polygon points="219,292 229,282 229,302" fill="#10b981"/>',
+  'guide.turnb1': '<rect x="302" y="270" width="208" height="56" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="312" y="292" font-size="12" font-weight="700" fill="#065f46">Corner · detour south</text>\n  <text x="312" y="310" font-size="11" fill="#475576">Turn south, detour via the Sport Complex</text>\n  <polygon points="292,290 302,280 302,300" fill="#10b981"/>',
+  'guide.v27': '<rect x="155" y="275" width="212" height="82" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="165" y="297" font-size="12" font-weight="700" fill="#065f46">V27 Hugo House · 1F entrance</text>\n  <text x="165" y="315" font-size="11" fill="#475576">The entrance is at the building corner</text>\n  <text x="165" y="331" font-size="11" fill="#475576">No stairs; lift serves all floors</text>\n  <text x="165" y="347" font-size="11" fill="#475576">Both Route A and B end here</text>\n  <polygon points="145,305 155,295 155,315" fill="#10b981"/>',
+  'guide.turnback': '<rect x="358" y="428" width="252" height="90" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>\n  <text x="368" y="450" font-size="12" font-weight="700" fill="#92400e">Last turn-back point · decide now</text>\n  <text x="368" y="468" font-size="11" fill="#475576">With luggage you can still turn around here</text>\n  <text x="368" y="484" font-size="11" fill="#475576">Beyond this, going back costs more than finishing B</text>\n  <text x="368" y="502" font-size="11" fill="#475576">(estimated from route length, not measured)</text>\n  <polygon points="508,411 518,401 518,421" fill="#f59e0b"/>'
+};
+
+/* ---------- 建筑 tooltip 英文名 ---------- */
+var NAME_OVERRIDE = {
+  '学习资源中心（图书馆） / Learning Resource Center · 4 层 · 唯一出入口在 2F 朝东南（现场核实）':
+    'Learning Resource Center · 4 floors · the only entrance is on 2F facing southeast (verified on site)',
+  'V27 雨果楼 / V27 Hugo House · 7 层 · 入口在楼体拐弯处，无台阶、有电梯（现场核实）':
+    'V27 Hugo House · 7 floors · entrance at the building corner, no stairs, lift available (verified on site)',
+  '榆栈 · 4 层': 'Yuzhan · 4 floors'
+};
+function enName(s) {
+  if (!s) return s;
+  if (NAME_OVERRIDE[s]) return NAME_OVERRIDE[s];
+  var floor = '';
+  var fm = s.match(/·\s*(\d+)\s*层/);
+  if (fm) floor = ' · ' + fm[1] + (fm[1] === '1' ? ' floor' : ' floors');
+  var core = s.replace(/\s*·\s*\d+\s*层/, '').trim();
+  var parts = core.split(' / ');
+  var name = parts.length > 1 ? parts[parts.length - 1] : parts[0];
+  name = name.split(' · ')[0];
+  name = name.replace('未命名建筑（OSM 未标注名称）', 'Unnamed building (not named in OSM)');
+  return name + floor;
+}
+
+/* ============================================================
+   静态节点：快照 + 应用
+   ============================================================ */
+function snapshotStatic() {
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    if (el.dataset.zh === undefined) el.dataset.zh = el.textContent;
   });
-  renderFloor('ground');
+  document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+    if (el.dataset.zhHtml === undefined) el.dataset.zhHtml = el.innerHTML;
+  });
+  document.querySelectorAll('[data-i18n-label]').forEach(function (el) {
+    if (el.dataset.zhLabel === undefined) el.dataset.zhLabel = el.getAttribute('label') || '';
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+    if (el.dataset.zhAria === undefined) el.dataset.zhAria = el.getAttribute('aria-label') || '';
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+    if (el.dataset.zhTitle === undefined) el.dataset.zhTitle = el.getAttribute('title') || '';
+  });
+}
+function applyStatic() {
+  var en = LANG === 'en';
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var k = el.dataset.i18n;
+    el.textContent = en ? (EN[k] !== undefined ? EN[k] : el.dataset.zh) : el.dataset.zh;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+    var k = el.dataset.i18nHtml;
+    el.innerHTML = en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhHtml) : el.dataset.zhHtml;
+  });
+  document.querySelectorAll('[data-i18n-label]').forEach(function (el) {
+    var k = el.dataset.i18nLabel;
+    el.setAttribute('label', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhLabel) : el.dataset.zhLabel);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+    var k = el.dataset.i18nAria;
+    el.setAttribute('aria-label', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhAria) : el.dataset.zhAria);
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+    var k = el.dataset.i18nTitle;
+    el.setAttribute('title', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhTitle) : el.dataset.zhTitle);
+  });
+  document.documentElement.setAttribute('lang', en ? 'en' : 'zh-CN');
+  document.title = en ? EN['doc.title'] : '看不见的距离 · 图书馆 → V27';
+  document.body.classList.toggle('lang-en', en);
+  document.querySelectorAll('[data-lang-btn]').forEach(function (b) {
+    var on = b.dataset.langBtn === LANG;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  document.querySelectorAll('.guide-dot').forEach(function (d) {
+    d.setAttribute('aria-label', en ? 'View route guidance for this point' : '查看该位置的路线指引');
+  });
+  // 重渲染动态内容
+  renderFloor(currentFloor);
+  renderView(currentView);
+  updateMapHint();
+  renderElevatorWait();
+}
+function setLang(lang) {
+  LANG = lang;
+  applyStatic();
+}
 
-  // ===== View Data =====
-  var VIEWS = {
+/* ============================================================
+   双语动态数据
+   ============================================================ */
+var FLOOR_DATA = {
+  zh: {
+    'ground': { title: '户外地面层', status: 'status-ok', statusText: '可自由通行',
+      desc: '地面层视角：所有户外路线均可通行。图书馆 2F 出口和 V27 1F 入口均直接可达。',
+      routeNote: '从地面出发，路线选择取决于你的身体条件。' },
+    'lib-1': { title: '图书馆 1F', status: 'status-warn', statusText: '无直接出入口',
+      desc: '1F 没有通往户外的出入口。你必须乘坐电梯或走楼梯到 2F，才能从唯一的出口离开建筑。',
+      routeNote: '先上楼到 2F，再选择路线 A 或路线 B。' },
+    'lib-2': { title: '图书馆 2F · 唯一出入口', status: 'status-ok', statusText: '唯一出入口·可直接出发',
+      desc: '2F 是图书馆唯一有出入口的楼层，出口朝东南（中心湖方向），无台阶。出门后可选路线 A（台阶/坡道路）或路线 B（户外平路）。',
+      routeNote: '这是理想的出发楼层，出门即可选择任意路线。' },
+    'lib-3': { title: '图书馆 3F', status: 'status-info', statusText: '需下至 2F',
+      desc: '3F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
+      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。' },
+    'lib-4': { title: '图书馆 4F', status: 'status-info', statusText: '需下至 2F',
+      desc: '4F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
+      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。' },
+    'v27-1': { title: 'V27 1F · 入口层', status: 'status-ok', statusText: '入口层·可直接到达',
+      desc: '1F 是 V27 的入口层，入口位于整栋楼的拐弯处，无台阶。楼内有电梯可通达全楼层（1F–7F）。',
+      routeNote: '从户外到达后可直接从 1F 入口进入。' },
+    'v27-2': { title: 'V27 2F', status: 'status-info', statusText: '需下至 1F',
+      desc: '2F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' },
+    'v27-3': { title: 'V27 3F', status: 'status-info', statusText: '需下至 1F',
+      desc: '3F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' },
+    'v27-4': { title: 'V27 4F', status: 'status-info', statusText: '需下至 1F',
+      desc: '4F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' },
+    'v27-5': { title: 'V27 5F', status: 'status-info', statusText: '需下至 1F',
+      desc: '5F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' },
+    'v27-6': { title: 'V27 6F', status: 'status-info', statusText: '需下至 1F',
+      desc: '6F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' },
+    'v27-7': { title: 'V27 7F', status: 'status-info', statusText: '需下至 1F',
+      desc: '7F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。' }
+  },
+  en: {
+    'ground': { title: 'Outdoor ground level', status: 'status-ok', statusText: 'Free to walk',
+      desc: 'Ground-level view: every outdoor route is passable. Both the Library 2F exit and the V27 1F entrance are directly reachable.',
+      routeNote: 'Starting from the ground, which route you take depends on your physical condition.' },
+    'lib-1': { title: 'Library 1F', status: 'status-warn', statusText: 'No direct entrance',
+      desc: '1F has no exit to the outdoors. You must take the lift or stairs up to 2F to leave the building through its only entrance.',
+      routeNote: 'Go up to 2F first, then choose Route A or Route B.' },
+    'lib-2': { title: 'Library 2F · only entrance', status: 'status-ok', statusText: 'Only entrance · start here',
+      desc: '2F is the only floor of the Library with an entrance; it faces southeast (toward the Central Lake) and has no stairs. Outside you can choose Route A (stairs / sloped path) or Route B (outdoor flat path).',
+      routeNote: 'This is the ideal departure floor — once outside you can pick either route.' },
+    'lib-3': { title: 'Library 3F', status: 'status-info', statusText: 'Go down to 2F',
+      desc: '3F has no exit to the outdoors. The building has a connecting lift; take the lift or stairs down to 2F and leave through the 2F entrance.',
+      routeNote: 'Go down to 2F first, then choose a route. The lift reaches every floor.' },
+    'lib-4': { title: 'Library 4F', status: 'status-info', statusText: 'Go down to 2F',
+      desc: '4F has no exit to the outdoors. The building has a connecting lift; take the lift or stairs down to 2F and leave through the 2F entrance.',
+      routeNote: 'Go down to 2F first, then choose a route. The lift reaches every floor.' },
+    'v27-1': { title: 'V27 1F · entrance floor', status: 'status-ok', statusText: 'Entrance floor · directly reachable',
+      desc: '1F is the entrance floor of V27; the entrance is at the building corner and has no stairs. A lift inside serves every floor (1F–7F).',
+      routeNote: 'After arriving outdoors you can enter directly at the 1F entrance.' },
+    'v27-2': { title: 'V27 2F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '2F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' },
+    'v27-3': { title: 'V27 3F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '3F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' },
+    'v27-4': { title: 'V27 4F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '4F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' },
+    'v27-5': { title: 'V27 5F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '5F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' },
+    'v27-6': { title: 'V27 6F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '6F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' },
+    'v27-7': { title: 'V27 7F', status: 'status-info', statusText: 'Go down to 1F',
+      desc: '7F has no direct exit to the outdoors. Take the lift or stairs down to 1F and use the 1F entrance.',
+      routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' }
+  }
+};
+
+var FLOOR_META = {
+  'ground': { building: 'outdoor', floorNum: 0, exitFloor: 0 },
+  'lib-1':   { building: 'library', floorNum: 1, exitFloor: 2 },
+  'lib-2':   { building: 'library', floorNum: 2, exitFloor: 2 },
+  'lib-3':   { building: 'library', floorNum: 3, exitFloor: 2 },
+  'lib-4':   { building: 'library', floorNum: 4, exitFloor: 2 },
+  'v27-1':   { building: 'v27',    floorNum: 1, exitFloor: 1 },
+  'v27-2':   { building: 'v27',    floorNum: 2, exitFloor: 1 },
+  'v27-3':   { building: 'v27',    floorNum: 3, exitFloor: 1 },
+  'v27-4':   { building: 'v27',    floorNum: 4, exitFloor: 1 },
+  'v27-5':   { building: 'v27',    floorNum: 5, exitFloor: 1 },
+  'v27-6':   { building: 'v27',    floorNum: 6, exitFloor: 1 },
+  'v27-7':   { building: 'v27',    floorNum: 7, exitFloor: 1 }
+};
+var INDOOR_COEF = { walker: 0.5, luggage: 1.0, wheelchair: 1.0 };
+var currentFloor = 'ground';
+
+function indoorInfo(floorKey) {
+  var m = FLOOR_META[floorKey];
+  if (!m || m.building === 'outdoor') return null;
+  var n = Math.abs(m.floorNum - m.exitFloor);
+  if (n === 0) return null;
+  var isLib = m.building === 'library';
+  var down = m.floorNum > m.exitFloor;
+  var action;
+  if (LANG === 'zh') {
+    action = isLib
+      ? '从 ' + m.floorNum + 'F ' + (down ? '下' : '上') + '到 ' + m.exitFloor + 'F 出口'
+      : '从 ' + m.exitFloor + 'F 入口 ' + (down ? '上' : '下') + '到 ' + m.floorNum + 'F 目标层';
+  } else {
+    action = isLib
+      ? 'from ' + m.floorNum + 'F ' + (down ? 'down' : 'up') + ' to the ' + m.exitFloor + 'F exit'
+      : 'from the ' + m.exitFloor + 'F entrance ' + (down ? 'up' : 'down') + ' to ' + m.floorNum + 'F';
+  }
+  return { n: n, action: action, isLib: isLib };
+}
+
+/* ============================================================
+   SVG class 状态机
+   ============================================================ */
+var svgState = { view: 'walker', routes: false, access: false, floorActive: false };
+var floorTimer = null;
+function applySvgClass() {
+  var svg = document.getElementById('campusMap');
+  var cls = ['view-' + svgState.view];
+  if (svgState.routes) cls.push('routes-visible');
+  if (svgState.access) cls.push('mode-access');
+  if (svgState.floorActive) cls.push('floor-active');
+  svg.setAttribute('class', cls.join(' '));
+}
+
+function renderFloor(floorKey) {
+  var d = FLOOR_DATA[LANG][floorKey];
+  currentFloor = floorKey;
+  var info = indoorInfo(floorKey);
+  var html = '<div class="floor-title">' + d.title + '</div>' +
+             '<div class="floor-status ' + d.status + '">' + d.statusText + '</div>' +
+             '<div class="floor-meta">' + d.desc + '</div>';
+  if (info) {
+    html += '<div class="indoor-cost">' + (LANG === 'zh'
+      ? '<b>楼内前置（接进代价模型）：</b>' + info.action + '，共 ' + info.n +
+        ' 层——行人楼梯 +约 ' + (info.n * 0.5).toFixed(1) + ' 分 · 行李电梯 +约 ' + info.n +
+        ' 分 · 轮椅必须电梯 +约 ' + info.n + ' 分。'
+      : '<b>Indoor leg (included in the cost model):</b> ' + info.action + ' — ' + info.n +
+        ' floor(s): stairs +~' + (info.n * 0.5).toFixed(1) + ' min for pedestrians · lift +~' + info.n +
+        ' min for luggage · +~' + info.n + ' min for a wheelchair.') + '</div>';
+  }
+  if (d.routeNote) {
+    html += '<div class="note">' + d.routeNote + '</div>';
+  }
+  document.getElementById('floorContent').innerHTML = html;
+
+  var isBuilding = floorKey.indexOf('lib-') === 0 || floorKey.indexOf('v27-') === 0;
+  svgState.floorActive = isBuilding;
+  if (floorTimer) { clearTimeout(floorTimer); floorTimer = null; }
+  if (isBuilding) {
+    floorTimer = setTimeout(function () {
+      svgState.floorActive = false;
+      applySvgClass();
+    }, 2000);
+  }
+  applySvgClass();
+}
+document.getElementById('floorSelect').addEventListener('change', function () {
+  renderFloor(this.value);
+  renderView(currentView);
+});
+renderFloor('ground');
+
+/* ============================================================
+   视角数据
+   ============================================================ */
+var VIEWS = {
+  zh: {
     walker: {
-      rec: 'B',
-      badgeClass: 'rec-b',
-      badgeText: '推荐路线 B（实测更短更快）',
+      rec: 'B', badgeClass: 'rec-b', badgeText: '推荐路线 B（实测更短更快）',
       note: '2026-10-12 实测反转了预设：路线 B 470 m 走了 6:00，原以为的「台阶近路」A 537 m 反而走了 6:31——「绕行」的那条才是更短更快的那条。路线 A 的价值在别处：沿途有咖啡店、便利店与厕所，台阶段还有坡道可选。',
       rows: [
         ['距离', '实测 537 m', '实测 470 m'],
@@ -1448,9 +1711,7 @@
       dist: [537, 470], time: [6.5, 6], floor: [-1, 0], floorBar: [1, 0]
     },
     luggage: {
-      rec: 'B',
-      badgeClass: 'rec-b',
-      badgeText: '推荐路线 B（全程无台阶）',
+      rec: 'B', badgeClass: 'rec-b', badgeText: '推荐路线 B（全程无台阶）',
       note: '拖着 20 kg 行李，路线 A 的台阶段必须减速控箱（走坡道则距离更长）；实测更短的路线 B 全程无台阶，是明确更省心的选择。注意 B 沿途最近补给点偏离路线约 30 m，出发前先安排好。',
       rows: [
         ['距离', '实测 537 m', '实测 470 m'],
@@ -1463,9 +1724,7 @@
       dist: [537, 470], time: [13, 6], floor: [-1, 0], floorBar: [1, 0]
     },
     wheelchair: {
-      rec: 'B',
-      badgeClass: 'rec-b',
-      badgeText: '推荐路线 B（更短·全程平缓）',
+      rec: 'B', badgeClass: 'rec-b', badgeText: '推荐路线 B（更短·全程平缓）',
       note: '路线 A 的台阶旁本次查看发现有坡道可替代（电动或人推可上），但整体更长、更绕；路线 B 更短且全程未见台阶，仍是更优选择。坡度与路面宽度未测量，不构成无障碍通行保证。另：一条更短的室内路线正在采集中，它需要走楼梯/等电梯，对轮椅未必友好。',
       rows: [
         ['距离', '实测 537 m', '实测 470 m'],
@@ -1477,280 +1736,344 @@
       ],
       dist: [537, 470], time: [8.5, 7], floor: [-1, 0], floorBar: [1, 0]
     }
-  };
-
-  function renderView(view) {
-    var v = VIEWS[view];
-    var badge = document.getElementById('recBadge');
-    badge.className = 'badge ' + v.badgeClass;
-    badge.textContent = v.badgeText;
-
-    svgState.view = view;
-    applySvgClass();
-
-    // 【P1-1】读取当前楼层的「楼内前置」成本（户外为 0），并反映到推荐说明与对比表
-    var info = indoorInfo(currentFloor);
-    var addTxt = '';
-    var noteText = v.note;
-    if (info) {
-      var coef = INDOOR_COEF[view] || 1;
-      var addMin = info.n * coef;
-      addTxt = (addMin === Math.floor(addMin)) ? String(addMin) : addMin.toFixed(1);
-      var ctx = info.isLib
-        ? '你当前在 ' + FLOOR_DATA[currentFloor].title + '，需先'
-        : '目的地是 ' + FLOOR_DATA[currentFloor].title + '，到达入口后还需';
-      noteText = ctx + info.action + '（当前身份约 +' + addTxt + ' 分）——这段「楼内前置」是两条路线共同承担的成本。' + noteText;
+  },
+  en: {
+    walker: {
+      rec: 'B', badgeClass: 'rec-b', badgeText: 'Recommended: Route B (measurably shorter and faster)',
+      note: 'Measurements on 2026-10-12 overturned our assumption: Route B covered 470 m in 6:00, while the supposed “stairs shortcut” A took 6:31 over 537 m — the “detour” is in fact the shorter, faster one. Route A has value elsewhere: coffee shops, convenience stores and toilets along the way, plus an optional ramp beside the stairs.',
+      rows: [
+        ['Distance', 'measured 537 m', 'measured 470 m'],
+        ['Estimated time', 'measured 6 min 31 s', 'measured 6 min 00 s'],
+        ['Stairs / elevation', '1 segment (ramp available to bypass)', 'none (no stairs seen)'],
+        ['Floor difference', '−1 floor (downhill)', '0 floors'],
+        ['Supplies en route', 'shops & toilets along it', 'nearest supply ~30 m off-route'],
+        ['Wheelchair access', 'ramp usable (this visit)', '*no stairs seen']
+      ],
+      dist: [537, 470], time: [6.5, 6], floor: [-1, 0], floorBar: [1, 0]
+    },
+    luggage: {
+      rec: 'B', badgeClass: 'rec-b', badgeText: 'Recommended: Route B (no stairs at all)',
+      note: 'With 20 kg of luggage, the stair segment of Route A forces you to slow down and control the case (taking the ramp makes it longer); the measurably shorter Route B has no stairs at all — clearly the calmer choice. Note the nearest supply point on B is about 30 m off-route, so plan ahead.',
+      rows: [
+        ['Distance', 'measured 537 m', 'measured 470 m'],
+        ['Estimated time', '~13 min (×2 stair penalty)', 'measured 6 min 00 s'],
+        ['Stairs / elevation', '1 segment (risky downhill · ramp available)', 'none (no stairs seen)'],
+        ['Floor difference', '−1 floor (dangerous with a case)', '0 floors'],
+        ['Luggage risk', 'high (loss of control / dropped case)', 'none'],
+        ['Supplies en route', 'shops & toilets along it', 'nearest supply ~30 m off-route']
+      ],
+      dist: [537, 470], time: [13, 6], floor: [-1, 0], floorBar: [1, 0]
+    },
+    wheelchair: {
+      rec: 'B', badgeClass: 'rec-b', badgeText: 'Recommended: Route B (shorter · flat throughout)',
+      note: 'Beside the stairs on Route A we found a ramp that can substitute this time (powered or pushed), but the route is longer and more winding overall; Route B is shorter with no stairs seen on it, so it is still the better choice. Slope and path width were not measured, so this is not a guarantee of full accessibility. Also: a shorter indoor route is being surveyed — it needs stairs / a lift and may not suit a wheelchair.',
+      rows: [
+        ['Distance', 'measured 537 m', 'measured 470 m'],
+        ['Estimated time', '~8.5 min (ramp estimate)', '~7 min'],
+        ['Stairs / elevation', '1 segment (ramp alternative)', 'none (no stairs seen)'],
+        ['Floor difference', '−1 floor (ramp detour)', '0 floors'],
+        ['Supplies en route', 'shops & toilets along it', 'nearest supply ~30 m off-route'],
+        ['Wheelchair access', 'ramp usable (this visit)', '*no stairs seen']
+      ],
+      dist: [537, 470], time: [8.5, 7], floor: [-1, 0], floorBar: [1, 0]
     }
-    document.getElementById('note').textContent = noteText;
-
-    var tbody = document.getElementById('tbody');
-    tbody.innerHTML = '';
-    if (info) {
-      var tr = document.createElement('tr');
-      tr.className = 'indoor-row';
-      var td0 = document.createElement('td'); td0.textContent = '楼内前置';
-      var td1 = document.createElement('td'); td1.colSpan = 2;
-      td1.textContent = info.action + '（' + info.n + ' 层 · 当前身份 +约 ' + addTxt + ' 分）';
-      tr.appendChild(td0); tr.appendChild(td1);
-      tbody.appendChild(tr);
-    }
-    v.rows.forEach(function(r) {
-      var tr = document.createElement('tr');
-      var recIdx = v.rec === 'A' ? 1 : 2;
-      r.forEach(function(cell, i) {
-        var td = document.createElement('td');
-        td.textContent = cell;
-        if (i === recIdx) td.className = 'rec-mark';
-        tr.appendChild(td);
-      });
-      if (r[1] === '不可达' || r[2] === '不可达') tr.className = 'lose';
-      tbody.appendChild(tr);
-    });
-    var maxDist = Math.max(v.dist[0], v.dist[1]);
-    var maxTime = Math.max(v.time[0] || 1, v.time[1]);
-    var maxFloor = Math.max(v.floorBar[0], v.floorBar[1]) || 1;
-    setBar('barDistA', 'valDistA', v.dist[0], maxDist, v.dist[0] + 'm');
-    setBar('barDistB', 'valDistB', v.dist[1], maxDist, v.dist[1] + 'm');
-    setBar('barTimeA', 'valTimeA', v.time[0], maxTime, v.time[0] === 0 ? '不可达' : v.time[0] + '分');
-    setBar('barTimeB', 'valTimeB', v.time[1], maxTime, v.time[1] + '分');
-    // 【修复】原版把 -1 层当正数显示成「+1层」，与表格里的「-1 层（下坡）」自相矛盾。
-    setBar('barFloorA', 'valFloorA', v.floorBar[0], maxFloor, v.floor[0] + '层');
-    setBar('barFloorB', 'valFloorB', v.floorBar[1], maxFloor, v.floor[1] + '层');
   }
-  function setBar(fillId, valId, val, max, text) {
-    var pct = max > 0 ? Math.max(0, Math.round(val / max * 100)) : 0;
-    document.getElementById(fillId).style.width = pct + '%';
-    document.getElementById(valId).textContent = text;
-  }
+};
 
-  // Sync desktop and mobile switchers
-  var currentView = 'walker';
-  function setView(view) {
-    currentView = view;
-    // desktop buttons
-    document.querySelectorAll('#desktopSwitch button').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.view === view);
-      b.setAttribute('aria-pressed', b.dataset.view === view);
-    });
-    // mobile nav
-    document.querySelectorAll('.mobile-nav .nav-btn').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.view === view);
-      b.setAttribute('aria-pressed', b.dataset.view === view);
-    });
-    renderView(view);
-  }
-  document.querySelectorAll('#desktopSwitch button').forEach(function(btn) {
-    btn.addEventListener('click', function() { setView(btn.dataset.view); });
-  });
-  document.querySelectorAll('.mobile-nav .nav-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() { setView(btn.dataset.view); });
-  });
-  renderView('walker');
+function renderView(view) {
+  var v = VIEWS[LANG][view];
+  var badge = document.getElementById('recBadge');
+  badge.className = 'badge ' + v.badgeClass;
+  badge.textContent = v.badgeText;
 
-  // 【P0-2】默认展示核心功能：以 checkbox 的实际勾选状态为唯一真源，
-  // 避免「HTML 勾选了、JS 状态却是 false」这类静默失配。
-  svgState.routes = document.getElementById('cbRoute').checked;
-  svgState.access = document.getElementById('cbAccess').checked;
+  svgState.view = view;
   applySvgClass();
 
-  var mapHint = document.getElementById('mapHint');
-  function updateMapHint() {
-    mapHint.classList.toggle('off', !svgState.routes);
-    mapHint.innerHTML = svgState.routes
+  var info = indoorInfo(currentFloor);
+  var addTxt = '';
+  var noteText = v.note;
+  if (info) {
+    var coef = INDOOR_COEF[view] || 1;
+    var addMin = info.n * coef;
+    addTxt = (addMin === Math.floor(addMin)) ? String(addMin) : addMin.toFixed(1);
+    if (LANG === 'zh') {
+      var ctx = info.isLib
+        ? '你当前在 ' + FLOOR_DATA.zh[currentFloor].title + '，需先'
+        : '目的地是 ' + FLOOR_DATA.zh[currentFloor].title + '，到达入口后还需';
+      noteText = ctx + info.action + '（当前身份约 +' + addTxt + ' 分）——这段「楼内前置」是两条路线共同承担的成本。' + noteText;
+    } else {
+      var ctxE = info.isLib
+        ? 'You are on ' + FLOOR_DATA.en[currentFloor].title + '; first '
+        : 'Your destination is ' + FLOOR_DATA.en[currentFloor].title + '; after reaching the entrance, ';
+      noteText = ctxE + info.action + ' (about +' + addTxt + ' min for you now) — this indoor leg is a cost shared by both routes. ' + noteText;
+    }
+  }
+  document.getElementById('note').textContent = noteText;
+
+  var tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  if (info) {
+    var tr = document.createElement('tr');
+    tr.className = 'indoor-row';
+    var td0 = document.createElement('td');
+    td0.textContent = (LANG === 'zh' ? '楼内前置' : 'Indoor leg');
+    var td1 = document.createElement('td');
+    td1.colSpan = 2;
+    td1.textContent = LANG === 'zh'
+      ? info.action + '（' + info.n + ' 层 · 当前身份 +约 ' + addTxt + ' 分）'
+      : info.action + ' (' + info.n + ' floor(s) · about +' + addTxt + ' min for you)';
+    tr.appendChild(td0); tr.appendChild(td1);
+    tbody.appendChild(tr);
+  }
+  v.rows.forEach(function (r) {
+    var tr2 = document.createElement('tr');
+    var recIdx = v.rec === 'A' ? 1 : 2;
+    r.forEach(function (cell, i) {
+      var td = document.createElement('td');
+      td.textContent = cell;
+      if (i === recIdx) td.className = 'rec-mark';
+      tr2.appendChild(td);
+    });
+    if (r[1] === '不可达' || r[2] === '不可达') tr2.className = 'lose';
+    tbody.appendChild(tr2);
+  });
+  var maxDist = Math.max(v.dist[0], v.dist[1]);
+  var maxTime = Math.max(v.time[0] || 1, v.time[1]);
+  var maxFloor = Math.max(v.floorBar[0], v.floorBar[1]) || 1;
+  setBar('barDistA', 'valDistA', v.dist[0], maxDist, v.dist[0] + 'm');
+  setBar('barDistB', 'valDistB', v.dist[1], maxDist, v.dist[1] + 'm');
+  setBar('barTimeA', 'valTimeA', v.time[0], maxTime, v.time[0] === 0 ? (LANG === 'zh' ? '不可达' : 'N/A') : v.time[0] + (LANG === 'zh' ? '分' : ' min'));
+  setBar('barTimeB', 'valTimeB', v.time[1], maxTime, v.time[1] + (LANG === 'zh' ? '分' : ' min'));
+  var fA = v.floor[0], fB = v.floor[1];
+  var ufA = LANG === 'zh' ? '层' : (Math.abs(fA) === 1 ? ' floor' : ' floors');
+  var ufB = LANG === 'zh' ? '层' : (Math.abs(fB) === 1 ? ' floor' : ' floors');
+  setBar('barFloorA', 'valFloorA', v.floorBar[0], maxFloor, fA + ufA);
+  setBar('barFloorB', 'valFloorB', v.floorBar[1], maxFloor, fB + ufB);
+}
+function setBar(fillId, valId, val, max, text) {
+  var pct = max > 0 ? Math.max(0, Math.round(val / max * 100)) : 0;
+  document.getElementById(fillId).style.width = pct + '%';
+  document.getElementById(valId).textContent = text;
+}
+
+var currentView = 'walker';
+function setView(view) {
+  currentView = view;
+  document.querySelectorAll('#desktopSwitch button').forEach(function (b) {
+    b.classList.toggle('active', b.dataset.view === view);
+    b.setAttribute('aria-pressed', b.dataset.view === view);
+  });
+  document.querySelectorAll('.mobile-nav .nav-btn').forEach(function (b) {
+    b.classList.toggle('active', b.dataset.view === view);
+    b.setAttribute('aria-pressed', b.dataset.view === view);
+  });
+  renderView(view);
+}
+document.querySelectorAll('#desktopSwitch button').forEach(function (btn) {
+  btn.addEventListener('click', function () { setView(btn.dataset.view); });
+});
+document.querySelectorAll('.mobile-nav .nav-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () { setView(btn.dataset.view); });
+});
+renderView('walker');
+
+svgState.routes = document.getElementById('cbRoute').checked;
+svgState.access = document.getElementById('cbAccess').checked;
+applySvgClass();
+
+var mapHint = document.getElementById('mapHint');
+function updateMapHint() {
+  mapHint.classList.toggle('off', !svgState.routes);
+  if (svgState.routes) {
+    mapHint.innerHTML = LANG === 'zh'
       ? '<b>地图已显示两条路线：</b>蓝＝路线 A（台阶/坡道路，实测 537 m ／ −1 层）；绿＝路线 B（户外平路，实测 470 m ／ 0 层）。' +
         '切换上方「视角」（行人 / 行李 / 轮椅）看结论如何变化；点地图上的橙色圆点可展开分段指引。'
-      : '<b>路线当前已隐藏。</b>勾选上方「路线」，即可在地图上叠加路线 A / B 进行对比。';
+      : '<b>Both routes are shown on the map:</b> blue = Route A (stairs / sloped path, measured 537 m / −1 floor); green = Route B (outdoor flat path, measured 470 m / 0 floors). ' +
+        'Switch the persona above (pedestrian / luggage / wheelchair) to see how the conclusion changes; click an orange dot on the map to expand the step-by-step guidance.';
+  } else {
+    mapHint.innerHTML = LANG === 'zh'
+      ? '<b>路线当前已隐藏。</b>勾选上方「路线」，即可在地图上叠加路线 A / B 进行对比。'
+      : '<b>Routes are hidden.</b> Tick “Routes” above to overlay Route A / B on the map for comparison.';
   }
-  updateMapHint();
+}
+updateMapHint();
 
-  // ===== 电梯等候时间（教学区分时模型）=====
-  // 教学区电梯：每小时前 45 分钟（非课间）约 1 分钟；末尾 15 分钟（课间）约 3–5 分钟。宿舍区暂无此现象。
-  // 默认按系统时间自动判断（分钟数 >= 45 即课间），用户也可手动切换。
-  var elevatorPeriod = 'auto';
-  function resolveElevatorPeriod() {
-    if (elevatorPeriod === 'auto') {
-      return (new Date().getMinutes() >= 45) ? 'peak' : 'offpeak';
-    }
-    return elevatorPeriod;
+/* ===== 电梯等候时间（教学区分时模型）===== */
+var elevatorPeriod = 'auto';
+function resolveElevatorPeriod() {
+  if (elevatorPeriod === 'auto') {
+    return (new Date().getMinutes() >= 45) ? 'peak' : 'offpeak';
   }
-  function renderElevatorWait() {
-    var el = document.getElementById('elevatorWait');
-    if (!el) return;
-    var p = resolveElevatorPeriod();
-    var auto = elevatorPeriod === 'auto';
+  return elevatorPeriod;
+}
+function renderElevatorWait() {
+  var el = document.getElementById('elevatorWait');
+  if (!el) return;
+  var p = resolveElevatorPeriod();
+  var auto = elevatorPeriod === 'auto';
+  if (LANG === 'zh') {
     el.innerHTML = (p === 'peak'
       ? '约 <b>3–5 分钟</b>（当前为<b>课间</b>）'
       : '约 <b>1 分钟</b>（当前为<b>非课间</b>）') + (auto ? '' : ' · 手动选择');
+  } else {
+    el.innerHTML = (p === 'peak'
+      ? 'about <b>3–5 min</b> (currently a <b>class break</b>)'
+      : 'about <b>1 min</b> (currently outside class breaks)') + (auto ? '' : ' · manual');
   }
-  document.getElementById('elevatorPeriod').addEventListener('change', function() {
-    elevatorPeriod = this.value;
-    renderElevatorWait();
-  });
+}
+document.getElementById('elevatorPeriod').addEventListener('change', function () {
+  elevatorPeriod = this.value;
   renderElevatorWait();
+});
+renderElevatorWait();
 
-  // ===== Map Layer Toggles =====
-  document.getElementById('cbFoot').addEventListener('change', function() {
-    document.querySelectorAll('.lyr-foot').forEach(function(p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
-  });
-  document.getElementById('cbLabel').addEventListener('change', function() {
-    // 楼栋标注与地物名称一起开关；起/终点标记（.lyr-route）不受影响
-    document.querySelectorAll('.lbl').forEach(function(p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
-  });
-  document.getElementById('cbRoute').addEventListener('change', function() {
-    svgState.routes = this.checked;
-    applySvgClass();
-    updateMapHint();
-    // 收起所有指引弹窗
-    document.querySelectorAll('.route-guide').forEach(function(g) { g.setAttribute('opacity', '0'); });
-    activeGuide = null;
-  });
-  document.getElementById('cbAccess').addEventListener('change', function() {
-    svgState.access = this.checked;
-    applySvgClass();
-  });
+/* ===== 地图图层开关 ===== */
+document.getElementById('cbFoot').addEventListener('change', function () {
+  document.querySelectorAll('.lyr-foot').forEach(function (p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
+});
+document.getElementById('cbLabel').addEventListener('change', function () {
+  document.querySelectorAll('.lbl').forEach(function (p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
+});
+document.getElementById('cbRoute').addEventListener('change', function () {
+  svgState.routes = this.checked;
+  applySvgClass();
+  updateMapHint();
+  document.querySelectorAll('.route-guide').forEach(function (g) { g.setAttribute('opacity', '0'); });
+  activeGuide = null;
+});
+document.getElementById('cbAccess').addEventListener('change', function () {
+  svgState.access = this.checked;
+  applySvgClass();
+});
 
-  // ===== Tooltip =====
-  var tip = document.getElementById('tip');
-  document.querySelectorAll('.bld').forEach(function(el) {
-    el.addEventListener('mousemove', function(ev) {
-      var name = el.dataset.name;
-      if (!name) return;                       // 无名建筑不再弹出空白浮层
-      tip.textContent = name;
-      tip.style.left = (ev.clientX + 14) + 'px';
-      tip.style.top = (ev.clientY + 14) + 'px';
-      tip.classList.add('visible');
-    });
-    el.addEventListener('mouseleave', function() { tip.classList.remove('visible'); });
+/* ===== Tooltip ===== */
+var tip = document.getElementById('tip');
+document.querySelectorAll('.bld').forEach(function (el) {
+  el.addEventListener('mousemove', function (ev) {
+    var raw = el.dataset.name;
+    if (!raw) return;
+    tip.textContent = (LANG === 'en') ? enName(raw) : raw;
+    tip.style.left = (ev.clientX + 14) + 'px';
+    tip.style.top = (ev.clientY + 14) + 'px';
+    tip.classList.add('visible');
   });
+  el.addEventListener('mouseleave', function () { tip.classList.remove('visible'); });
+});
 
-  // ===== Route Guide Interactions =====
-  var activeGuide = null;
-  function hideAllGuides() {
-    document.querySelectorAll('.route-guide').forEach(function(g) { g.setAttribute('opacity', '0'); });
-    activeGuide = null;
+/* ===== 路线指引点 ===== */
+var activeGuide = null;
+function hideAllGuides() {
+  document.querySelectorAll('.route-guide').forEach(function (g) { g.setAttribute('opacity', '0'); });
+  activeGuide = null;
+}
+(function () {
+  function toggleGuide(dot) {
+    var guide = document.getElementById('guide-' + dot.dataset.guide);
+    if (!guide) return;
+    if (activeGuide === guide) { hideAllGuides(); return; }
+    hideAllGuides();
+    guide.setAttribute('opacity', '1');
+    activeGuide = guide;
   }
-  (function() {
-    function toggleGuide(dot) {
-      var guide = document.getElementById('guide-' + dot.dataset.guide);
-      if (!guide) return;
-      if (activeGuide === guide) { hideAllGuides(); return; }
-      hideAllGuides();
-      guide.setAttribute('opacity', '1');
-      activeGuide = guide;
-    }
-    document.querySelectorAll('.guide-dot').forEach(function(dot) {
-      dot.setAttribute('tabindex', '0');
-      dot.setAttribute('role', 'button');
-      dot.setAttribute('aria-label', '查看该位置的路线指引');
-      dot.addEventListener('click', function(e) { e.stopPropagation(); toggleGuide(dot); });
-      dot.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); toggleGuide(dot); }
-      });
+  document.querySelectorAll('.guide-dot').forEach(function (dot) {
+    dot.setAttribute('tabindex', '0');
+    dot.setAttribute('role', 'button');
+    dot.setAttribute('aria-label', '查看该位置的路线指引');
+    dot.addEventListener('click', function (e) { e.stopPropagation(); toggleGuide(dot); });
+    dot.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); toggleGuide(dot); }
     });
-    // 点击地图空白处收起指引
-    document.getElementById('campusMap').addEventListener('click', function(e) {
-      if (!e.target.classList.contains('guide-dot')) hideAllGuides();
-    });
-  })();
+  });
+  document.getElementById('campusMap').addEventListener('click', function (e) {
+    if (!e.target.classList.contains('guide-dot')) hideAllGuides();
+  });
+})();
 
-  // ===== 地图平移 / 缩放（桌面 + 触屏统一由 JS 接管） =====
-  (function() {
-    var svg = document.getElementById('campusMap');
-    var stage = svg.parentElement;              // .map-stage（overflow:hidden）
-    var MIN = 0.8, MAX = 3;
-    var scale = 1, tx = 0, ty = 0;
-    var lastDist = 0, lastX = 0, lastY = 0;
-    var isPinching = false, isPanning = false, moved = false, lastTap = 0;
+/* ===== 地图平移 / 缩放 ===== */
+(function () {
+  var svg = document.getElementById('campusMap');
+  var stage = svg.parentElement;
+  var MIN = 0.8, MAX = 3;
+  var scale = 1, tx = 0, ty = 0;
+  var lastDist = 0, lastX = 0, lastY = 0;
+  var isPinching = false, isPanning = false, moved = false, lastTap = 0;
 
-    function apply() {
-      // 夹住平移量，避免把地图拖出视野
-      var r = stage.getBoundingClientRect();
-      var maxX = r.width  * Math.max(0, scale - 1) / 2 + 40;
-      var maxY = r.height * Math.max(0, scale - 1) / 2 + 40;
-      tx = Math.max(-maxX, Math.min(maxX, tx));
-      ty = Math.max(-maxY, Math.min(maxY, ty));
-      svg.style.transformOrigin = 'center center';
-      svg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  function apply() {
+    var r = stage.getBoundingClientRect();
+    var maxX = r.width * Math.max(0, scale - 1) / 2 + 40;
+    var maxY = r.height * Math.max(0, scale - 1) / 2 + 40;
+    tx = Math.max(-maxX, Math.min(maxX, tx));
+    ty = Math.max(-maxY, Math.min(maxY, ty));
+    svg.style.transformOrigin = 'center center';
+    svg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  }
+  function reset() { scale = 1; tx = 0; ty = 0; apply(); }
+  function dist(t) {
+    var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 2) {
+      isPinching = true; isPanning = false; moved = true;
+      lastDist = dist(e.touches);
+    } else if (e.touches.length === 1) {
+      isPanning = true; moved = false;
+      lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
     }
-    function reset() { scale = 1; tx = 0; ty = 0; apply(); }
-    function dist(t) {
-      var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    }
+  }, { passive: true });
 
-    stage.addEventListener('touchstart', function(e) {
-      if (e.touches.length === 2) {
-        isPinching = true; isPanning = false; moved = true;   // 捏合不算“轻点”
-        lastDist = dist(e.touches);
-      } else if (e.touches.length === 1) {
-        isPanning = true; moved = false;
-        lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    stage.addEventListener('touchmove', function(e) {
-      if (isPinching && e.touches.length === 2) {
-        e.preventDefault();
-        var d = dist(e.touches);
-        if (lastDist > 0) scale = Math.max(MIN, Math.min(MAX, scale * (d / lastDist)));
-        lastDist = d;
-        apply();
-      } else if (isPanning && e.touches.length === 1) {
-        var cx = e.touches[0].clientX, cy = e.touches[0].clientY;
-        if (Math.abs(cx - lastX) + Math.abs(cy - lastY) > 6) moved = true;
-        if (moved) { e.preventDefault(); tx += cx - lastX; ty += cy - lastY; apply(); }
-        lastX = cx; lastY = cy;
-      }
-    }, { passive: false });
-
-    function endTouch(e) {
-      if (e.touches.length !== 0) return;          // 还有手指在屏幕上，手势没结束
-      var wasPinch = isPinching;
-      isPinching = false; isPanning = false;
-      if (!moved && !wasPinch) {                   // 只有真正的单指轻点才参与双击复位
-        var now = Date.now();
-        if (now - lastTap < 300) { reset(); lastTap = 0; return; }
-        lastTap = now;
-      } else {
-        lastTap = 0;
-      }
-    }
-    stage.addEventListener('touchend', endTouch);
-    stage.addEventListener('touchcancel', endTouch);
-
-    // 【修复】原版对所有 wheel 事件 preventDefault，鼠标停在图上滚页面会变成缩放地图。
-    // 现在只有按住 ⌘/Ctrl（触控板捏合也会带 ctrlKey）时才缩放，普通滚动交还页面。
-    stage.addEventListener('wheel', function(e) {
-      if (!(e.ctrlKey || e.metaKey)) return;
+  stage.addEventListener('touchmove', function (e) {
+    if (isPinching && e.touches.length === 2) {
       e.preventDefault();
-      scale = Math.max(MIN, Math.min(MAX, scale * (e.deltaY > 0 ? 0.92 : 1.08)));
+      var d = dist(e.touches);
+      if (lastDist > 0) scale = Math.max(MIN, Math.min(MAX, scale * (d / lastDist)));
+      lastDist = d;
       apply();
-    }, { passive: false });
+    } else if (isPanning && e.touches.length === 1) {
+      var cx = e.touches[0].clientX, cy = e.touches[0].clientY;
+      if (Math.abs(cx - lastX) + Math.abs(cy - lastY) > 6) moved = true;
+      if (moved) { e.preventDefault(); tx += cx - lastX; ty += cy - lastY; apply(); }
+      lastX = cx; lastY = cy;
+    }
+  }, { passive: false });
 
-    stage.addEventListener('dblclick', reset);
-    var btn = document.getElementById('mapReset');
-    if (btn) btn.addEventListener('click', reset);
-  })();
+  function endTouch(e) {
+    if (e.touches.length !== 0) return;
+    var wasPinch = isPinching;
+    isPinching = false; isPanning = false;
+    if (!moved && !wasPinch) {
+      var now = Date.now();
+      if (now - lastTap < 300) { reset(); lastTap = 0; return; }
+      lastTap = now;
+    } else {
+      lastTap = 0;
+    }
+  }
+  stage.addEventListener('touchend', endTouch);
+  stage.addEventListener('touchcancel', endTouch);
+
+  stage.addEventListener('wheel', function (e) {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    e.preventDefault();
+    scale = Math.max(MIN, Math.min(MAX, scale * (e.deltaY > 0 ? 0.92 : 1.08)));
+    apply();
+  }, { passive: false });
+
+  stage.addEventListener('dblclick', reset);
+  var btn = document.getElementById('mapReset');
+  if (btn) btn.addEventListener('click', reset);
+})();
+
+/* ===== 语言开关 ===== */
+document.querySelectorAll('[data-lang-btn]').forEach(function (b) {
+  b.addEventListener('click', function () { setLang(b.dataset.langBtn); });
+});
+
+/* ===== 启动 ===== */
+snapshotStatic();
+applyStatic();
 </script>
+
 </body>
 </html>

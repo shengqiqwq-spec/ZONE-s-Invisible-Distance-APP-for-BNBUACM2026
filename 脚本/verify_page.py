@@ -96,18 +96,18 @@ HARNESS = r"""
   var vp = document.querySelector('meta[name=viewport]');
   ok('viewport 未禁用用户缩放', vp && vp.content.indexOf('user-scalable=no') === -1, vp ? vp.content : '(缺失)');
 
-  // ---- 护栏 10：湖岸线必须是卫星图参照版（不是旧的错误示意多边形，也不许虚线回归） ----
+  // ---- 护栏 10：湖岸线必须还是实心版（不许虚线回归），且为手绘轨迹数字化版 ----
   var lake = document.querySelector('.lyr-lake');
-  ok('湖岸线为实心卫星图描绘版（非虚线示意）', !!lake && !lake.getAttribute('stroke-dasharray')
-     && (lake.getAttribute('d') || '').indexOf('613 377') > -1,
+  ok('湖岸线为实心手绘数字化版（非虚线示意）', !!lake && !lake.getAttribute('stroke-dasharray')
+     && (lake.getAttribute('d') || '').indexOf('707.6 474.1') > -1,
      lake ? ('d前缀=' + (lake.getAttribute('d') || '').slice(0, 30)) : '(缺失)');
-  ok('湖标注为卫星图描绘口径', (function () {
+  ok('湖标注为手绘数字化口径', (function () {
     var texts = Array.prototype.slice.call(document.querySelectorAll('svg .lbl')).map(function (t) { return t.textContent; }).join('|');
-    return texts.indexOf('参照卫星图描绘') > -1;
+    return texts.indexOf('用户手绘') > -1;
   })());
   ok('中心岛已移出图书馆轮廓', (function () {
     var isl = document.querySelectorAll('path[fill="#a5d6a7"]');
-    return isl.length >= 1 && isl[isl.length - 1].getAttribute('d').indexOf('678 414') > -1;
+    return isl.length >= 1 && isl[isl.length - 1].getAttribute('d').indexOf('788.7 429.2') > -1;
   })());
 
   // ---- 护栏 11：滚轮不能被无条件劫持（这条在 Python 侧查源码，见 SOURCE_CHECKS） ----
@@ -173,6 +173,37 @@ HARNESS = r"""
   ok('「模型参数」面板存在（含可复算参数）', srcTxt.indexOf('模型参数') > -1 && srcTxt.indexOf('6 分 31 秒') > -1);
   ok('「现场核查记录」面板存在', srcTxt.indexOf('现场核查记录') > -1 && srcTxt.indexOf('绕建筑步行一周') > -1);
   ok('楼内移动系数已写进数据分级表并标注模拟', srcTxt.indexOf('楼内垂直移动') > -1);
+
+  // ---- 护栏 20（2026-10-13 晚）：中英文界面切换 ----
+  ok('中英切换按钮存在（中文 / EN，页头 + 控制栏）',
+     document.querySelectorAll('[data-lang-btn]').length >= 2);
+  ok('切到 EN 后页头与推荐徽章变英文、切回中文能还原', (function () {
+    if (typeof setLang !== 'function') return false;
+    setLang('en');
+    var h1 = document.querySelector('h1').textContent;
+    var badge = $('recBadge').textContent;
+    var stillZh = /[\u4e00-\u9fa5]/.test(h1);
+    setLang('zh');
+    var backZh = document.querySelector('h1').textContent.indexOf('看不见') > -1;
+    return h1.indexOf('Invisible Distance') > -1 && badge.indexOf('Route B') > -1 && !stillZh && backZh;
+  })());
+  ok('切到 EN 后地图 SVG 标签无中文残留', (function () {
+    if (typeof setLang !== 'function') return false;
+    setLang('en');
+    var bad = Array.prototype.slice.call(document.querySelectorAll('#campusMap text'))
+      .filter(function (t) { return /[\u4e00-\u9fa5]/.test(t.textContent); }).length;
+    setLang('zh');
+    return bad === 0;
+  })());
+  ok('切到 EN 后动态面板（楼层/对比表/提示条）变英文', (function () {
+    if (typeof setLang !== 'function') return false;
+    setLang('en');
+    var ft = $('floorContent').textContent, tb = $('tbody').textContent, mh = $('mapHint').textContent;
+    var okEn = ft.indexOf('Outdoor ground level') > -1 && tb.indexOf('Distance') > -1 && mh.indexOf('Route A') > -1;
+    setLang('zh');
+    var okZh = $('floorContent').textContent.indexOf('户外地面层') > -1;
+    return okEn && okZh;
+  })());
 
   var pre = document.createElement('pre');
   pre.id = '__VERIFY_OUT__';
@@ -263,6 +294,15 @@ SOURCE_CHECKS = [
      lambda s: 'getMinutes()' in s and '>= 45' in s and "'peak'" in s),
     ('电梯等候分时值写入（1 分钟 / 3–5 分钟）',
      lambda s: '3–5 分钟' in s and '约 1 分钟' in s),
+
+    # ---- P4 批次（2026-10-13 晚）：中英文界面切换 ----
+    ('中英切换引擎存在（data-i18n 标注 + setLang + 英文词典）',
+     lambda s: 'data-lang-btn' in s and 'function setLang' in s and "'th.grid'" in s and "'footer.insight'" in s),
+    ('双语动态数据存在（FLOOR_DATA / VIEWS 分 zh / en）',
+     lambda s: bool(re.search(r'var FLOOR_DATA\s*=\s*\{\s*zh\s*:', s))
+               and bool(re.search(r'var VIEWS\s*=\s*\{\s*zh\s*:', s))),
+    ('中文原文靠快照还原（切回中文不需中文词典）',
+     lambda s: 'function snapshotStatic' in s and 'dataset.zh' in s and 'zhHtml' in s),
 ]
 
 
