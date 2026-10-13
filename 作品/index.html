@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>看不见的距离 · 图书馆 → V27</title>
+<style>
+  /* ========== CSS Variables ========== */
+  :root {
+    --bg: #f0f2f5;
+    --surface: #ffffff;
+    --surface-2: #f8fafc;
+    --text: #0f172a;
+    --text-2: #334155;
+    --text-3: #64748b;
+    --text-muted: #94a3b8;
+    --primary: #4f46e5;
+    --primary-light: #e0e7ff;
+    --primary-soft: #6366f1;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --info: #0ea5e9;
+    --info-light: #e0f2fe;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+    --shadow: 0 4px 16px rgba(15,23,42,0.06);
+    --shadow-lg: 0 12px 40px rgba(15,23,42,0.1);
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 20px;
+    --transition: all .25s cubic-bezier(.4,0,.2,1);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  /* ========== Layout ========== */
+  .wrap { max-width: 1520px; margin: 0 auto; padding: 24px; }
+  @media (max-width: 768px) { .wrap { padding: 12px; } }
+
+  /* ========== Header ========== */
+  header {
+    text-align: center; margin-bottom: 24px;
+    animation: fadeInDown .6s ease both;
+  }
+  header h1 {
+    font-size: 28px; font-weight: 800; margin: 0;
+    background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; letter-spacing: -0.5px;
+  }
+  header .sub {
+    color: var(--text-3); font-size: 14px; margin-top: 8px;
+    line-height: 1.8; max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  header .sub strong { color: var(--text-2); font-weight: 600; }
+  @media (max-width: 768px) {
+    header h1 { font-size: 22px; }
+    header .sub { font-size: 12.5px; }
+  }
+
+  /* ========== Control Bar ========== */
+  .control-bar {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 16px; margin-bottom: 20px;
+    animation: fadeInUp .5s ease .1s both;
+  }
+  .switch-row {
+    display: flex; gap: 8px;
+    background: var(--surface); padding: 5px; border-radius: 999px;
+    box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.04);
+  }
+  .switch-row button {
+    border: none; background: transparent; color: var(--text-3);
+    font: inherit; font-size: 14px; font-weight: 600;
+    padding: 10px 22px; border-radius: 999px; cursor: pointer;
+    transition: var(--transition); position: relative; white-space: nowrap;
+  }
+  .switch-row button:hover { color: var(--primary); }
+  .switch-row button.active {
+    background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+    color: #fff; box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+  }
+  @media (max-width: 768px) {
+    .switch-row button { font-size: 13px; padding: 10px 16px; }
+  }
+
+  .floor-selector {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border-radius: 999px;
+    padding: 8px 18px; font-size: 14px;
+    box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.04);
+  }
+  .floor-selector label { color: var(--text-3); font-weight: 600; white-space: nowrap; }
+  .floor-selector select {
+    border: none; background: transparent; font: inherit; font-size: 14px;
+    color: var(--text-2); cursor: pointer; outline: none; min-width: 200px;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0 center; padding-right: 22px;
+  }
+  @media (max-width: 768px) {
+    .floor-selector { width: 100%; justify-content: space-between; border-radius: var(--radius-sm); }
+    .floor-selector select { min-width: 0; flex: 1; }
+  }
+
+  /* ========== Main Layout ========== */
+  .layout {
+    display: grid; grid-template-columns: 1fr 360px; gap: 20px; align-items: start;
+    animation: fadeInUp .5s ease .2s both;
+  }
+  @media (max-width: 1024px) { .layout { grid-template-columns: 1fr 300px; } }
+  @media (max-width: 768px) { .layout { grid-template-columns: 1fr; gap: 14px; } }
+
+  /* ========== Cards ========== */
+  .card {
+    background: var(--surface); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow); padding: 20px;
+    transition: var(--transition); border: 1px solid rgba(0,0,0,0.03);
+  }
+  .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+  @media (max-width: 768px) { .card { padding: 16px; border-radius: var(--radius); } }
+
+  /* ========== Map Panel ========== */
+  .map-panel { position: relative; overflow: hidden; }
+  .map-stage { overflow: hidden; border-radius: var(--radius); background: #eef3ea; }
+  .map-panel svg {
+    width: 100%; height: auto; display: block; border-radius: var(--radius);
+    background: #eef3ea; cursor: grab;
+    touch-action: none;           /* 平移/缩放手势全部由 JS 接管，避免与浏览器原生手势打架 */
+    will-change: transform;
+    user-select: none; -webkit-user-select: none;
+  }
+  .map-panel svg:active { cursor: grabbing; }
+  .map-toolbar {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    margin-bottom: 12px; font-size: 13px;
+  }
+  .map-toolbar label {
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    background: var(--surface-2); padding: 6px 14px; border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.05); font-weight: 500; color: var(--text-2);
+    transition: var(--transition); user-select: none; font-size: 12.5px;
+  }
+  .map-toolbar label:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary-soft); }
+  .map-toolbar label input[type="checkbox"] {
+    accent-color: var(--primary); width: 15px; height: 15px; cursor: pointer;
+  }
+  .map-hint {
+    margin: 0 0 12px; padding: 9px 12px; font-size: 12.5px; line-height: 1.7;
+    color: #1e3a8a; background: linear-gradient(135deg, #eff6ff, #eef2ff);
+    border-left: 4px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .map-hint:empty { display: none; }
+  .map-hint.off {
+    color: #92400e; background: linear-gradient(135deg, #fffbeb, #fef9c3);
+    border-left-color: var(--warning);
+  }
+
+  /* ========== Side Panel ========== */
+  .side-panel { display: flex; flex-direction: column; gap: 16px; }
+  .side-panel h2 {
+    margin: 0 0 10px; font-size: 15px; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .side-panel h2::before {
+    content: ''; display: inline-block; width: 4px; height: 18px;
+    background: linear-gradient(180deg, var(--primary), #7c3aed);
+    border-radius: 2px;
+  }
+  .side-panel .hint {
+    color: var(--text-muted); font-size: 12.5px; margin-bottom: 12px; line-height: 1.6;
+  }
+
+  /* ========== Floor Info ========== */
+  .floor-info { margin-bottom: 4px; }
+  .floor-title { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .floor-meta { font-size: 13px; color: var(--text-3); margin-bottom: 12px; line-height: 1.7; }
+  .floor-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 999px;
+    margin-bottom: 12px; letter-spacing: 0.3px;
+  }
+  .floor-status::before {
+    content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  }
+  .status-ok { background: var(--success-light); color: #065f46; }
+  .status-ok::before { background: var(--success); }
+  .status-warn { background: var(--warning-light); color: #92400e; }
+  .status-warn::before { background: var(--warning); }
+  .status-danger { background: var(--danger-light); color: #991b1b; }
+  .status-danger::before { background: var(--danger); }
+  .status-info { background: var(--info-light); color: #075985; }
+  .status-info::before { background: var(--info); }
+  .indoor-cost {
+    font-size: 12.5px; line-height: 1.7; color: #92400e;
+    background: #fffbeb; border: 1px dashed #fcd34d; border-radius: var(--radius-sm);
+    padding: 9px 12px; margin-bottom: 12px;
+  }
+  .indoor-cost b { color: #b45309; }
+  tr.indoor-row td {
+    background: #fffbeb; color: #92400e; font-size: 12px; text-align: left;
+  }
+
+  /* ========== Badges & Notes ========== */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 700; color: #fff;
+    border-radius: 999px; padding: 7px 16px; margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .badge::before { content: '★'; font-size: 11px; }
+  .badge.rec-a { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+  .badge.rec-b { background: linear-gradient(135deg, #10b981, #059669); }
+  .badge.warn { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .badge.danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+  .note {
+    background: linear-gradient(135deg, #eff6ff, #eef2ff);
+    border-left: 4px solid var(--primary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 12px 14px; font-size: 13px; line-height: 1.8; color: #1e3a8a; margin-bottom: 14px;
+  }
+  .note.warn {
+    background: linear-gradient(135deg, #fffbeb, #fef9c3);
+    border-left-color: var(--warning); color: #92400e;
+  }
+  .table-footnote {
+    margin-top: 8px; padding: 8px 10px; font-size: 11.5px; line-height: 1.7;
+    color: #92400e; background: #fffbeb; border: 1px dashed #fcd34d; border-radius: var(--radius-sm);
+  }
+
+  /* ========== Table ========== */
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  th, td { padding: 9px 10px; text-align: center; }
+  th:first-child, td:first-child { text-align: left; color: var(--text-2); font-weight: 600; }
+  th {
+    background: var(--surface-2); color: var(--text-3); font-weight: 600; font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    position: sticky; top: 0; z-index: 1;
+  }
+  th:first-child { border-radius: 8px 0 0 8px; }
+  th:last-child { border-radius: 0 8px 8px 0; }
+  tr { transition: background .15s; }
+  tr:hover td { background: rgba(79,70,229,0.03); }
+  tr.win td { background: rgba(16,185,129,0.06); }
+  tr.lose td { background: rgba(239,68,68,0.05); }
+  .rec-mark { color: var(--success); font-weight: 700; }
+  .risk-mark { color: var(--danger); font-weight: 700; }
+  td { border-bottom: 1px solid #f1f5f9; }
+
+  /* ========== Bars ========== */
+  .bars { margin-top: 18px; }
+  .bar-group { margin-bottom: 16px; }
+  .bar-title { font-size: 12px; color: var(--text-3); margin-bottom: 6px; font-weight: 600; display: flex; justify-content: space-between; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .bar-name { width: 70px; font-size: 12px; color: var(--text-2); text-align: right; font-weight: 500; }
+  .bar-track { flex: 1; background: #f1f5f9; border-radius: 8px; height: 14px; overflow: hidden; position: relative; }
+  .bar-fill { height: 100%; border-radius: 8px; transition: width .5s cubic-bezier(.4,0,.2,1); position: relative; }
+  .bar-fill::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  }
+  .bar-fill.A { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+  .bar-fill.B { background: linear-gradient(90deg, #34d399, #10b981); }
+  .bar-val { width: 56px; font-size: 12px; color: var(--text-2); font-weight: 600; text-align: right; }
+
+  /* ========== Legend ========== */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: 12.5px;
+    color: var(--text-2); padding-top: 14px; border-top: 1px solid #f1f5f9;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; box-shadow: var(--shadow-sm); }
+
+  /* ========== Source ========== */
+  .source {
+    margin-top: 14px; font-size: 11.5px; color: var(--text-muted);
+    line-height: 1.7; padding: 12px; background: var(--surface-2);
+    border-radius: var(--radius-sm);
+  }
+  .source b { color: var(--text-3); }
+
+  /* ========== 命题/方法/结论 ========== */
+  .thesis { margin-bottom: 16px; }
+  .thesis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .thesis-cell {
+    background: var(--surface-2); border: 1px solid rgba(0,0,0,0.05);
+    border-radius: var(--radius); padding: 14px 16px;
+  }
+  .thesis-cell h3 { margin: 0 0 9px; }
+  .thesis-cell p { margin: 0; font-size: 12.5px; line-height: 1.75; color: var(--text-2); }
+  .thesis-cell p b { color: var(--text-3); }
+  .thesis-cell.conclusion { background: linear-gradient(135deg, #eef2ff, #f5f3ff); border-color: var(--primary-soft); }
+  .thesis-num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); }
+  .t-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 11px; border-radius: 999px; color: #fff; }
+  .t-prop { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+  .t-meth { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
+  .t-conc { background: linear-gradient(135deg, #10b981, #059669); }
+  @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+
+  /* ========== 相近产品对比 ========== */
+  .compare { margin-top: 20px; }
+  .compare h2 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: var(--text); }
+  .compare .cmp-hint { margin: 0 0 12px; font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+  .cmp-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .cmp-table th, .cmp-table td {
+    padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: top; line-height: 1.7;
+  }
+  .cmp-table th { font-size: 11.5px; color: var(--text-3); font-weight: 600; background: var(--surface-2); }
+  .cmp-table td:first-child { font-weight: 700; color: var(--text-3); white-space: nowrap; width: 150px; }
+  .cmp-table .this-row td { background: linear-gradient(135deg, #eef2ff, #f5f3ff); font-weight: 500; }
+  .cmp-table .this-row td:first-child { color: var(--primary); }
+  @media (max-width: 768px) {
+    .cmp-table { font-size: 11.5px; }
+    .cmp-table th, .cmp-table td { padding: 8px 8px; }
+    .cmp-table td:first-child { width: 90px; }
+  }
+
+  /* ========== Footer ========== */
+  footer {
+    text-align: center; color: var(--text-muted); font-size: 12.5px;
+    margin-top: 24px; line-height: 1.8; padding-bottom: 80px;
+  }
+  footer strong { color: var(--text-3); }
+  @media (min-width: 769px) { footer { padding-bottom: 24px; } }
+
+  /* ========== Tooltip ========== */
+  #tip {
+    position: fixed; pointer-events: none; background: rgba(15,23,42,0.92);
+    color: #fff; font-size: 12.5px; padding: 8px 14px; border-radius: 10px;
+    opacity: 0; transition: opacity .15s, transform .15s; z-index: 100;
+    max-width: 280px; backdrop-filter: blur(8px); line-height: 1.6;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2); transform: translateY(4px);
+  }
+  #tip.visible { opacity: 1; transform: translateY(0); }
+
+  /* ========== SVG Route Interactions ========== */
+  .lyr-beeline { transition: opacity .4s; }
+  .view-wheelchair .lyr-beeline { opacity: 0.3; }
+  .route-A { opacity: 0.85; transition: opacity .4s, stroke-width .4s; }
+  .route-B { opacity: 0.35; transition: opacity .4s, stroke-width .4s; }
+  .view-walker .route-A { opacity: 0.95; stroke-width: 6; filter: drop-shadow(0 2px 4px rgba(37,99,235,0.3)); }
+  .view-walker .route-B { opacity: 0.25; }
+  .view-luggage .route-A { opacity: 0.25; }
+  .view-luggage .route-B { opacity: 0.95; stroke-width: 6; filter: drop-shadow(0 2px 4px rgba(22,163,74,0.3)); }
+  .view-wheelchair .route-A { opacity: 0.12; stroke-dasharray: 8 4; }
+  .view-wheelchair .route-B { opacity: 0.95; stroke-width: 6; filter: drop-shadow(0 2px 4px rgba(22,163,74,0.3)); }
+
+  /* ========== Mobile Bottom Nav ========== */
+  .mobile-nav {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0,0,0,0.06); z-index: 50;
+    padding: 8px 12px 16px; box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  }
+  .mobile-nav .nav-row {
+    display: flex; justify-content: space-around; align-items: center;
+  }
+  .mobile-nav .nav-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: none; border: none; font: inherit; font-size: 11px;
+    color: var(--text-muted); cursor: pointer; padding: 6px 12px;
+    transition: var(--transition); border-radius: 12px;
+  }
+  .mobile-nav .nav-btn .nav-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; transition: var(--transition);
+  }
+  .mobile-nav .nav-btn.active { color: var(--primary); }
+  .mobile-nav .nav-btn.active .nav-icon {
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: #fff; box-shadow: 0 4px 12px rgba(79,70,229,0.35);
+  }
+  @media (max-width: 768px) { .mobile-nav { display: block; } }
+
+  /* ========== Animations ========== */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* ========== Scrollbar ========== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  /* ========== Accessibility improvements ========== */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* Guide dot pulse */
+  @keyframes guidePulse {
+    0%, 100% { r: 8; opacity: 0.5; }
+    50% { r: 14; opacity: 0.15; }
+  }
+  .guide-pulse { animation: guidePulse 2s ease-in-out infinite; }
+  .routes-visible .guide-dot { display: inline; cursor: pointer; }
+  .routes-visible .guide-dot:hover { filter: drop-shadow(0 0 4px rgba(0,0,0,0.3)); }
+  .guide-dot:focus-visible { outline: none; stroke: #0f172a; stroke-width: 3; }
+  .route-guide { transition: opacity .2s ease; }
+
+  /* Map reset button */
+  .map-reset {
+    border: 1px solid rgba(0,0,0,0.06); background: var(--surface-2); color: var(--text-2);
+    font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer;
+    padding: 6px 14px; border-radius: 999px; transition: var(--transition);
+  }
+  .map-reset:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary-soft); }
+
+  /* Data grade table */
+  .grade { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  .grade th, .grade td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  .grade th { background: transparent; color: var(--text-3); font-size: 11px; text-transform: none; letter-spacing: 0; position: static; }
+  .grade td:first-child { font-weight: 600; color: var(--text-2); white-space: nowrap; }
+  .grade .tag { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 999px; }
+  .tag-real { background: #d1fae5; color: #065f46; }
+  .tag-osm  { background: #e0e7ff; color: #3730a3; }
+  .tag-doc  { background: #e0f2fe; color: #075985; }
+  .tag-sim  { background: #fef3c7; color: #92400e; }
+
+  /* Mobile card stacking */
+  @media (max-width: 768px) {
+    .side-panel { gap: 12px; }
+    .map-toolbar { gap: 6px; }
+    .map-toolbar label { padding: 5px 10px; font-size: 11.5px; }
+    .legend { gap: 10px; font-size: 11.5px; }
+    .bar-name { width: 60px; font-size: 11px; }
+    .bar-val { width: 48px; font-size: 11px; }
+    table { font-size: 12px; }
+    th, td { padding: 7px 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>看不见的距离 · 图书馆 → V27</h1>
+    <div class="sub">
+      <strong>同一段路，三种人生，三种「最近」</strong><br>
+      底图基于 OpenStreetMap 真实坐标投影 · 路线沿 OSM 真实步道 · 端点楼层与出入口为现场实测
+    </div>
+  </header>
+
+  <section class="card thesis" aria-label="命题、方法与结论">
+    <div class="thesis-grid">
+      <div class="thesis-cell">
+        <h3><span class="t-tag t-prop">命题</span></h3>
+        <p>地图上的「最短路径」不等于每个人真实世界里的「最近的路」——常规导航只算平面距离，往往忽略<b>楼层高差、台阶，以及行李、轮椅的通行条件</b>。</p>
+      </div>
+      <div class="thesis-cell">
+        <h3><span class="t-tag t-meth">方法</span></h3>
+        <p>以「图书馆 → V27 雨果楼」为例，基于 <b>OpenStreetMap 真实坐标与步道</b>、叠加<b>现场实测</b>的楼层 / 出入口 / 台阶，按「行人 / 行李 / 轮椅」三种身份，用 <b>距离 + 楼层高差 × 基准时间 + 沿途补给</b> 量化比较路线 A（台阶/坡道路）与路线 B（户外平路）。</p>
+      </div>
+      <div class="thesis-cell conclusion">
+        <h3><span class="t-tag t-conc">结论</span></h3>
+        <p>2026-10-12 实测反转了预设：原以为的「台阶近路」A 实测 <span class="thesis-num">537 m / 6 分 31 秒</span>，反而比户外平路 B 的 <span class="thesis-num">470 m / 6 分 00 秒</span> 更长；而新发现的室内路线距离更短，却要付楼梯 / 电梯的代价（数据采集中）。<b>距离最短的那条路，未必是对每个人最近的那条。</b></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="border-left:4px solid #f59e0b;" aria-label="室内路线C与电梯时段">
+    <p style="margin:0;font-size:13px;line-height:1.9;color:#92400e;">
+      <b>第三条候选路线（室内）· 走法已确认：</b>图书馆出门到 T4 → 电梯 / 楼梯<b>下 1 层</b> → 教学楼一层室内通道到 T8 → 回地面沿大路到 V27。
+      按与 A / B 同口径的坐标累计估算，全程约 <b>510 m</b>（介于 B 的 470 m 与 A 的 537 m 之间；室内段为手绘直线，非 GPS）。
+      它斜切了户外绕行段、全程无台阶、连续行进，所以实地走起来体感更近。<br>
+      <b>电梯等候（教学区）：</b><span id="elevatorWait">…</span>每小时前 45 分钟约 1 分钟、末尾 15 分钟课间约 3–5 分钟（宿舍区电梯无此分时）。
+      可在上方「电梯时段」切换「自动 / 课间 / 非课间」。
+    </p>
+  </section>
+
+  <div class="control-bar">
+    <div class="switch-row" id="desktopSwitch">
+      <button data-view="walker" class="active" aria-pressed="true">普通行人</button>
+      <button data-view="luggage" aria-pressed="false">拖行李</button>
+      <button data-view="wheelchair" aria-pressed="false">轮椅 / 无障碍</button>
+    </div>
+    <div class="floor-selector">
+      <label for="floorSelect">当前楼层</label>
+      <select id="floorSelect" aria-label="选择当前楼层">
+        <optgroup label="户外">
+          <option value="ground" selected>地面层</option>
+        </optgroup>
+        <optgroup label="图书馆（学习资源中心）">
+          <option value="lib-1">1F · 无出入口（需上楼）</option>
+          <option value="lib-2">2F · 唯一出入口（朝湖·无台阶）</option>
+          <option value="lib-3">3F · 需电梯下至 2F</option>
+          <option value="lib-4">4F · 需电梯下至 2F</option>
+        </optgroup>
+        <optgroup label="V27 雨果楼">
+          <option value="v27-1">1F · 入口（无台阶·有电梯）</option>
+          <option value="v27-2">2F · 需电梯下至 1F</option>
+          <option value="v27-3">3F · 需电梯下至 1F</option>
+          <option value="v27-4">4F · 需电梯下至 1F</option>
+          <option value="v27-5">5F · 需电梯下至 1F</option>
+          <option value="v27-6">6F · 需电梯下至 1F</option>
+          <option value="v27-7">7F · 需电梯下至 1F</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="floor-selector" title="教学区电梯等候时间按课间/非课间变化；宿舍区无此分时">
+      <label for="elevatorPeriod">电梯时段</label>
+      <select id="elevatorPeriod" aria-label="选择电梯时段">
+        <option value="auto" selected>自动（按系统时间）</option>
+        <option value="offpeak">非课间（等候约 1 分钟）</option>
+        <option value="peak">课间（等候约 3–5 分钟）</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- 左侧：真实地图 -->
+    <div class="card map-panel">
+      <div class="map-toolbar">
+        <label><input type="checkbox" id="cbFoot" checked> <span>步行小径</span></label>
+        <label><input type="checkbox" id="cbLabel" checked> <span>楼栋标注</span></label>
+        <label><input type="checkbox" id="cbRoute" checked> <span>路线</span></label>
+        <label><input type="checkbox" id="cbAccess"> <span>无障碍视角</span></label>
+        <button type="button" class="map-reset" id="mapReset">复位视图</button>
+      </div>
+      <div class="map-hint" id="mapHint"></div>
+      <div class="map-stage">
+        <svg id="campusMap" viewBox="0 0 1200 840" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC, Microsoft YaHei, sans-serif" role="img" aria-label="BNBU 一期校园平面图，标注图书馆到 V27 的两条路线">
+<defs><style>
+.bld { stroke:#ffffff; stroke-width:1; cursor:pointer; transition:opacity .15s; }
+.bld:hover { opacity:.75; }
+.b-teach { fill:#c7d2fe; }
+.b-dorm { fill:#fde68a; }
+.b-fac { fill:#a7d8d0; }
+.lbl { pointer-events:none; text-anchor:middle; }
+.lbl-code { font-size:12px; font-weight:700; fill:#334155; paint-order:stroke; stroke:#ffffff; stroke-width:3; }
+.lbl-fac { font-size:13px; font-weight:700; fill:#0f766e; paint-order:stroke; stroke:#ffffff; stroke-width:3; }
+.mode-access .lyr-road, .mode-access .lyr-foot, .mode-access .lyr-green, .mode-access .lyr-water, .mode-access .lyr-lake { opacity:.25; }
+.mode-access .lyr-steps { stroke-width:7; stroke:#dc2626; }
+.floor-active #bld-library { stroke:#2563eb; stroke-width:3; filter:drop-shadow(0 0 6px rgba(37,99,235,.4)); }
+.floor-active #bld-v27 { stroke:#16a34a; stroke-width:3; filter:drop-shadow(0 0 6px rgba(22,163,74,.4)); }
+</style></defs>
+<style>
+  .lyr-route, .lyr-route-step, .lyr-beeline, .route-marker, .route-guide { display:none; }
+  .routes-visible .lyr-route, .routes-visible .lyr-route-step, .routes-visible .lyr-beeline,
+  .routes-visible .route-marker, .routes-visible .route-guide { display:inline; }
+</style>
+<rect width="1200" height="840" fill="#eef3ea"/>
+<path class="lyr-water" d="M 994.9 383.9 L 991.3 399.3 L 994.1 425.3 L 1014.8 460.5 L 1018.5 479.9 L 1030.5 483.0 L 1068.1 452.4 L 1130.2 435.6 L 1208.8 420.5 L 1219.1 400.9 L 1221.6 377.4 L 1197.2 371.5 L 1162.6 381.6 L 1125.7 379.5 L 1102.7 395.2 L 1061.5 399.0 L 1027.7 391.8 L 1006.8 380.0 L 994.9 383.9 Z" fill="#bcd9f0" stroke="#9cc4e4" stroke-width="1"/>
+<path class="lyr-lake" d="M 630 495 L 648 455 L 676 432 L 710 420 L 744 424 L 772 440 L 795 458 L 810 478 L 788 492 L 756 500 L 720 504 L 684 502 L 655 500 Z" fill="rgba(170,205,235,0.45)" stroke="#9cc4e4" stroke-width="1.2"/>
+<path d="M 674 433 L 700 442" fill="none" stroke="#d97757" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+<path d="M 700 422 L 724 420 L 736 436 L 738 458 L 730 474 L 712 478 L 700 462 L 696 440 Z" fill="#a5d6a7" stroke="#66bb6a" stroke-width="1.2"/>
+<path d="M 718 478 L 720 503" fill="none" stroke="#d97757" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+<text class="lbl" x="717" y="455" font-size="12" font-weight="700" fill="#1b5e20" paint-order="stroke" stroke="#ffffff" stroke-width="3">中心岛</text>
+<path class="lyr-green" d="M 366.0 596.9 L 413.9 544.2 L 506.1 628.2 L 458.2 680.8 L 396.4 624.5 L 366.0 596.9 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
+<path class="lyr-green" d="M 485.2 697.9 L 556.0 598.2 L 560.3 597.5 L 563.4 599.8 L 556.5 608.4 L 587.9 621.1 L 495.3 706.2 L 485.2 697.9 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
+<path class="lyr-green" d="M 897.8 271.7 L 883.2 303.6 L 911.8 318.8 L 927.1 285.3 L 897.8 271.7 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
+<path class="lyr-green" d="M 278.1 723.0 L 319.9 763.2 L 341.6 737.1 L 298.2 698.5 L 278.1 723.0 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
+<path class="lyr-green" d="M 806.0 296.4 L 802.2 304.2 L 808.7 304.8 L 814.3 295.9 L 808.2 296.1 L 806.0 296.4 Z" fill="#dcecd2" stroke="#c2ddb2" stroke-width="1"/>
+<path d="M 375.9 475.4 L 375.9 463.1 L 520.9 456.9 L 520.9 469.2" fill="rgba(16,185,129,0.10)" stroke="none"/>
+<path d="M 151.8 327.7 L 151.8 266.2 L 217.7 266.2 L 217.7 327.7" fill="rgba(16,185,129,0.08)" stroke="none"/>
+<text class="lbl" x="448" y="469" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2">有盖连廊</text>
+<text class="lbl" x="185" y="297" font-size="10" font-weight="600" fill="#059669" paint-order="stroke" stroke="#ffffff" stroke-width="2">林荫道</text>
+<path class="lyr-road-edge" d="M 276.8 567.9 L 337.6 623.2 L 440.5 716.9 L 451.0 726.4 L 469.3 742.7 L 484.1 755.8 L 530.1 796.7 L 532.0 798.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 532.0 798.5 L 546.0 811.4 L 560.1 827.7 L 579.9 849.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 153.9 463.3 L 175.2 481.4 L 276.8 567.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 203.5 225.1 L 208.2 223.8 L 248.4 212.4 L 244.9 225.5 L 232.9 270.0 L 244.6 279.1 L 236.7 298.0 L 202.3 348.9 L 199.6 353.0 L 192.4 346.7 L 151.3 311.0 L 199.6 248.1 L 203.5 225.1" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 318.2 643.8 L 257.6 596.8 L 180.7 541.4" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 632.2 509.4 L 612.7 532.4 L 642.4 558.3 L 662.6 534.5 L 632.2 509.4" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 291.1 373.2 L 251.2 325.0 L 263.8 303.1 L 261.1 301.4 L 247.4 293.1 L 243.2 290.9 L 245.8 286.7" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 264.3 302.0 L 265.2 300.4 L 279.7 275.4" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 732.3 649.1 L 701.9 619.0 L 694.6 597.8" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 469.3 742.7 L 477.4 733.7 L 486.5 723.6 L 546.7 667.9 L 572.5 644.0 L 591.1 626.7 L 597.3 620.0 L 599.9 617.0 L 562.3 584.3 L 552.6 594.2 L 526.9 628.5 L 523.8 632.6 L 503.1 660.4 L 470.3 704.6 L 459.1 717.2 L 451.0 726.4" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 949.7 525.2 L 964.1 513.7 L 976.7 507.9 L 990.3 502.8 L 1001.6 494.0 L 1007.5 485.4 L 1011.0 471.6 L 1010.4 460.2 L 1006.9 449.3 L 1000.1 442.6 L 992.0 431.1 L 986.3 416.0 L 985.3 409.3 L 986.3 396.8 L 990.4 361.1 L 968.9 355.6 L 940.2 347.2 L 923.7 342.9 L 912.9 342.2 L 905.6 342.1 L 898.6 340.5 L 865.1 321.0 L 856.8 315.0 L 854.8 309.8 L 855.0 303.8 L 860.9 292.2 L 885.4 233.5 L 886.9 224.1 L 883.9 218.8 L 877.2 215.9 L 845.8 202.0 L 829.2 210.3 L 824.1 209.1 L 819.0 206.0 L 800.4 188.4 L 781.7 172.9 L 705.2 147.6 L 696.2 144.1 L 610.4 86.4 L 588.2 77.4 L 562.6 78.9 L 562.9 115.2 L 563.2 149.6 L 572.0 169.4 L 578.5 183.8 L 559.2 220.9 L 554.8 246.3" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 359.8 235.4 L 388.8 235.1 L 500.9 234.1 L 516.2 235.8 L 534.0 241.0 L 554.8 246.3 L 596.0 260.4 L 647.1 277.2 L 732.8 301.2 L 784.9 315.9 L 818.8 316.4" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 139.3 149.4 L 148.1 155.6 L 154.6 160.2 L 157.8 163.3 L 159.7 166.2 L 162.4 169.3 L 165.3 171.2 L 169.2 172.9 L 172.7 173.1 L 175.3 171.5 L 177.3 170.5 L 180.7 171.1 L 184.6 173.5 L 187.7 177.0 L 190.2 181.1 L 191.2 184.2 L 195.2 202.3 L 196.9 208.6 L 199.6 213.3 L 203.6 218.9 L 208.2 223.8 L 211.7 226.3 L 218.0 228.9 L 225.0 229.3 L 244.9 225.5 L 323.1 210.5 L 354.3 204.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 354.3 204.5 L 351.4 192.2 L 327.2 118.6 L 322.4 113.3 L 316.7 112.5 L 309.2 113.7 L 263.0 122.7 L 148.9 144.8 L 141.2 148.1 L 139.3 149.4 L 134.2 152.7 L 93.8 184.4 L 88.3 189.6 L 85.0 194.3 L 82.5 199.7 L 80.4 206.2 L 79.2 213.8 L 76.9 222.5 L 74.3 230.0 L 68.8 242.0 L 62.9 250.0 L 26.6 286.9 L 18.6 295.0" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 523.8 632.6 L 469.5 587.2 L 421.2 545.5 L 413.4 538.7 L 367.5 499.1 L 342.4 477.5 L 338.1 472.9 L 334.9 469.0 L 331.7 464.0" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 562.3 584.3 L 568.3 559.9 L 574.0 552.8 L 616.5 505.7" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 486.5 723.6 L 500.6 736.6 L 541.7 774.5 L 548.7 780.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 309.8 524.9 L 315.9 529.2" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 512.7 622.6 L 577.9 543.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 75.0 396.2 L 65.3 408.9 L 62.2 431.5 L 54.3 472.0 L 60.8 486.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 532.0 798.5 L 540.8 789.2 L 544.4 785.4 L 548.7 780.9 L 557.3 778.0 L 568.9 775.3 L 579.6 774.7 L 630.5 769.6 L 637.5 767.3 L 643.1 762.7 L 647.1 756.6 L 708.4 670.8 L 715.9 662.2 L 726.6 652.6 L 732.3 649.1 L 739.0 646.5 L 749.5 645.0 L 762.1 646.5 L 778.2 648.2 L 798.6 647.3 L 816.2 643.6 L 828.4 637.5 L 838.2 628.3 L 892.1 561.3 L 903.4 553.2 L 915.0 546.2 L 941.0 532.2 L 949.7 525.2" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 195.4 342.9 L 192.4 346.7 L 163.6 381.9 L 158.9 377.4 L 127.8 348.0 L 105.9 327.7 L 92.3 345.7 L 80.6 360.6" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 541.7 774.5 L 566.2 745.1" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 500.6 736.6 L 524.5 709.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 337.6 623.2 L 326.6 634.6 L 318.2 643.8 L 283.7 681.4 L 256.6 710.8" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 599.9 617.0 L 609.4 606.8 L 611.5 604.5 L 619.8 603.9 L 631.2 613.8 L 637.7 614.0 L 655.3 593.9 L 694.6 597.8 L 714.2 599.5 L 731.4 579.4 L 744.0 575.6" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 276.8 567.9 L 285.2 559.1 L 291.5 552.7 L 293.3 550.7 L 299.1 543.9 L 304.2 536.2 L 309.8 524.9 L 331.7 464.0 L 337.7 447.5 L 340.0 439.0 L 356.8 378.9 L 359.1 366.3 L 361.4 344.2 L 361.4 327.3 L 359.5 298.1 L 358.5 279.2 L 358.5 252.8 L 359.8 235.4 L 358.5 222.8 L 354.3 204.5" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 331.7 464.0 L 329.0 460.3 L 325.8 456.7 L 322.3 453.3 L 266.0 404.3 L 202.3 348.9 L 195.4 342.9 L 173.3 323.7 L 194.0 295.4 L 218.0 228.9" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road-edge" d="M 69.4 350.4 L 103.7 312.6 L 121.1 279.7" fill="none" stroke="#d9d9d4" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+<path class="lyr-road" d="M 276.8 567.9 L 337.6 623.2 L 440.5 716.9 L 451.0 726.4 L 469.3 742.7 L 484.1 755.8 L 530.1 796.7 L 532.0 798.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 532.0 798.5 L 546.0 811.4 L 560.1 827.7 L 579.9 849.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 153.9 463.3 L 175.2 481.4 L 276.8 567.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 203.5 225.1 L 208.2 223.8 L 248.4 212.4 L 244.9 225.5 L 232.9 270.0 L 244.6 279.1 L 236.7 298.0 L 202.3 348.9 L 199.6 353.0 L 192.4 346.7 L 151.3 311.0 L 199.6 248.1 L 203.5 225.1" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 318.2 643.8 L 257.6 596.8 L 180.7 541.4" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 632.2 509.4 L 612.7 532.4 L 642.4 558.3 L 662.6 534.5 L 632.2 509.4" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 291.1 373.2 L 251.2 325.0 L 263.8 303.1 L 261.1 301.4 L 247.4 293.1 L 243.2 290.9 L 245.8 286.7" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 264.3 302.0 L 265.2 300.4 L 279.7 275.4" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 732.3 649.1 L 701.9 619.0 L 694.6 597.8" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 469.3 742.7 L 477.4 733.7 L 486.5 723.6 L 546.7 667.9 L 572.5 644.0 L 591.1 626.7 L 597.3 620.0 L 599.9 617.0 L 562.3 584.3 L 552.6 594.2 L 526.9 628.5 L 523.8 632.6 L 503.1 660.4 L 470.3 704.6 L 459.1 717.2 L 451.0 726.4" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 949.7 525.2 L 964.1 513.7 L 976.7 507.9 L 990.3 502.8 L 1001.6 494.0 L 1007.5 485.4 L 1011.0 471.6 L 1010.4 460.2 L 1006.9 449.3 L 1000.1 442.6 L 992.0 431.1 L 986.3 416.0 L 985.3 409.3 L 986.3 396.8 L 990.4 361.1 L 968.9 355.6 L 940.2 347.2 L 923.7 342.9 L 912.9 342.2 L 905.6 342.1 L 898.6 340.5 L 865.1 321.0 L 856.8 315.0 L 854.8 309.8 L 855.0 303.8 L 860.9 292.2 L 885.4 233.5 L 886.9 224.1 L 883.9 218.8 L 877.2 215.9 L 845.8 202.0 L 829.2 210.3 L 824.1 209.1 L 819.0 206.0 L 800.4 188.4 L 781.7 172.9 L 705.2 147.6 L 696.2 144.1 L 610.4 86.4 L 588.2 77.4 L 562.6 78.9 L 562.9 115.2 L 563.2 149.6 L 572.0 169.4 L 578.5 183.8 L 559.2 220.9 L 554.8 246.3" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 359.8 235.4 L 388.8 235.1 L 500.9 234.1 L 516.2 235.8 L 534.0 241.0 L 554.8 246.3 L 596.0 260.4 L 647.1 277.2 L 732.8 301.2 L 784.9 315.9 L 818.8 316.4" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 139.3 149.4 L 148.1 155.6 L 154.6 160.2 L 157.8 163.3 L 159.7 166.2 L 162.4 169.3 L 165.3 171.2 L 169.2 172.9 L 172.7 173.1 L 175.3 171.5 L 177.3 170.5 L 180.7 171.1 L 184.6 173.5 L 187.7 177.0 L 190.2 181.1 L 191.2 184.2 L 195.2 202.3 L 196.9 208.6 L 199.6 213.3 L 203.6 218.9 L 208.2 223.8 L 211.7 226.3 L 218.0 228.9 L 225.0 229.3 L 244.9 225.5 L 323.1 210.5 L 354.3 204.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 354.3 204.5 L 351.4 192.2 L 327.2 118.6 L 322.4 113.3 L 316.7 112.5 L 309.2 113.7 L 263.0 122.7 L 148.9 144.8 L 141.2 148.1 L 139.3 149.4 L 134.2 152.7 L 93.8 184.4 L 88.3 189.6 L 85.0 194.3 L 82.5 199.7 L 80.4 206.2 L 79.2 213.8 L 76.9 222.5 L 74.3 230.0 L 68.8 242.0 L 62.9 250.0 L 26.6 286.9 L 18.6 295.0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 523.8 632.6 L 469.5 587.2 L 421.2 545.5 L 413.4 538.7 L 367.5 499.1 L 342.4 477.5 L 338.1 472.9 L 334.9 469.0 L 331.7 464.0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 562.3 584.3 L 568.3 559.9 L 574.0 552.8 L 616.5 505.7" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 486.5 723.6 L 500.6 736.6 L 541.7 774.5 L 548.7 780.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 309.8 524.9 L 315.9 529.2" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 512.7 622.6 L 577.9 543.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 75.0 396.2 L 65.3 408.9 L 62.2 431.5 L 54.3 472.0 L 60.8 486.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 532.0 798.5 L 540.8 789.2 L 544.4 785.4 L 548.7 780.9 L 557.3 778.0 L 568.9 775.3 L 579.6 774.7 L 630.5 769.6 L 637.5 767.3 L 643.1 762.7 L 647.1 756.6 L 708.4 670.8 L 715.9 662.2 L 726.6 652.6 L 732.3 649.1 L 739.0 646.5 L 749.5 645.0 L 762.1 646.5 L 778.2 648.2 L 798.6 647.3 L 816.2 643.6 L 828.4 637.5 L 838.2 628.3 L 892.1 561.3 L 903.4 553.2 L 915.0 546.2 L 941.0 532.2 L 949.7 525.2" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 195.4 342.9 L 192.4 346.7 L 163.6 381.9 L 158.9 377.4 L 127.8 348.0 L 105.9 327.7 L 92.3 345.7 L 80.6 360.6" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 541.7 774.5 L 566.2 745.1" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 500.6 736.6 L 524.5 709.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 337.6 623.2 L 326.6 634.6 L 318.2 643.8 L 283.7 681.4 L 256.6 710.8" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 599.9 617.0 L 609.4 606.8 L 611.5 604.5 L 619.8 603.9 L 631.2 613.8 L 637.7 614.0 L 655.3 593.9 L 694.6 597.8 L 714.2 599.5 L 731.4 579.4 L 744.0 575.6" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 276.8 567.9 L 285.2 559.1 L 291.5 552.7 L 293.3 550.7 L 299.1 543.9 L 304.2 536.2 L 309.8 524.9 L 331.7 464.0 L 337.7 447.5 L 340.0 439.0 L 356.8 378.9 L 359.1 366.3 L 361.4 344.2 L 361.4 327.3 L 359.5 298.1 L 358.5 279.2 L 358.5 252.8 L 359.8 235.4 L 358.5 222.8 L 354.3 204.5" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 331.7 464.0 L 329.0 460.3 L 325.8 456.7 L 322.3 453.3 L 266.0 404.3 L 202.3 348.9 L 195.4 342.9 L 173.3 323.7 L 194.0 295.4 L 218.0 228.9" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-road" d="M 69.4 350.4 L 103.7 312.6 L 121.1 279.7" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path class="lyr-foot" d="M 556.7 390.4 L 537.8 433.6 L 499.4 476.3 L 487.8 488.6 L 461.8 498.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 479.7 432.6 L 487.7 448.1 L 472.2 468.6 L 496.3 488.5 L 540.8 525.3 L 574.0 552.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 336.4 295.2 L 382.0 295.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 382.0 295.1 L 398.8 298.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 336.4 295.2 L 315.5 295.9 L 297.0 290.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 426.6 129.7 L 409.0 133.0 L 391.2 180.8 L 351.4 192.2" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 542.0 118.5 L 510.1 125.0 L 502.4 176.2 L 459.6 174.7 L 459.2 128.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 555.9 112.7 L 542.0 118.5 L 553.5 175.6 L 553.4 198.2 L 550.2 219.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 562.9 115.2 L 559.9 115.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 666.5 152.7 L 648.8 161.1 L 640.6 176.2 L 578.5 183.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 653.0 273.4 L 662.2 246.7 L 683.4 184.6 L 679.0 165.7 L 666.5 152.7 L 654.4 140.1 L 628.5 117.1 L 607.3 95.9 L 610.4 86.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 673.1 243.5 L 678.6 242.2 L 685.5 240.6 L 710.7 239.4 L 719.1 222.4 L 742.8 222.6 L 757.4 227.4 L 771.1 211.2 L 800.4 188.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 814.7 553.2 L 832.3 555.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 744.0 575.6 L 759.5 580.9 L 787.4 584.2 L 804.6 569.7 L 815.2 559.2 L 837.8 566.9 L 869.0 532.5 L 897.4 518.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 710.7 585.4 L 694.6 597.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 717.5 565.3 L 711.5 566.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 915.4 503.0 L 927.5 494.6 L 917.8 484.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 927.5 494.6 L 949.7 525.2" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 631.2 589.4 L 611.5 604.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 589.7 561.5 L 562.3 584.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 639.9 579.4 L 625.8 567.2 L 602.8 546.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 811.4 545.2 L 814.7 553.2 L 794.6 574.4 L 762.4 576.3 L 743.5 569.8 L 717.5 565.3 L 705.6 554.4 L 683.4 562.8 L 670.9 574.1 L 660.3 571.6 L 648.9 568.7 L 636.1 557.3 L 611.0 536.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 783.0 508.9 L 811.4 545.2" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 775.1 495.9 L 783.0 508.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 669.4 432.5 L 706.1 445.8 L 758.9 391.4 L 779.4 382.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 862.1 378.5 L 847.1 410.2" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 851.2 351.4 L 865.6 370.4 L 862.1 378.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 847.1 410.2 L 844.2 408.7 L 835.7 403.4 L 827.5 406.6 L 818.6 416.2 L 813.4 426.2 L 802.1 434.0 L 792.6 438.0 L 789.1 429.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 818.8 316.4 L 849.9 333.7 L 851.2 351.4 L 844.0 354.3 L 826.1 370.0 L 802.4 378.6 L 788.3 376.1 L 779.4 382.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 954.0 444.7 L 970.4 409.7 L 986.3 416.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 753.3 438.1 L 763.1 492.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 779.1 431.9 L 765.5 435.5 L 753.3 438.1 L 747.7 441.8 L 743.6 446.3 L 739.5 455.1 L 733.3 462.2 L 727.4 467.6 L 721.3 469.9 L 717.1 476.0 L 717.8 483.3 L 720.1 487.9 L 727.8 491.4 L 752.8 488.8 L 763.1 492.5 L 775.1 495.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 649.3 424.2 L 583.0 395.7 L 553.6 383.1 L 514.3 366.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 595.5 502.0 L 616.5 505.7" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 555.7 468.4 L 540.9 455.2 L 534.0 449.1 L 531.6 447.0 L 519.2 431.2 L 510.6 420.3 L 498.0 404.4 L 481.1 396.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 489.8 373.8 L 480.4 370.1 L 450.1 355.6 L 436.7 369.4 L 413.9 350.9 L 404.0 345.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 546.9 251.3 L 521.7 252.4 L 503.0 291.6 L 454.6 294.7 L 398.8 298.1 L 404.0 345.5 L 404.4 402.3 L 415.9 406.9 L 479.7 432.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 474.9 351.9 L 514.3 366.1 L 524.4 360.6 L 577.3 333.3 L 591.3 274.6 L 546.9 251.3 L 534.0 241.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 642.5 288.9 L 636.8 287.3 L 591.3 274.6 L 596.0 260.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 616.5 505.7 L 624.3 500.0 L 631.8 493.0 L 661.2 439.9 L 642.6 430.9 L 646.0 427.5 L 649.3 424.2 L 717.0 362.7 L 716.3 324.5 L 691.6 302.5 L 642.5 288.9 L 647.1 277.2 L 653.0 273.4 L 659.9 269.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 323.4 251.3 L 325.3 274.6 L 321.1 278.5 L 322.3 283.5 L 315.5 295.9 L 307.4 310.2 L 314.6 316.8 L 322.5 323.0 L 337.4 324.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 336.4 295.2 L 337.4 324.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 262.5 313.0 L 269.8 300.0 L 286.6 269.6 L 292.2 258.1 L 303.2 261.7 L 316.9 257.4 L 323.4 251.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 297.0 290.0 L 286.6 269.6 L 281.5 261.4 L 263.0 252.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 678.6 242.2 L 705.2 147.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 570.4 642.3 L 565.6 606.9 L 597.3 620.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 530.3 630.9 L 570.4 642.3 L 572.5 644.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 543.2 664.4 L 530.3 630.9 L 526.9 628.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 503.1 660.4 L 543.2 664.4 L 546.7 667.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 168.7 494.0 L 175.2 481.4 L 182.8 466.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 128.8 458.4 L 134.9 447.2 L 143.5 431.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 529.7 433.4 L 519.2 431.2" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 510.6 420.3 L 513.6 412.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 509.8 408.0 L 498.0 404.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 534.0 449.1 L 537.6 443.4 L 529.7 433.4 L 513.6 412.9 L 509.8 408.0 L 494.2 388.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 479.7 432.6 L 471.6 403.0 L 481.1 396.8 L 494.2 388.3 L 498.2 385.6 L 489.8 373.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 489.8 373.8 L 474.9 351.9 L 455.4 320.1 L 454.6 294.7" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 491.4 746.4 L 484.1 755.8 L 473.9 769.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 448.3 707.5 L 440.5 716.9 L 431.1 728.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 491.3 469.3 L 499.4 476.3 L 556.7 525.4 L 577.9 543.9 L 588.9 553.8 L 637.6 598.2 L 649.5 609.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 479.7 432.6 L 498.4 448.7" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 646.0 427.5 L 556.7 390.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 540.9 455.2 L 577.1 453.9 L 578.7 447.4 L 556.7 438.4 L 578.5 409.9 L 549.4 397.5 L 489.8 373.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 540.8 525.3 L 549.5 516.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 611.0 536.0 L 606.8 532.3 L 588.9 553.8" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 637.6 598.2 L 660.3 571.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 557.9 523.6 L 556.7 525.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 459.0 517.9 L 451.9 517.2 L 421.2 545.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 456.2 492.5 L 472.2 468.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 278.5 331.4 L 262.5 313.0" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 257.2 292.6 L 243.9 285.7" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 302.3 359.3 L 266.0 404.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 496.3 488.5 L 549.1 430.2 L 557.2 410.5 L 550.0 402.8 L 553.6 383.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 793.8 427.5 L 789.1 429.9 L 779.1 431.9" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 717.0 362.7 L 732.4 372.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 779.4 382.3 L 785.6 396.8 L 793.8 427.5" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 716.3 324.5 L 732.3 314.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 367.5 499.1 L 383.4 459.3 L 400.5 455.6" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 340.0 439.0 L 383.4 459.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 367.5 499.1 L 363.6 502.6 L 388.0 526.7 L 390.7 550.3" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 865.6 370.4 L 878.0 371.7 L 902.1 365.8 L 918.3 362.0 L 969.2 375.3 L 990.4 361.1" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 636.8 287.3 L 633.2 304.4 L 651.2 344.5 L 646.7 355.8 L 611.3 381.3 L 607.6 377.3 L 583.0 395.7" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-foot" d="M 191.7 620.5 L 236.8 668.0 L 241.6 688.0 L 248.8 700.8 L 283.7 681.4" fill="none" stroke="#e8e4da" stroke-width="2" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 404.4 402.3 L 356.8 378.9" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 323.1 210.5 L 323.4 251.3" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 459.2 128.6 L 426.6 129.7" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 553.5 175.6 L 572.0 169.4" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 550.2 219.5 L 559.2 220.9" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 559.9 115.5 L 559.4 92.3 L 555.8 92.3 L 555.9 112.7" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 654.4 140.1 L 696.2 144.1" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 659.9 269.4 L 676.7 266.4 L 673.1 243.5" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 837.8 566.9 L 832.3 555.8" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 711.5 566.6 L 710.7 585.4" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 917.8 484.3 L 934.5 470.2 L 939.5 456.3 L 954.0 444.7" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 897.4 518.3 L 915.4 503.0" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 611.0 536.0 L 602.8 546.1 L 589.7 561.5" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 648.9 568.7 L 639.9 579.4 L 631.2 589.4" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 636.1 557.3 L 625.8 567.2" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 865.1 321.0 L 862.7 328.5 L 859.8 332.6 L 849.9 333.7" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 649.3 424.2 L 669.4 432.5" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 555.7 468.4 L 595.5 502.0" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 498.4 448.7 L 491.3 469.3" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 549.5 516.0 L 557.9 523.6" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 461.8 498.0 L 459.0 517.9" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 451.9 517.2 L 456.2 492.5" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 243.9 285.7 L 236.7 298.0" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 269.8 300.0 L 257.2 292.6" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 278.5 331.4 L 302.3 359.3" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 388.8 235.1 L 398.8 298.1" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 732.4 372.3 L 758.9 391.4" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 732.8 301.2 L 732.3 314.4" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 413.4 538.7 L 399.8 538.3 L 390.7 550.3" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 390.7 550.3 L 382.8 543.7 L 375.9 551.5" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 400.5 455.6 L 415.9 406.9" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="lyr-steps" data-kind="steps" d="M 609.4 606.8 L 615.0 612.0" fill="none" stroke="#e8833a" stroke-width="4" stroke-dasharray="5 3" stroke-linecap="round"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T2 人文楼 / T2 Humanities Building · 6 层" d="M 411.4 488.1 L 415.4 457.3 L 419.3 457.7 L 419.7 455.0 L 446.3 462.6 L 455.6 465.2 L 451.6 486.5 L 489.3 492.4 L 489.0 495.9 L 509.5 503.0 L 507.6 511.8 L 506.2 522.1 L 502.9 521.6 L 495.3 520.5 L 463.2 516.0 L 409.4 508.3 L 411.0 497.4 L 407.6 496.9 L 409.2 487.8 L 411.4 488.1 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T3 格物楼 / T3 Science Building · 6 层" d="M 368.5 420.5 L 374.6 399.1 L 402.5 407.0 L 398.2 422.1 L 446.5 435.1 L 445.3 439.0 L 464.9 449.2 L 462.3 456.2 L 459.4 466.3 L 455.6 465.2 L 446.3 462.6 L 419.7 455.0 L 363.1 438.9 L 365.6 430.1 L 361.9 429.1 L 364.6 419.5 L 368.5 420.5 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T1 厚德楼 / T1 Business and Management Building · 6 层" d="M 471.9 554.3 L 471.7 561.3 L 475.3 561.1 L 475.9 571.3 L 520.8 567.5 L 520.9 588.7 L 531.2 596.3 L 558.6 565.1 L 557.6 544.1 L 546.5 544.1 L 546.3 542.1 L 526.0 542.9 L 500.5 544.7 L 502.9 521.6 L 495.3 520.5 L 463.2 516.0 L 460.3 538.6 L 460.7 551.8 L 471.9 554.3 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="演艺厅 / Performance Theatre · 2 层" d="M 633.7 649.0 L 674.4 603.7 L 718.3 643.5 L 689.5 675.7 L 684.3 671.2 L 682.1 673.6 L 672.1 664.8 L 678.2 658.1 L 666.1 647.4 L 650.6 664.7 L 633.7 649.0 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="行政楼 / Administration Building · 6 层" d="M 590.7 731.8 L 607.9 712.3 L 642.3 673.9 L 650.6 664.7 L 666.1 647.4 L 678.2 658.1 L 672.1 664.8 L 682.1 673.6 L 603.0 759.3 L 592.6 749.7 L 600.6 740.9 L 590.7 731.8 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="大学会堂 / University Hall · 3 层" d="M 533.2 709.2 L 602.0 634.1 L 642.3 673.9 L 607.9 712.3 L 603.5 708.6 L 573.1 741.9 L 533.2 709.2 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="体育馆 / Sport Complex · 5 层" d="M 366.0 596.9 L 413.9 544.2 L 506.1 628.2 L 458.2 680.8 L 396.4 624.5 L 366.0 596.9 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 4 层" d="M 745.2 307.4 L 766.0 312.8 L 787.2 318.3 L 842.7 319.1 L 842.6 330.5 L 847.4 330.4 L 847.9 350.4 L 840.6 350.7 L 840.8 355.1 L 840.2 357.5 L 838.3 359.4 L 816.8 371.5 L 813.5 372.1 L 809.2 371.0 L 806.6 368.6 L 802.3 371.0 L 798.5 370.2 L 797.9 370.1 L 791.4 367.3 L 782.4 363.1 L 783.3 354.9 L 779.4 351.5 L 766.8 340.5 L 759.2 338.6 L 740.7 333.9 L 740.7 339.9 L 746.3 339.9 L 746.8 364.1 L 740.2 371.6 L 740.5 345.0 L 736.9 345.0 L 736.4 314.3 L 742.8 314.3 L 745.2 307.4 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T4 教学楼 / T4 Teaching Building · 7 层" d="M 728.5 385.0 L 740.2 371.6 L 746.8 364.1 L 766.8 340.5 L 779.4 351.5 L 707.7 435.0 L 694.7 423.7 L 717.8 397.3 L 712.6 393.6 L 706.3 401.0 L 688.8 386.0 L 693.3 380.3 L 685.1 374.6 L 697.6 363.9 L 728.5 385.0 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T5 教学楼 / T5 Teaching Building · 7 层" d="M 683.5 351.8 L 703.7 334.4 L 715.7 348.4 L 697.6 363.9 L 685.1 374.6 L 636.7 416.3 L 624.7 402.3 L 644.4 385.4 L 639.3 379.9 L 627.2 390.4 L 611.3 370.5 L 623.3 361.6 L 617.9 355.0 L 630.5 348.6 L 654.3 376.8 L 655.8 375.6 L 663.7 304.4 L 687.7 307.5 L 683.5 351.8 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T6 教学楼 / T6 Teaching Building · 7 层" d="M 547.2 368.7 L 562.5 360.8 L 557.3 351.9 L 544.0 357.6 L 532.4 336.0 L 545.1 332.4 L 540.2 324.7 L 556.6 321.0 L 575.7 354.1 L 586.5 348.6 L 602.8 283.8 L 626.3 290.8 L 617.2 333.0 L 636.3 323.2 L 645.3 341.0 L 630.5 348.6 L 617.9 355.0 L 556.2 386.4 L 547.2 368.7 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T7 教学楼 / T7 Teaching Building · 7 层" d="M 546.0 304.2 L 574.8 297.7 L 579.0 315.9 L 556.6 321.0 L 540.2 324.7 L 474.8 339.6 L 470.7 321.4 L 491.2 316.7 L 489.5 310.4 L 473.1 314.0 L 467.5 283.7 L 482.3 282.7 L 481.3 279.7 L 494.1 280.1 L 503.9 313.8 L 511.2 312.2 L 544.2 254.1 L 565.9 267.6 L 546.0 304.2 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T8 博简楼 / T8 CEFC Building · 6 层" d="M 400.7 279.2 L 401.0 247.3 L 498.9 248.2 L 498.6 280.1 L 494.1 280.1 L 481.3 279.7 L 400.7 279.2 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V28 莎翁楼 / V28 Shakespeare House · 7 层" d="M 251.3 432.6 L 264.1 417.6 L 318.1 464.7 L 306.4 478.5 L 278.1 527.1 L 262.7 513.4 L 289.7 465.5 L 251.3 432.6 Z"/>
+<path class="bld b-dorm" fill="#fde68a" id="bld-v27" data-levels="7" data-name="V27 雨果楼 / V27 Hugo House · 7 层 · 入口在楼体拐弯处，无台阶、有电梯（现场核实）" d="M 113.4 317.0 L 125.5 303.4 L 153.4 257.5 L 169.1 267.8 L 141.3 315.3 L 179.9 349.1 L 167.4 364.0 L 113.4 317.0 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="榆栈 · 4 层" d="M 94.3 358.1 L 107.9 343.4 L 152.4 384.4 L 138.9 399.2 L 94.3 358.1 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V26 歌德楼 / V26 Goethe House · 7 层" d="M 213.7 337.0 L 231.0 316.5 L 248.8 282.2 L 264.4 292.4 L 241.7 335.4 L 277.6 366.9 L 280.2 369.2 L 267.8 384.1 L 213.7 337.0 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V25 东坡楼 / V25 Dong Po House · 8 层" d="M 356.5 354.6 L 339.8 344.8 L 323.9 330.8 L 299.2 310.4 L 285.5 327.4 L 303.0 345.0 L 322.7 367.4 L 299.0 406.1 L 316.1 418.2 L 324.9 404.2 L 356.5 354.6 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V23 雪芹楼 / V23 Xue Qin House · 6 层" d="M 317.9 125.1 L 301.0 131.0 L 248.8 139.0 L 251.6 157.2 L 275.4 153.5 L 283.5 152.3 L 304.7 149.0 L 322.0 198.0 L 341.2 191.2 L 317.9 125.1 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V24 阳明楼 / V24 Yang Ming House · 6 层" d="M 216.1 215.5 L 233.1 210.0 L 290.8 201.6 L 288.4 182.3 L 283.6 183.1 L 274.8 184.5 L 229.8 191.9 L 213.6 142.5 L 194.2 148.9 L 216.1 215.5 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 2 层" d="M 236.3 268.8 L 245.4 237.9 L 279.6 240.7 L 280.6 239.6 L 275.1 234.0 L 278.2 230.7 L 282.4 234.4 L 295.8 218.4 L 350.5 211.0 L 350.6 214.8 L 351.9 276.0 L 356.5 347.8 L 356.5 354.6 L 355.0 362.1 L 340.4 409.7 L 324.9 404.2 L 316.1 418.2 L 299.0 406.1 L 322.7 367.4 L 303.0 345.0 L 277.6 366.9 L 280.2 369.2 L 267.8 384.1 L 213.7 337.0 L 231.0 316.5 L 248.8 282.2 L 251.6 276.9 L 236.3 268.8 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V20 笃行楼 / V20 Du Xing House · 6 层" d="M 471.1 219.7 L 541.3 219.7 L 541.3 147.3 L 519.0 147.3 L 519.0 160.1 L 518.9 166.5 L 518.9 198.2 L 471.1 198.2 L 471.1 219.7 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V19 真知楼 / V19 Zhen Zhi House · 6 层" d="M 536.5 84.4 L 466.4 84.6 L 466.5 155.1 L 488.9 155.1 L 488.8 149.2 L 488.8 106.0 L 536.6 105.9 L 536.5 84.4 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称）" d="M 488.8 149.2 L 519.0 160.1 L 518.9 166.5 L 488.9 155.1 L 488.8 149.2 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V21 博文楼 / V21 Bo Wen House · 6 层" d="M 441.7 80.7 L 366.7 102.8 L 365.9 165.1 L 386.8 165.4 L 386.9 160.0 L 386.9 154.1 L 386.6 119.2 L 439.8 103.5 L 437.2 94.7 L 445.1 92.3 L 441.7 80.7 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称）" d="M 386.9 154.1 L 415.7 164.5 L 415.7 170.8 L 386.9 160.0 L 386.9 154.1 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V22 雅志楼 / V22 Ya Zhi House · 6 层" d="M 367.9 224.0 L 438.0 224.0 L 438.1 151.7 L 415.7 151.7 L 415.7 164.5 L 415.7 170.8 L 415.7 202.5 L 367.9 202.5 L 367.9 224.0 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V18 抱朴楼 / V18 Bao Pu House · 8 层" d="M 574.4 238.2 L 586.3 197.4 L 606.6 203.4 L 601.2 222.0 L 630.4 230.6 L 649.6 165.0 L 672.0 171.5 L 646.4 259.2 L 574.4 238.2 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V17 仁爱楼 / V17 Ren Ai House · 6 层" d="M 567.5 143.7 L 567.8 83.4 L 590.1 83.5 L 589.9 127.4 L 648.0 145.7 L 641.3 167.0 L 567.5 143.7 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V16 尚贤楼 / V16 Shang Xian House · 7 层" d="M 709.1 278.8 L 720.8 236.5 L 741.4 242.2 L 735.8 262.7 L 768.1 271.6 L 786.0 206.4 L 807.5 212.3 L 783.6 299.3 L 709.1 278.8 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V15 明心楼 / V15 Ming Xin House · 6 层" d="M 688.3 227.1 L 707.4 162.0 L 777.5 182.5 L 771.3 204.0 L 719.1 188.7 L 706.3 232.4 L 688.3 227.1 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="文化创意群落 / Cultural Creativity Clusters · 5 层" d="M 812.3 609.8 L 810.6 617.6 L 791.5 613.7 L 785.7 639.5 L 749.3 630.6 L 753.2 605.1 L 751.2 605.8 L 726.0 634.0 L 711.0 619.9 L 739.8 586.8 L 743.2 584.4 L 747.7 583.8 L 752.4 584.4 L 795.0 593.9 L 790.9 590.1 L 816.6 562.2 L 838.8 582.7 L 877.1 537.0 L 931.3 513.7 L 938.9 527.6 L 886.1 555.7 L 852.7 595.5 L 856.2 598.8 L 830.4 626.6 L 812.3 609.8 Z"/>
+<path class="bld b-teach" fill="#c7d2fe" data-name="T29 教学楼 / T29 Teaching Building · 6 层" d="M 302.2 223.7 L 313.4 233.1 L 299.9 249.1 L 282.4 234.4 L 295.8 218.4 L 350.5 211.0 L 350.6 214.8 L 351.9 276.0 L 335.4 276.2 L 334.3 223.2 L 302.2 223.7 Z"/>
+<path class="bld b-dorm" fill="#fde68a" data-name="V29 容闳楼 / V29 Yung Wing House · 7 层" d="M 192.7 359.7 L 255.3 411.2 L 244.9 425.1 L 181.6 375.0 L 192.7 359.7 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称）" d="M 599.9 560.2 L 592.4 568.0 L 613.4 588.2 L 620.8 580.4 L 599.9 560.2 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 1 层" d="M 882.8 305.1 L 876.0 318.2 L 905.8 335.0 L 912.5 321.0 L 882.8 305.1 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 1 层" d="M 860.0 309.4 L 896.1 224.9 L 913.5 235.0 L 873.9 317.0 L 860.0 309.4 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 1 层" d="M 245.5 463.3 L 230.9 479.1 L 261.6 507.5 L 273.8 488.4 L 245.5 463.3 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称） · 1 层" d="M 172.3 148.6 L 174.3 165.1 L 251.6 157.2 L 248.8 139.0 L 172.3 148.6 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称）" d="M 275.4 153.5 L 274.8 184.5 L 283.6 183.1 L 283.5 152.3 L 275.4 153.5 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" data-name="未命名建筑（OSM 未标注名称）" d="M 992.7 454.8 L 978.3 468.7 L 966.7 456.6 L 954.1 468.6 L 973.1 486.3 L 981.2 479.6 L 989.2 488.3 L 996.7 481.6 L 987.6 472.7 L 998.8 461.4 L 992.7 454.8 Z"/>
+<path class="bld b-fac" fill="#a7d8d0" id="bld-library" data-levels="4" data-name="学习资源中心（图书馆） / Learning Resource Center · 4 层 · 唯一出入口在 2F 朝东南（现场核实）" d="M 579.9 539.8 L 509.2 479.4 L 533.3 450.3 L 536.6 446.5 L 553.5 427.1 L 562.3 404.9 L 565.8 396.1 L 651.1 430.2 L 667.4 445.2 L 629.4 492.1 L 600.6 514.5 L 579.9 539.8 Z"/>
+<path class="lyr-beeline" d="M 534.1 426.2 L 138.6 303.1" fill="none" stroke="#ef4444" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+<path class="lyr-route route-A" d="M 514.3 428.0 L 551.1 454.9" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" stroke-dasharray="5 3"/>
+<path class="lyr-route route-A" d="M 508.5 466.1 L 516.3 472.1" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" stroke-dasharray="5 3"/>
+<path class="lyr-route route-A" d="M 500.5 473.5 L 508.5 466.1" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 516.3 472.1 L 515.2 473.6" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 454.7 428.8 L 462.2 434.4 L 515.2 473.6 L 534.8 488.4 L 545.0 496.3 L 590.0 531.8 L 601.1 540.5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 565.5 482.1 L 561.5 479.1 L 545.0 496.3" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 565.5 482.1 L 557.8 490.2 L 545.7 502.5" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" stroke-dasharray="5 3"/>
+<path class="lyr-route route-A" d="M 551.1 454.9 L 570.5 457.9" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 585.1 460.8 L 567.0 479.2 L 594.5 499.9 L 613.2 480.9 L 585.1 460.8" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 444.0 399.5 L 451.4 411.9 L 437.1 428.2 L 459.3 444.1 L 500.5 473.5 L 531.2 495.5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 461.3 412.3 L 454.7 428.8" fill="none" stroke="#dc2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" stroke-dasharray="5 3"/>
+<path class="lyr-route route-A" d="M 444.0 399.5 L 461.3 412.3" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 515.2 365.8 L 497.7 400.3 L 462.2 434.4 L 451.4 444.2 L 427.5 451.7" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 514.3 428.0 L 500.6 417.6 L 494.3 412.7 L 492.0 411.0 L 480.5 398.3 L 472.6 389.6 L 460.9 376.9 L 445.3 370.9" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 490.3 400.1 L 480.5 398.3" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 494.3 412.7 L 497.5 408.1 L 490.3 400.1 L 475.4 383.8 L 471.8 379.8 L 457.4 364.0" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 472.6 389.6 L 475.4 383.8" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 471.8 379.8 L 460.9 376.9" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 444.0 399.5 L 436.5 375.8 L 445.3 370.9 L 457.4 364.0 L 461.1 362.0 L 453.3 352.5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 453.3 352.5 L 444.7 349.5 L 416.6 338.0 L 404.2 349.0 L 383.2 334.2 L 374.0 329.9" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 506.2 254.6 L 482.9 255.6 L 465.5 286.8 L 420.8 289.3 L 369.2 292.0 L 374.0 329.9 L 374.3 375.2 L 384.9 378.9 L 444.0 399.5" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 453.3 352.5 L 439.5 335.0 L 421.5 309.6 L 420.8 289.3" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 353.6 289.6 L 369.2 292.0" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 311.4 289.7 L 353.6 289.6" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-A" d="M 311.4 289.7 L 312.3 312.7" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+<path class="lyr-route route-B" d="M 500.6 417.6 L 534.1 416.5 L 535.5 411.3 L 515.2 404.1 L 535.4 381.3 L 508.5 371.4 L 453.3 352.5" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 459.3 444.1 L 508.2 397.6 L 515.7 381.9 L 509.0 375.7 L 512.3 359.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 494.3 412.7 L 497.5 408.1 L 490.3 400.1 L 475.4 383.8 L 471.8 379.8 L 457.4 364.0" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 472.6 389.6 L 475.4 383.8" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 471.8 379.8 L 460.9 376.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 444.0 399.5 L 436.5 375.8 L 445.3 370.9 L 457.4 364.0 L 461.1 362.0 L 453.3 352.5" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 453.3 352.5 L 444.7 349.5 L 416.6 338.0 L 404.2 349.0 L 383.2 334.2 L 374.0 329.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 353.6 289.6 L 369.2 292.0" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 311.4 289.7 L 353.6 289.6" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 311.4 289.7 L 292.1 290.3 L 275.0 285.6" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 243.1 303.9 L 249.8 293.5 L 265.4 269.2 L 270.5 260.1 L 280.7 263.0 L 293.4 259.5 L 299.4 254.6" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 275.0 285.6 L 265.4 269.2 L 260.6 262.7 L 243.5 255.2" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 244.7 295.1 L 245.6 293.9 L 259.0 273.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 238.1 287.6 L 225.9 282.1" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 188.5 233.8 L 192.9 232.7 L 230.0 223.6 L 226.8 234.0 L 215.7 269.6 L 226.5 276.9 L 219.2 292.0 L 187.4 332.7 L 184.9 335.9 L 178.2 330.8 L 140.2 302.3 L 184.9 252.1 L 188.5 233.8" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 119.4 420.1 L 125.1 411.1 L 133.0 398.4" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 144.7 451.4 L 120.3 484.7 L 42.0 593.5" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 156.3 448.5 L 162.3 438.4 L 169.4 426.4" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 279.9 340.9 L 246.3 376.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 257.8 318.6 L 243.1 303.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 269.5 352.0 L 232.6 313.5 L 244.3 296.0 L 241.8 294.7 L 229.1 288.1 L 225.3 286.3 L 227.6 282.9" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 294.6 568.2 L 238.5 530.7 L 167.4 486.4" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 340.2 452.6 L 336.6 455.4 L 359.2 474.7 L 361.6 493.5" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 314.8 404.6 L 354.9 420.8" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 311.4 289.7 L 312.3 312.7" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 299.4 254.6 L 301.1 273.3 L 297.2 276.4 L 298.4 280.4 L 292.1 290.3 L 284.6 301.7 L 291.2 307.0 L 298.6 312.0 L 312.3 312.7" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 394.8 157.6 L 378.6 160.1 L 362.1 198.3 L 325.3 207.5" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 340.2 452.6 L 354.9 420.8 L 370.7 417.8" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 444.0 399.5 L 461.3 412.3" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<path class="lyr-route route-B" d="M 453.3 352.5 L 439.5 335.0 L 421.5 309.6 L 420.8 289.3" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+<!-- 路线 C（室内，2026-10-13 朋友手绘）：图书馆 → T4 → 电梯/楼梯下 1F → 室内通道 → T8 → 大路 → V27 -->
+<g class="lyr-route route-C">
+  <path d="M 552 434 L 610 398 L 660 366" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <path d="M 666 360 L 560 318 L 470 288 L 420 272" fill="none" stroke="#ea580c" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" stroke-dasharray="9 5"/>
+  <path d="M 420 272 L 330 282 L 240 292 L 150 301" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+</g>
+<text class="lbl lyr-route" x="560" y="306" font-size="11.5" font-weight="700" fill="#c2410c" paint-order="stroke" stroke="#ffffff" stroke-width="3">路线 C · 室内 1F 通道（手绘估算）</text>
+<circle class="lyr-route" cx="534" cy="426" r="8" fill="#16a34a" stroke="#fff" stroke-width="2.5"/>
+<text class="lbl lyr-route" x="534" y="446" font-size="13" font-weight="700" fill="#15803d" paint-order="stroke" stroke="#fff" stroke-width="3">起·图书馆 2F出口</text>
+<circle class="lyr-route" cx="139" cy="303" r="8" fill="#dc2626" stroke="#fff" stroke-width="2.5"/>
+<text class="lbl lyr-route" x="139" y="291" font-size="13" font-weight="700" fill="#b91c1c" paint-order="stroke" stroke="#fff" stroke-width="3">终·V27 1F入口</text>
+<g class="lyr-gate"><circle cx="85" cy="194" r="5" fill="#475569"/><text class="lbl" x="85" y="185" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
+<g class="lyr-gate"><circle cx="292" cy="553" r="5" fill="#475569"/><text class="lbl" x="292" y="544" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南3门</text></g>
+<g class="lyr-gate"><circle cx="544" cy="785" r="5" fill="#475569"/><text class="lbl" x="544" y="776" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南1门</text></g>
+<g class="lyr-gate"><circle cx="473" cy="720" r="5" fill="#475569"/><text class="lbl" x="473" y="711" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南2门</text></g>
+<g class="lyr-gate"><circle cx="265" cy="99" r="5" fill="#475569"/><text class="lbl" x="265" y="90" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
+<g class="lyr-gate"><circle cx="159" cy="377" r="5" fill="#475569"/><text class="lbl" x="159" y="368" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">南5门</text></g>
+<g class="lyr-gate"><circle cx="932" cy="327" r="5" fill="#475569"/><text class="lbl" x="932" y="318" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
+<g class="lyr-gate"><circle cx="567" cy="787" r="5" fill="#475569"/><text class="lbl" x="567" y="778" font-size="11" font-weight="600" fill="#475569" paint-order="stroke" stroke="#ffffff" stroke-width="3">门</text></g>
+<text class="lbl" x="662" y="478" font-size="13" font-weight="700" fill="#3b82a0" font-style="italic" paint-order="stroke" stroke="#ffffff" stroke-width="3">中心湖（岸线参照卫星图描绘）</text>
+<text class="lbl" x="420" y="766" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(0 420 766)">金同路 Jintong Rd</text>
+<text class="lbl" x="78" y="420" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-78 78 420)">明德路</text>
+<text class="lbl" x="563" y="605" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-84 563 605)">大学学道</text>
+<text class="lbl" x="791" y="759" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-30 791 759)">亲民路</text>
+<text class="lbl" x="919" y="204" font-size="12" font-style="italic" font-weight="600" fill="#8a8a80" paint-order="stroke" stroke="#ffffff" stroke-width="3" transform="rotate(-42 919 204)">至善路</text>
+<text class="lbl lbl-code" x="452" y="492">T2</text>
+<text class="lbl lbl-code" x="410" y="436">T3</text>
+<text class="lbl lbl-code" x="503" y="552">T1</text>
+<text class="lbl lbl-fac" x="671" y="655">演艺厅</text>
+<text class="lbl lbl-fac" x="631" y="717">行政楼</text>
+<text class="lbl lbl-fac" x="585" y="698">大学会堂</text>
+<text class="lbl lbl-fac" x="418" y="612">体育馆</text>
+<text class="lbl lbl-code" x="720" y="384">T4</text>
+<text class="lbl lbl-code" x="657" y="363">T5</text>
+<text class="lbl lbl-code" x="580" y="341">T6</text>
+<text class="lbl lbl-code" x="515" y="302">T7</text>
+<text class="lbl lbl-code" x="454" y="271">T8</text>
+<text class="lbl lbl-code" x="278" y="466">V28</text>
+<text class="lbl lbl-code" x="145" y="311">V27</text>
+<text class="lbl lbl-code" x="249" y="336">V26</text>
+<text class="lbl lbl-code" x="321" y="360">V25</text>
+<text class="lbl lbl-code" x="296" y="152">V23</text>
+<text class="lbl lbl-code" x="244" y="188">V24</text>
+<text class="lbl lbl-code" x="508" y="186">V20</text>
+<text class="lbl lbl-code" x="501" y="116">V19</text>
+<text class="lbl lbl-code" x="408" y="120">V21</text>
+<text class="lbl lbl-code" x="405" y="191">V22</text>
+<text class="lbl lbl-code" x="616" y="214">V18</text>
+<text class="lbl lbl-code" x="596" y="128">V17</text>
+<text class="lbl lbl-code" x="751" y="254">V16</text>
+<text class="lbl lbl-code" x="723" y="203">V15</text>
+<text class="lbl lbl-fac" x="804" y="592">文化创意群落</text>
+<text class="lbl lbl-code" x="320" y="235">T29</text>
+<text class="lbl lbl-code" x="213" y="386">V29</text>
+<text class="lbl lbl-fac" x="581" y="464">学习资源中心</text>
+
+
+<!-- 路线关键点指引标记 -->
+<g class="route-marker route-A-only">
+  <circle cx="534" cy="426" r="6" fill="#3b82f6" stroke="#fff" stroke-width="2" class="guide-dot" data-guide="lib-exit" style="cursor:pointer"/>
+  <circle cx="534" cy="426" r="10" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity="0.4" class="guide-pulse"/>
+</g>
+<g class="route-marker route-A-only">
+  <circle cx="461" cy="412" r="6" fill="#dc2626" stroke="#fff" stroke-width="2" class="guide-dot" data-guide="steps-down" style="cursor:pointer"/>
+  <circle cx="461" cy="412" r="10" fill="none" stroke="#dc2626" stroke-width="1.5" opacity="0.4" class="guide-pulse"/>
+</g>
+<g class="route-marker route-A-only">
+  <circle cx="551" cy="455" r="5" fill="#f59e0b" stroke="#fff" stroke-width="1.5" class="guide-dot" data-guide="turn-a1" style="cursor:pointer"/>
+</g>
+<g class="route-marker route-B-only">
+  <circle cx="219" cy="292" r="6" fill="#10b981" stroke="#fff" stroke-width="2" class="guide-dot" data-guide="plaza" style="cursor:pointer"/>
+  <circle cx="219" cy="292" r="10" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.4" class="guide-pulse"/>
+</g>
+<g class="route-marker route-B-only">
+  <circle cx="292" cy="290" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5" class="guide-dot" data-guide="turn-b1" style="cursor:pointer"/>
+</g>
+<g class="route-marker route-B-only">
+  <circle cx="145" cy="305" r="6" fill="#10b981" stroke="#fff" stroke-width="2" class="guide-dot" data-guide="v27-entry" style="cursor:pointer"/>
+  <circle cx="145" cy="305" r="10" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.4" class="guide-pulse"/>
+</g>
+<g class="route-marker route-B-only">
+  <circle cx="518" cy="401" r="5" fill="#f59e0b" stroke="#fff" stroke-width="1.5" class="guide-dot" data-guide="turnback" style="cursor:pointer"/>
+</g>
+
+<!-- 指引弹窗（默认隐藏，通过JS控制显示） -->
+<g class="route-guide" id="guide-lib-exit" opacity="0" style="pointer-events:none">
+  <rect x="544" y="400" width="200" height="90" rx="10" fill="rgba(255,255,255,0.98)" stroke="#3b82f6" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="554" y="422" font-size="12" font-weight="700" fill="#1e40af">图书馆 2F 出口</text>
+  <text x="554" y="440" font-size="11" fill="#475576">唯一出入口，朝东南（湖方向）</text>
+  <text x="554" y="456" font-size="11" fill="#475576">出口无台阶，可直接外出</text>
+  <text x="554" y="472" font-size="11" fill="#475576">出门后左转选路线A，右转选路线B</text>
+  <polygon points="534,426 544,416 544,436" fill="#3b82f6"/>
+</g>
+<g class="route-guide" id="guide-steps-down" opacity="0" style="pointer-events:none">
+  <rect x="471" y="340" width="180" height="80" rx="10" fill="rgba(255,255,255,0.98)" stroke="#dc2626" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="481" y="362" font-size="12" font-weight="700" fill="#991b1b">台阶路段 · 下坡 -1 层</text>
+  <text x="481" y="380" font-size="11" fill="#475576">从此处下台阶，直达地面层</text>
+  <text x="481" y="396" font-size="11" fill="#475576">普通行人：省力捷径</text>
+  <text x="481" y="412" font-size="11" fill="#475576">拖行李/轮椅：建议绕行路线B</text>
+  <polygon points="461,412 471,402 471,422" fill="#dc2626"/>
+</g>
+<g class="route-guide" id="guide-turn-a1" opacity="0" style="pointer-events:none">
+  <rect x="561" y="435" width="150" height="55" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="571" y="457" font-size="12" font-weight="700" fill="#92400e">转角 · 向V27方向</text>
+  <text x="571" y="475" font-size="11" fill="#475576">沿步道继续向西，直达V27入口</text>
+  <polygon points="551,455 561,445 561,465" fill="#f59e0b"/>
+</g>
+<g class="route-guide" id="guide-plaza" opacity="0" style="pointer-events:none">
+  <rect x="229" y="252" width="196" height="100" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="239" y="274" font-size="12" font-weight="700" fill="#065f46">会贤邨广场</text>
+  <text x="239" y="292" font-size="11" fill="#475576">路线B经过的开放广场区域</text>
+  <text x="239" y="308" font-size="11" fill="#475576">本次查看未见台阶</text>
+  <text x="239" y="324" font-size="11" fill="#475576">（未测量坡度与路面宽度）</text>
+  <text x="239" y="340" font-size="11" fill="#475576">从这里继续向西可达V28→V29</text>
+  <polygon points="219,292 229,282 229,302" fill="#10b981"/>
+</g>
+<g class="route-guide" id="guide-turn-b1" opacity="0" style="pointer-events:none">
+  <rect x="302" y="270" width="150" height="55" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="312" y="292" font-size="12" font-weight="700" fill="#065f46">转角 · 向南绕行</text>
+  <text x="312" y="310" font-size="11" fill="#475576">转向南，经体育馆方向绕行</text>
+  <polygon points="292,290 302,280 302,300" fill="#10b981"/>
+</g>
+<g class="route-guide" id="guide-v27-entry" opacity="0" style="pointer-events:none">
+  <rect x="155" y="275" width="170" height="80" rx="10" fill="rgba(255,255,255,0.98)" stroke="#10b981" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="165" y="297" font-size="12" font-weight="700" fill="#065f46">V27 雨果楼 1F 入口</text>
+  <text x="165" y="315" font-size="11" fill="#475576">入口位于楼栋拐弯处</text>
+  <text x="165" y="331" font-size="11" fill="#475576">无台阶，有电梯通达全楼层</text>
+  <text x="165" y="347" font-size="11" fill="#475576">路线A和路线B均到达此入口</text>
+  <polygon points="145,305 155,295 155,315" fill="#10b981"/>
+</g>
+<g class="route-guide" id="guide-turnback" opacity="0" style="pointer-events:none">
+  <rect x="358" y="428" width="215" height="88" rx="10" fill="rgba(255,255,255,0.98)" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))"/>
+  <text x="368" y="450" font-size="12" font-weight="700" fill="#92400e">最后折返点 · 改主意要趁现在</text>
+  <text x="368" y="468" font-size="11" fill="#475576">拖着行李走到这里还来得及掉头</text>
+  <text x="368" y="484" font-size="11" fill="#475576">再往前，回台阶路口的路比走完 B 更远</text>
+  <text x="368" y="502" font-size="11" fill="#475576">（按路线长度估算，非实测）</text>
+  <polygon points="508,411 518,401 518,421" fill="#f59e0b"/>
+</g>
+</svg>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:linear-gradient(135deg,#3b82f6,#2563eb)"></span> 路线 A（台阶/坡道路·实测 537 m）</span>
+        <span><span class="dot" style="background:linear-gradient(135deg,#34d399,#10b981)"></span> 路线 B（户外平路·实测 470 m）</span>
+        <span><span class="dot" style="background:#ea580c"></span> 路线 C（室内·手绘估算，长度待定）</span>
+        <span><span class="dot" style="background:#ef4444"></span> 方向直线</span>
+        <span><span class="dot" style="background:rgba(16,185,129,0.3);border:1px solid #10b981"></span> 遮阴/连廊区</span>
+        <span><span class="dot" style="background:#f59e0b"></span> 可点击指引点</span>
+        <span><span class="dot" style="background:#c7d2fe"></span> 教学楼</span>
+        <span><span class="dot" style="background:#fde68a"></span> 宿舍楼</span>
+        <span><span class="dot" style="background:#a7d8d0"></span> 大型设施</span>
+      </div>
+      <div class="source">
+        <b>数据来源：</b>OpenStreetMap 真实坐标（relation 18704403）+ 校方《Campus Discovery》官方手册 + 用户现场实测。<br>
+        图书馆 4 层（唯一出入口 2F 朝湖）/ V27 7 层（入口无台阶·有电梯）。路线 A 沿真实 OSM 步道（含台阶下坡），路线 B 沿真实 OSM 步道经体育馆→V28→V29 绕行（本次现场查看未见台阶）。点击地图上的彩色圆点可查看详细指引。
+
+        <table class="grade">
+          <thead>
+            <tr><th>层级</th><th>数据项</th><th>来源</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>现场实测</td>
+              <td>图书馆/V27 楼层数、出入口位置与朝向、入口有无台阶、电梯通达范围、全程楼层高差、台阶段落、<b>两条路线的长度与耗时</b>（2026-10-12 运动 App 实测：A 537 m / 6:31、B 470 m / 6:00）、<b>台阶旁坡道可用性</b>（电动/人推可上，坡度与宽度未测量）、<b>沿途补给分布</b>（A 沿途商铺/厕所丰富，B 沿途暂未发现直达补给）</td>
+              <td>团队成员步行实地核实 / 运动 App 轨迹</td>
+            </tr>
+            <tr>
+              <td>卫星图参照</td>
+              <td>中心湖岸线与湖心岛形状（<b>目测描绘自 2026-10-12 高德卫星图</b>，以 T4 教学楼 / 文化创意群落 / 演艺厅等地物对齐位置，非 GPS 轨迹）</td>
+              <td>高德卫星截图 + OSM 地物锚点</td>
+            </tr>
+            <tr>
+              <td>开源地图</td>
+              <td>楼栋轮廓与经纬度、道路/步道/台阶走向、水域、校门位置</td>
+              <td>OpenStreetMap（ODbL），2026-10-11 抓取</td>
+            </tr>
+            <tr>
+              <td>官方资料</td>
+              <td>楼栋命名、连廊与林荫道分布、校园总平面示意</td>
+              <td>校方《Campus Discovery》手册 / 官方 3D 导览</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-sim">示意</span>模拟</td>
+              <td>遮阴/连廊多边形范围、每层 1 分钟与拖行李 2 倍的时间系数、楼内垂直移动时间系数（行人楼梯 0.5 分/层、行李与轮椅电梯 1 分/层）、轮椅与行李的预估时间（按经验系数估算，待实测）</td>
+              <td>由航拍/设计文字描述推断或经验取值，<b>非实测</b></td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-sim">待核</span></td>
+              <td>室内路线 C（图书馆 → T4 → 电梯/楼梯下 1 层 → 一层室内通道至 T8 → 沿大路 → V27）：<b>走法结构已由队友手绘确认（2026-10-13）</b>，但室内无法 GPS，长度按与 A/B 同口径坐标累计<b>估算约 510 m</b>、地图上为手绘示意线；除图书馆与 V27 外，其余楼栋的楼层数直接采用 OSM 社区标注（<code>building:levels</code>），未逐一现场核对，可能存在偏差</td>
+              <td>队友手绘 + 口述 / OpenStreetMap 社区标注</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:8px;color:#92400e;">
+          <b>模拟数据声明：</b>本作品涉及校方信息的部分（楼栋楼层、出入口、连廊/遮阴范围、中心岛形态）中，<b>标注为「示意/模拟」的均为推断或经验值</b>；
+          <b>未接入任何校方真实业务系统</b>，不读取、不写入学校数据库，全部数据以静态文件形式内置于本页面。
+        </div>
+        <div style="margin-top:10px;padding:10px 12px;background:#fef3c7;border-left:4px solid #d97706;border-radius:6px;color:#92400e;">
+          <b>使用限制（重要）：</b>本作品为比赛演示原型，路线结论基于<b>有限次数的步行现场查看</b>得出，<b>未测量坡度、路面宽度、路缘高差、铺装状况，也未纳入实时状况</b>（施工、临时围挡、天气、人流、季节性积水等）。
+          页面中「未见台阶」等表述<b>仅描述本次查看所见</b>，<b>不构成任何路线绝对安全或完全无障碍的保证</b>。实际出行请以现场标识、校方信息与自身判断为准。
+        </div>
+        <details style="margin-top:12px;">
+          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;">模型参数（点开可复算结论）</summary>
+          <div style="margin-top:8px;">
+            <table class="grade">
+              <thead>
+                <tr><th>参数</th><th>取值</th><th>性质</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>行人时间</td>
+                  <td>实测：A 537 m → 6 分 31 秒、B 470 m → 6 分 00 秒（均速 78–82 m/min）</td>
+                  <td>2026-10-12 运动 App 实测</td>
+                </tr>
+                <tr>
+                  <td>拖行李时间惩罚</td>
+                  <td>全程 ×2（仅当所选路线含台阶段：实测 A 6:31 × 2 ≈ 13 分）</td>
+                  <td><span class="tag tag-sim">模拟</span>经验值</td>
+                </tr>
+                <tr>
+                  <td>轮椅平地时间</td>
+                  <td>470 m ≈ 7 分（低于行人速度的经验估算，待轮椅实测）</td>
+                  <td><span class="tag tag-sim">模拟</span>经验值</td>
+                </tr>
+                <tr>
+                  <td>每层基准时间</td>
+                  <td>1 分钟/层</td>
+                  <td><span class="tag tag-sim">模拟</span>经验值</td>
+                </tr>
+                <tr>
+                  <td>楼内垂直移动</td>
+                  <td>行人走楼梯 0.5 分/层；行李、轮椅乘电梯 1 分/层</td>
+                  <td><span class="tag tag-sim">模拟</span>经验值</td>
+                </tr>
+                <tr>
+                  <td>轮椅 × 台阶</td>
+                  <td>台阶旁有坡道可替代（本次查看电动 / 人推可上；坡度、宽度未测量），A 路线按坡道绕行估算时间</td>
+                  <td>现场查看（照片记录）</td>
+                </tr>
+                <tr>
+                  <td>电梯等候时间（教学区）</td>
+                  <td>非课间（每小时前 45 分钟）约 1 分钟；课间（末尾 15 分钟）约 3–5 分钟；宿舍区电梯无此分时</td>
+                  <td><span class="tag tag-sim">模拟</span>队友实地经验值</td>
+                </tr>
+                <tr>
+                  <td>推荐判定</td>
+                  <td colspan="2">真实代价 = 平地时间 + 楼层高差 × 每层基准时间 × 身份系数 + 电梯等候；两条路线取代价更低者，台阶对轮椅为一票否决</td>
+                </tr>
+              </tbody>
+            </table>
+            <p style="margin:8px 0 0;font-size:12px;color:#64748b;">换任何一组参数（比如你认为拖行李惩罚应是 1.5 倍），结论的边界就会移动——这正是本作品想展示的：推荐不是客观事实，而是模型与参数的函数。</p>
+          </div>
+        </details>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer;font-weight:700;color:#334155;font-size:13px;">现场核查记录（哪些字段是怎么核实的）</summary>
+          <div style="margin-top:8px;">
+            <table class="grade">
+              <thead>
+                <tr><th>核查项</th><th>方式</th><th>结果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>图书馆楼层数</td>
+                  <td>电梯楼层按键 + 楼层索引牌</td>
+                  <td>4 层（OSM 社区标注为 1 层，<b>已按现场修正</b>）</td>
+                </tr>
+                <tr>
+                  <td>图书馆出入口</td>
+                  <td>绕建筑步行一周</td>
+                  <td>唯一出入口在 2F 东南侧（朝中心湖），出口处无台阶</td>
+                </tr>
+                <tr>
+                  <td>V27 楼层数与入口</td>
+                  <td>现场目视 + 电梯按键</td>
+                  <td>7 层；入口在楼体拐弯处，无台阶；电梯通达 1–7F</td>
+                </tr>
+                <tr>
+                  <td>全程楼层高差</td>
+                  <td>从图书馆 2F 出口步行至 V27 1F 入口</td>
+                  <td>净下 1 层（下坡台阶段，即路线 A 的台阶）</td>
+                </tr>
+                <tr>
+                  <td>路线 B 沿途台阶</td>
+                  <td>沿体育馆 → V28 → V29 步行查看</td>
+                  <td>本次查看未发现台阶（<b>未测量坡度与路面宽度</b>）</td>
+                </tr>
+                <tr>
+                  <td>两条路线长度与耗时</td>
+                  <td>运动 App 轨迹记录（起终点严格为图书馆 2F 出口 → V27 1F 入口）</td>
+                  <td>A 实测 537 m / 6 分 31 秒；B 实测 470 m / 6 分 00 秒；台阶旁坡道电动 / 人推可上</td>
+                </tr>
+                <tr>
+                  <td>沿途补给分布</td>
+                  <td>沿两条路线走访记录</td>
+                  <td>A 沿途：咖啡店、便利店、教学楼、厕所稍偏即达；B 沿途：最近补给点偏离路线约 30 m</td>
+                </tr>
+                <tr>
+                  <td>室内路线 C 走法</td>
+                  <td>队友实地走了一遍并手绘轨迹（室内段无法 GPS）</td>
+                  <td>图书馆 → T4 → 电梯/楼梯下 1 层 → 一层室内通道至 T8 → 回地面沿大路 → V27；长度待手绘定稿</td>
+                </tr>
+              </tbody>
+            </table>
+            <p style="margin:8px 0 0;font-size:12px;color:#64748b;">核查时间：比赛筹备期间（2026 年 10 月）；方式为步行实地查看与拍照记录。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- 右侧：楼层信息 + 路线对比 -->
+    <div class="side-panel">
+      <div class="card floor-info" id="floorCard">
+        <h2>楼层状态</h2>
+        <div class="hint">选择上方「当前楼层」，查看该层的出入口与可达性。</div>
+        <div id="floorContent"></div>
+      </div>
+
+      <div class="card">
+        <h2>路线对比</h2>
+        <div class="hint">切换上方视角，观察推荐如何反转。</div>
+        <div id="recBadge" class="badge rec-a">推荐路线 A</div>
+        <div class="note" id="note"></div>
+
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr><th>指标</th><th>路线 A</th><th>路线 B</th></tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="table-footnote">
+          *「未见台阶」仅指<b>本次步行现场查看未发现台阶</b>；未测量坡度、路面宽度、路缘高差与铺装状况，<b>不代表该路线绝对安全或完全无障碍</b>。
+        </div>
+
+        <div class="bars">
+          <div class="bar-group">
+            <div class="bar-title">距离 <span style="font-weight:400;color:var(--text-muted)">(m)</span></div>
+            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barDistA"></span></span><span class="bar-val" id="valDistA"></span></div>
+            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barDistB"></span></span><span class="bar-val" id="valDistB"></span></div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-title">预估时间 <span style="font-weight:400;color:var(--text-muted)">(min)</span></div>
+            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barTimeA"></span></span><span class="bar-val" id="valTimeA"></span></div>
+            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barTimeB"></span></span><span class="bar-val" id="valTimeB"></span></div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-title">楼层高差 <span style="font-weight:400;color:var(--text-muted)">(层)</span></div>
+            <div class="bar-row"><span class="bar-name">路线 A</span><span class="bar-track"><span class="bar-fill A" id="barFloorA"></span></span><span class="bar-val" id="valFloorA"></span></div>
+            <div class="bar-row"><span class="bar-name">路线 B</span><span class="bar-track"><span class="bar-fill B" id="barFloorB"></span></span><span class="bar-val" id="valFloorB"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 相近产品对比（P0-5：与 Google Maps/高德、Wheelmap.org 的差异，一句话说明白本作品做了什么它们没做的） -->
+  <div class="card compare" aria-label="与相近产品的对比">
+    <h2>和现成导航/无障碍产品比，这个作品做了什么不同的？</h2>
+    <p class="cmp-hint">三款相近产品各自解决了「路怎么走」或「哪里能去」的一部分，但都没把「<b>同一条路，对不同的人最近程度不同</b>」这件事作为核心来算。</p>
+    <table class="cmp-table">
+      <thead>
+        <tr><th>产品</th><th>已做到</th><th>没做到（正是本作品的切入点）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Google Maps / 高德</td>
+          <td>完整步行导航、实时路况、公交换乘，覆盖范围极广。</td>
+          <td>路线推荐按<b>单一「最快/最短」口径</b>输出，不因使用者「拖着 20 kg 行李」「坐轮椅」而改变推荐；台阶、楼层高差基本不参与路线权重。</td>
+        </tr>
+        <tr>
+          <td>Wheelmap.org</td>
+          <td>全球众包的<b>无障碍地点</b>标注（能否进店、有无坡道等）。</td>
+          <td>只回答「这栋楼/这家店能不能进」，<b>不做点与点之间的路线推荐</b>，也不量化「走这段路要多付出多少代价」。</td>
+        </tr>
+        <tr class="this-row">
+          <td>本作品（看不见的距离）</td>
+          <td>沿真实 OSM 步道 + 现场实测的楼层/出入口/台阶，把<b>楼层高差、台阶、行李与轮椅的通行条件</b>一起纳入推荐权重，并展示同一路线在三种身份下推荐如何反转。</td>
+          <td>覆盖范围仅限<b>单段示例路线（图书馆 → V27）</b>，非全校、非实时；路况结论基于有限次现场查看，<b>不构成无障碍通行保证</b>。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <strong>核心洞察：</strong>实测数据反转了预设——原以为的「台阶近路」A 实测 537 m，比户外平路 B（470 m）更远；而距离更短的室内路线，要付楼梯 / 电梯的代价（数据采集中）。地图上的最短，从来就不等于你脚下最近的那条。<br>
+    图书馆 4 层、出入口在 2 层朝湖；V27 入口无台阶有电梯；路线 A（实测 537 m）有 −1 层台阶、旁有坡道可替代、沿途补给丰富；路线 B（实测 470 m）全程未见台阶、最近补给点偏离约 30 m。长度与耗时为 2026-10-12 运动 App 实测。
+    <span style="display:block;margin-top:8px;color:#92400e;font-size:12.5px;">路况数据基于有限次现场查看，未测量坡度与路面宽度，不构成无障碍通行保证；出行请以现场实际情况为准。</span>
+  </footer>
+</div>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-nav" aria-label="视角切换">
+  <div class="nav-row">
+    <button class="nav-btn active" data-view="walker" aria-pressed="true">
+      <span class="nav-icon">🚶</span>
+      <span>行人</span>
+    </button>
+    <button class="nav-btn" data-view="luggage" aria-pressed="false">
+      <span class="nav-icon">🧳</span>
+      <span>行李</span>
+    </button>
+    <button class="nav-btn" data-view="wheelchair" aria-pressed="false">
+      <span class="nav-icon">♿</span>
+      <span>轮椅</span>
+    </button>
+  </div>
+</nav>
+
+<div id="tip"></div>
+
+<script>
+  // ===== Floor Data =====
+  var FLOOR_DATA = {
+    'ground': {
+      title: '户外地面层',
+      status: 'status-ok',
+      statusText: '可自由通行',
+      desc: '地面层视角：所有户外路线均可通行。图书馆 2F 出口和 V27 1F 入口均直接可达。',
+      routeNote: '从地面出发，路线选择取决于你的身体条件。'
+    },
+    'lib-1': {
+      title: '图书馆 1F',
+      status: 'status-warn',
+      statusText: '无直接出入口',
+      desc: '1F 没有通往户外的出入口。你必须乘坐电梯或走楼梯到 2F，才能从唯一的出口离开建筑。',
+      routeNote: '先上楼到 2F，再选择路线 A 或路线 B。'
+    },
+    'lib-2': {
+      title: '图书馆 2F · 唯一出入口',
+      status: 'status-ok',
+      statusText: '唯一出入口·可直接出发',
+      desc: '2F 是图书馆唯一有出入口的楼层，出口朝东南（中心湖方向），无台阶。出门后可选路线 A（台阶/坡道路）或路线 B（户外平路）。',
+      routeNote: '这是理想的出发楼层，出门即可选择任意路线。'
+    },
+    'lib-3': {
+      title: '图书馆 3F',
+      status: 'status-info',
+      statusText: '需下至 2F',
+      desc: '3F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
+      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。'
+    },
+    'lib-4': {
+      title: '图书馆 4F',
+      status: 'status-info',
+      statusText: '需下至 2F',
+      desc: '4F 没有通往户外的出入口。整栋楼有互通电梯，可乘电梯或走楼梯下至 2F，再从 2F 出口离开。',
+      routeNote: '先下至 2F，再选择路线。电梯可通全楼层。'
+    },
+    'v27-1': {
+      title: 'V27 1F · 入口层',
+      status: 'status-ok',
+      statusText: '入口层·可直接到达',
+      desc: '1F 是 V27 的入口层，入口位于整栋楼的拐弯处，无台阶。楼内有电梯可通达全楼层（1F–7F）。',
+      routeNote: '从户外到达后可直接从 1F 入口进入。'
+    },
+    'v27-2': {
+      title: 'V27 2F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '2F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    },
+    'v27-3': {
+      title: 'V27 3F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '3F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    },
+    'v27-4': {
+      title: 'V27 4F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '4F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    },
+    'v27-5': {
+      title: 'V27 5F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '5F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    },
+    'v27-6': {
+      title: 'V27 6F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '6F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    },
+    'v27-7': {
+      title: 'V27 7F',
+      status: 'status-info',
+      statusText: '需下至 1F',
+      desc: '7F 没有通往户外的直接出入口。需乘电梯或走楼梯下至 1F，再从 1F 入口进出。',
+      routeNote: '先下至 1F，再出入建筑。电梯全楼层通达。'
+    }
+  };
+
+  // 【P1-1】楼层数值表：把「当前楼层」接进代价模型。
+  // 口径：图书馆唯一出入口在 2F；V27 入口在 1F；户外没有楼内移动。
+  // 楼内移动时间系数（分钟/层，模拟·经验值）：行人走楼梯 0.5 / 行李须乘电梯 1.0 / 轮椅必须乘电梯 1.0。
+  var FLOOR_META = {
+    'ground': { building: 'outdoor', floorNum: 0, exitFloor: 0 },
+    'lib-1':   { building: 'library', floorNum: 1, exitFloor: 2 },
+    'lib-2':   { building: 'library', floorNum: 2, exitFloor: 2 },
+    'lib-3':   { building: 'library', floorNum: 3, exitFloor: 2 },
+    'lib-4':   { building: 'library', floorNum: 4, exitFloor: 2 },
+    'v27-1':   { building: 'v27',    floorNum: 1, exitFloor: 1 },
+    'v27-2':   { building: 'v27',    floorNum: 2, exitFloor: 1 },
+    'v27-3':   { building: 'v27',    floorNum: 3, exitFloor: 1 },
+    'v27-4':   { building: 'v27',    floorNum: 4, exitFloor: 1 },
+    'v27-5':   { building: 'v27',    floorNum: 5, exitFloor: 1 },
+    'v27-6':   { building: 'v27',    floorNum: 6, exitFloor: 1 },
+    'v27-7':   { building: 'v27',    floorNum: 7, exitFloor: 1 }
+  };
+  var INDOOR_COEF = { walker: 0.5, luggage: 1.0, wheelchair: 1.0 };
+  var currentFloor = 'ground';
+  // 楼内前置信息：图书馆是「出发前先到出口」，V27 是「到达后上/下到目标层」——语义相反，分开措辞
+  function indoorInfo(floorKey) {
+    var m = FLOOR_META[floorKey];
+    if (!m || m.building === 'outdoor') return null;
+    var n = Math.abs(m.floorNum - m.exitFloor);
+    if (n === 0) return null;
+    var dir = m.floorNum > m.exitFloor ? '下' : '上';
+    var isLib = m.building === 'library';
+    // 图书馆：floorNum → exitFloor（出门）；V27：exitFloor → floorNum（到达目标层），两者方向相反
+    var action = isLib
+      ? '从 ' + m.floorNum + 'F ' + dir + '到 ' + m.exitFloor + 'F 出口'
+      : '从 ' + m.exitFloor + 'F 入口 ' + (m.floorNum > m.exitFloor ? '上' : '下') + '到 ' + m.floorNum + 'F 目标层';
+    return { n: n, action: action, isLib: isLib };
+  }
+
+  // ===== SVG class 状态机 =====
+  // 【修复】原版 renderView() 用 setAttribute('class', ...) 整体覆盖 class，
+  // 会把 routes-visible / mode-access 一起清掉——勾选“路线”后再切视角，路线就消失了。
+  // 现在所有开关统一记在 svgState 里，每次由 applySvgClass() 重新拼装 class。
+  var svgState = { view: 'walker', routes: false, access: false, floorActive: false };
+  var floorTimer = null;
+  function applySvgClass() {
+    var svg = document.getElementById('campusMap');
+    var cls = ['view-' + svgState.view];
+    if (svgState.routes) cls.push('routes-visible');
+    if (svgState.access) cls.push('mode-access');
+    if (svgState.floorActive) cls.push('floor-active');
+    svg.setAttribute('class', cls.join(' '));
+  }
+
+  function renderFloor(floorKey) {
+    var d = FLOOR_DATA[floorKey];
+    currentFloor = floorKey;   // 【P1-1】记录当前楼层，供路线对比读取楼内前置成本
+    var info = indoorInfo(floorKey);
+    var html = '<div class="floor-title">' + d.title + '</div>' +
+               '<div class="floor-status ' + d.status + '">' + d.statusText + '</div>' +
+               '<div class="floor-meta">' + d.desc + '</div>';
+    if (info) {
+      html += '<div class="indoor-cost"><b>楼内前置（接进代价模型）：</b>' + info.action + '，共 ' + info.n +
+              ' 层——行人楼梯 +约 ' + (info.n * 0.5).toFixed(1) + ' 分 · 行李电梯 +约 ' + info.n +
+              ' 分 · 轮椅必须电梯 +约 ' + info.n + ' 分。</div>';
+    }
+    if (d.routeNote) {
+      html += '<div class="note">' + d.routeNote + '</div>';
+    }
+    document.getElementById('floorContent').innerHTML = html;
+
+    // 选中楼内楼层时，地图上高亮对应的楼栋（依赖 #bld-library / #bld-v27，已在 SVG 中补上 id）
+    var isBuilding = floorKey.indexOf('lib-') === 0 || floorKey.indexOf('v27-') === 0;
+    svgState.floorActive = isBuilding;
+    if (floorTimer) { clearTimeout(floorTimer); floorTimer = null; }
+    if (isBuilding) {
+      floorTimer = setTimeout(function() {
+        svgState.floorActive = false;
+        applySvgClass();
+      }, 2000);
+    }
+    applySvgClass();
+  }
+  document.getElementById('floorSelect').addEventListener('change', function() {
+    renderFloor(this.value);
+    renderView(currentView);   // 【P1-1】楼层变化会改变楼内前置成本，刷新路线对比
+  });
+  renderFloor('ground');
+
+  // ===== View Data =====
+  var VIEWS = {
+    walker: {
+      rec: 'B',
+      badgeClass: 'rec-b',
+      badgeText: '推荐路线 B（实测更短更快）',
+      note: '2026-10-12 实测反转了预设：路线 B 470 m 走了 6:00，原以为的「台阶近路」A 537 m 反而走了 6:31——「绕行」的那条才是更短更快的那条。路线 A 的价值在别处：沿途有咖啡店、便利店与厕所，台阶段还有坡道可选。',
+      rows: [
+        ['距离', '实测 537 m', '实测 470 m'],
+        ['预估时间', '实测 6 分 31 秒', '实测 6 分 00 秒'],
+        ['台阶/高差', '1 段（旁有坡道可绕）', '0 处（未见台阶）'],
+        ['楼层高差', '-1 层（下坡段）', '0 层'],
+        ['沿途补给', '商铺·厕所丰富', '最近补给偏离约 30 m'],
+        ['轮椅通行', '可走坡道（本次查看）', '*未见台阶']
+      ],
+      dist: [537, 470], time: [6.5, 6], floor: [-1, 0], floorBar: [1, 0]
+    },
+    luggage: {
+      rec: 'B',
+      badgeClass: 'rec-b',
+      badgeText: '推荐路线 B（全程无台阶）',
+      note: '拖着 20 kg 行李，路线 A 的台阶段必须减速控箱（走坡道则距离更长）；实测更短的路线 B 全程无台阶，是明确更省心的选择。注意 B 沿途最近补给点偏离路线约 30 m，出发前先安排好。',
+      rows: [
+        ['距离', '实测 537 m', '实测 470 m'],
+        ['预估时间', '约 13 分（台阶惩罚 ×2）', '实测 6 分 00 秒'],
+        ['台阶/高差', '1 段（下坡高风险·可绕坡道）', '0 处（未见台阶）'],
+        ['楼层高差', '-1 层（下坡拖箱危险）', '0 层'],
+        ['拖行李风险', '高（易失控/摔箱）', '无'],
+        ['沿途补给', '商铺·厕所丰富', '最近补给偏离约 30 m']
+      ],
+      dist: [537, 470], time: [13, 6], floor: [-1, 0], floorBar: [1, 0]
+    },
+    wheelchair: {
+      rec: 'B',
+      badgeClass: 'rec-b',
+      badgeText: '推荐路线 B（更短·全程平缓）',
+      note: '路线 A 的台阶旁本次查看发现有坡道可替代（电动或人推可上），但整体更长、更绕；路线 B 更短且全程未见台阶，仍是更优选择。坡度与路面宽度未测量，不构成无障碍通行保证。另：一条更短的室内路线正在采集中，它需要走楼梯/等电梯，对轮椅未必友好。',
+      rows: [
+        ['距离', '实测 537 m', '实测 470 m'],
+        ['预估时间', '约 8.5 分（坡道估算）', '约 7 分'],
+        ['台阶/高差', '1 段（旁有坡道替代）', '0 处（未见台阶）'],
+        ['楼层高差', '-1 层（坡道绕行）', '0 层'],
+        ['沿途补给', '商铺·厕所丰富', '最近补给偏离约 30 m'],
+        ['轮椅通行', '坡道可用（本次查看）', '*未见台阶']
+      ],
+      dist: [537, 470], time: [8.5, 7], floor: [-1, 0], floorBar: [1, 0]
+    }
+  };
+
+  function renderView(view) {
+    var v = VIEWS[view];
+    var badge = document.getElementById('recBadge');
+    badge.className = 'badge ' + v.badgeClass;
+    badge.textContent = v.badgeText;
+
+    svgState.view = view;
+    applySvgClass();
+
+    // 【P1-1】读取当前楼层的「楼内前置」成本（户外为 0），并反映到推荐说明与对比表
+    var info = indoorInfo(currentFloor);
+    var addTxt = '';
+    var noteText = v.note;
+    if (info) {
+      var coef = INDOOR_COEF[view] || 1;
+      var addMin = info.n * coef;
+      addTxt = (addMin === Math.floor(addMin)) ? String(addMin) : addMin.toFixed(1);
+      var ctx = info.isLib
+        ? '你当前在 ' + FLOOR_DATA[currentFloor].title + '，需先'
+        : '目的地是 ' + FLOOR_DATA[currentFloor].title + '，到达入口后还需';
+      noteText = ctx + info.action + '（当前身份约 +' + addTxt + ' 分）——这段「楼内前置」是两条路线共同承担的成本。' + noteText;
+    }
+    document.getElementById('note').textContent = noteText;
+
+    var tbody = document.getElementById('tbody');
+    tbody.innerHTML = '';
+    if (info) {
+      var tr = document.createElement('tr');
+      tr.className = 'indoor-row';
+      var td0 = document.createElement('td'); td0.textContent = '楼内前置';
+      var td1 = document.createElement('td'); td1.colSpan = 2;
+      td1.textContent = info.action + '（' + info.n + ' 层 · 当前身份 +约 ' + addTxt + ' 分）';
+      tr.appendChild(td0); tr.appendChild(td1);
+      tbody.appendChild(tr);
+    }
+    v.rows.forEach(function(r) {
+      var tr = document.createElement('tr');
+      var recIdx = v.rec === 'A' ? 1 : 2;
+      r.forEach(function(cell, i) {
+        var td = document.createElement('td');
+        td.textContent = cell;
+        if (i === recIdx) td.className = 'rec-mark';
+        tr.appendChild(td);
+      });
+      if (r[1] === '不可达' || r[2] === '不可达') tr.className = 'lose';
+      tbody.appendChild(tr);
+    });
+    var maxDist = Math.max(v.dist[0], v.dist[1]);
+    var maxTime = Math.max(v.time[0] || 1, v.time[1]);
+    var maxFloor = Math.max(v.floorBar[0], v.floorBar[1]) || 1;
+    setBar('barDistA', 'valDistA', v.dist[0], maxDist, v.dist[0] + 'm');
+    setBar('barDistB', 'valDistB', v.dist[1], maxDist, v.dist[1] + 'm');
+    setBar('barTimeA', 'valTimeA', v.time[0], maxTime, v.time[0] === 0 ? '不可达' : v.time[0] + '分');
+    setBar('barTimeB', 'valTimeB', v.time[1], maxTime, v.time[1] + '分');
+    // 【修复】原版把 -1 层当正数显示成「+1层」，与表格里的「-1 层（下坡）」自相矛盾。
+    setBar('barFloorA', 'valFloorA', v.floorBar[0], maxFloor, v.floor[0] + '层');
+    setBar('barFloorB', 'valFloorB', v.floorBar[1], maxFloor, v.floor[1] + '层');
+  }
+  function setBar(fillId, valId, val, max, text) {
+    var pct = max > 0 ? Math.max(0, Math.round(val / max * 100)) : 0;
+    document.getElementById(fillId).style.width = pct + '%';
+    document.getElementById(valId).textContent = text;
+  }
+
+  // Sync desktop and mobile switchers
+  var currentView = 'walker';
+  function setView(view) {
+    currentView = view;
+    // desktop buttons
+    document.querySelectorAll('#desktopSwitch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.view === view);
+      b.setAttribute('aria-pressed', b.dataset.view === view);
+    });
+    // mobile nav
+    document.querySelectorAll('.mobile-nav .nav-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.view === view);
+      b.setAttribute('aria-pressed', b.dataset.view === view);
+    });
+    renderView(view);
+  }
+  document.querySelectorAll('#desktopSwitch button').forEach(function(btn) {
+    btn.addEventListener('click', function() { setView(btn.dataset.view); });
+  });
+  document.querySelectorAll('.mobile-nav .nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { setView(btn.dataset.view); });
+  });
+  renderView('walker');
+
+  // 【P0-2】默认展示核心功能：以 checkbox 的实际勾选状态为唯一真源，
+  // 避免「HTML 勾选了、JS 状态却是 false」这类静默失配。
+  svgState.routes = document.getElementById('cbRoute').checked;
+  svgState.access = document.getElementById('cbAccess').checked;
+  applySvgClass();
+
+  var mapHint = document.getElementById('mapHint');
+  function updateMapHint() {
+    mapHint.classList.toggle('off', !svgState.routes);
+    mapHint.innerHTML = svgState.routes
+      ? '<b>地图已显示两条路线：</b>蓝＝路线 A（台阶/坡道路，实测 537 m ／ −1 层）；绿＝路线 B（户外平路，实测 470 m ／ 0 层）。' +
+        '切换上方「视角」（行人 / 行李 / 轮椅）看结论如何变化；点地图上的橙色圆点可展开分段指引。'
+      : '<b>路线当前已隐藏。</b>勾选上方「路线」，即可在地图上叠加路线 A / B 进行对比。';
+  }
+  updateMapHint();
+
+  // ===== 电梯等候时间（教学区分时模型）=====
+  // 教学区电梯：每小时前 45 分钟（非课间）约 1 分钟；末尾 15 分钟（课间）约 3–5 分钟。宿舍区暂无此现象。
+  // 默认按系统时间自动判断（分钟数 >= 45 即课间），用户也可手动切换。
+  var elevatorPeriod = 'auto';
+  function resolveElevatorPeriod() {
+    if (elevatorPeriod === 'auto') {
+      return (new Date().getMinutes() >= 45) ? 'peak' : 'offpeak';
+    }
+    return elevatorPeriod;
+  }
+  function renderElevatorWait() {
+    var el = document.getElementById('elevatorWait');
+    if (!el) return;
+    var p = resolveElevatorPeriod();
+    var auto = elevatorPeriod === 'auto';
+    el.innerHTML = (p === 'peak'
+      ? '约 <b>3–5 分钟</b>（当前为<b>课间</b>）'
+      : '约 <b>1 分钟</b>（当前为<b>非课间</b>）') + (auto ? '' : ' · 手动选择');
+  }
+  document.getElementById('elevatorPeriod').addEventListener('change', function() {
+    elevatorPeriod = this.value;
+    renderElevatorWait();
+  });
+  renderElevatorWait();
+
+  // ===== Map Layer Toggles =====
+  document.getElementById('cbFoot').addEventListener('change', function() {
+    document.querySelectorAll('.lyr-foot').forEach(function(p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
+  });
+  document.getElementById('cbLabel').addEventListener('change', function() {
+    // 楼栋标注与地物名称一起开关；起/终点标记（.lyr-route）不受影响
+    document.querySelectorAll('.lbl').forEach(function(p) { p.style.display = this.checked ? '' : 'none'; }.bind(this));
+  });
+  document.getElementById('cbRoute').addEventListener('change', function() {
+    svgState.routes = this.checked;
+    applySvgClass();
+    updateMapHint();
+    // 收起所有指引弹窗
+    document.querySelectorAll('.route-guide').forEach(function(g) { g.setAttribute('opacity', '0'); });
+    activeGuide = null;
+  });
+  document.getElementById('cbAccess').addEventListener('change', function() {
+    svgState.access = this.checked;
+    applySvgClass();
+  });
+
+  // ===== Tooltip =====
+  var tip = document.getElementById('tip');
+  document.querySelectorAll('.bld').forEach(function(el) {
+    el.addEventListener('mousemove', function(ev) {
+      var name = el.dataset.name;
+      if (!name) return;                       // 无名建筑不再弹出空白浮层
+      tip.textContent = name;
+      tip.style.left = (ev.clientX + 14) + 'px';
+      tip.style.top = (ev.clientY + 14) + 'px';
+      tip.classList.add('visible');
+    });
+    el.addEventListener('mouseleave', function() { tip.classList.remove('visible'); });
+  });
+
+  // ===== Route Guide Interactions =====
+  var activeGuide = null;
+  function hideAllGuides() {
+    document.querySelectorAll('.route-guide').forEach(function(g) { g.setAttribute('opacity', '0'); });
+    activeGuide = null;
+  }
+  (function() {
+    function toggleGuide(dot) {
+      var guide = document.getElementById('guide-' + dot.dataset.guide);
+      if (!guide) return;
+      if (activeGuide === guide) { hideAllGuides(); return; }
+      hideAllGuides();
+      guide.setAttribute('opacity', '1');
+      activeGuide = guide;
+    }
+    document.querySelectorAll('.guide-dot').forEach(function(dot) {
+      dot.setAttribute('tabindex', '0');
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('aria-label', '查看该位置的路线指引');
+      dot.addEventListener('click', function(e) { e.stopPropagation(); toggleGuide(dot); });
+      dot.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); toggleGuide(dot); }
+      });
+    });
+    // 点击地图空白处收起指引
+    document.getElementById('campusMap').addEventListener('click', function(e) {
+      if (!e.target.classList.contains('guide-dot')) hideAllGuides();
+    });
+  })();
+
+  // ===== 地图平移 / 缩放（桌面 + 触屏统一由 JS 接管） =====
+  (function() {
+    var svg = document.getElementById('campusMap');
+    var stage = svg.parentElement;              // .map-stage（overflow:hidden）
+    var MIN = 0.8, MAX = 3;
+    var scale = 1, tx = 0, ty = 0;
+    var lastDist = 0, lastX = 0, lastY = 0;
+    var isPinching = false, isPanning = false, moved = false, lastTap = 0;
+
+    function apply() {
+      // 夹住平移量，避免把地图拖出视野
+      var r = stage.getBoundingClientRect();
+      var maxX = r.width  * Math.max(0, scale - 1) / 2 + 40;
+      var maxY = r.height * Math.max(0, scale - 1) / 2 + 40;
+      tx = Math.max(-maxX, Math.min(maxX, tx));
+      ty = Math.max(-maxY, Math.min(maxY, ty));
+      svg.style.transformOrigin = 'center center';
+      svg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    }
+    function reset() { scale = 1; tx = 0; ty = 0; apply(); }
+    function dist(t) {
+      var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    stage.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        isPinching = true; isPanning = false; moved = true;   // 捏合不算“轻点”
+        lastDist = dist(e.touches);
+      } else if (e.touches.length === 1) {
+        isPanning = true; moved = false;
+        lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    stage.addEventListener('touchmove', function(e) {
+      if (isPinching && e.touches.length === 2) {
+        e.preventDefault();
+        var d = dist(e.touches);
+        if (lastDist > 0) scale = Math.max(MIN, Math.min(MAX, scale * (d / lastDist)));
+        lastDist = d;
+        apply();
+      } else if (isPanning && e.touches.length === 1) {
+        var cx = e.touches[0].clientX, cy = e.touches[0].clientY;
+        if (Math.abs(cx - lastX) + Math.abs(cy - lastY) > 6) moved = true;
+        if (moved) { e.preventDefault(); tx += cx - lastX; ty += cy - lastY; apply(); }
+        lastX = cx; lastY = cy;
+      }
+    }, { passive: false });
+
+    function endTouch(e) {
+      if (e.touches.length !== 0) return;          // 还有手指在屏幕上，手势没结束
+      var wasPinch = isPinching;
+      isPinching = false; isPanning = false;
+      if (!moved && !wasPinch) {                   // 只有真正的单指轻点才参与双击复位
+        var now = Date.now();
+        if (now - lastTap < 300) { reset(); lastTap = 0; return; }
+        lastTap = now;
+      } else {
+        lastTap = 0;
+      }
+    }
+    stage.addEventListener('touchend', endTouch);
+    stage.addEventListener('touchcancel', endTouch);
+
+    // 【修复】原版对所有 wheel 事件 preventDefault，鼠标停在图上滚页面会变成缩放地图。
+    // 现在只有按住 ⌘/Ctrl（触控板捏合也会带 ctrlKey）时才缩放，普通滚动交还页面。
+    stage.addEventListener('wheel', function(e) {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      e.preventDefault();
+      scale = Math.max(MIN, Math.min(MAX, scale * (e.deltaY > 0 ? 0.92 : 1.08)));
+      apply();
+    }, { passive: false });
+
+    stage.addEventListener('dblclick', reset);
+    var btn = document.getElementById('mapReset');
+    if (btn) btn.addEventListener('click', reset);
+  })();
+</script>
+</body>
+</html>

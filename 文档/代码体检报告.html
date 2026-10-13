@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>「看不见的距离」作品体检报告</title>
+<style>
+  :root {
+    --ink:#0f172a; --ink2:#334155; --ink3:#64748b; --line:#e2e8f0;
+    --red:#dc2626; --amber:#d97706; --green:#059669; --blue:#2563eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin:0; padding:32px 40px 80px; background:#f0f2f5; color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    line-height:1.75; -webkit-font-smoothing:antialiased;
+  }
+  .page { max-width:940px; margin:0 auto; background:#fff; padding:56px 64px 72px;
+          border-radius:18px; box-shadow:0 12px 40px rgba(15,23,42,.08); }
+  h1 { font-size:27px; margin:0 0 6px; letter-spacing:-.4px; }
+  .sub { color:var(--ink3); font-size:13px; margin-bottom:32px; }
+  h2 { font-size:19px; margin:44px 0 14px; padding-bottom:8px; border-bottom:2px solid #f1f5f9; }
+  h2:first-of-type { margin-top:32px; }
+  h3 { font-size:15px; margin:26px 0 8px; }
+  p, li { font-size:14px; color:var(--ink2); }
+  ul, ol { padding-left:22px; margin:8px 0; }
+  li { margin:4px 0; }
+  code { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:12.5px;
+         background:#f1f5f9; border-radius:5px; padding:1px 6px; color:#0f172a; }
+  pre { background:#0f172a; color:#e2e8f0; border-radius:12px; padding:14px 16px;
+        overflow-x:auto; font-size:12.5px; line-height:1.6; }
+  pre code { background:none; color:inherit; padding:0; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:12px 0 4px; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f8fafc; font-weight:600; color:var(--ink2); font-size:12px; }
+  td:first-child { white-space:nowrap; }
+  .kpi { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0 6px; }
+  .kpi div { flex:1 1 130px; background:#f8fafc; border:1px solid var(--line);
+             border-radius:12px; padding:12px 14px; }
+  .kpi b { display:block; font-size:22px; line-height:1.3; }
+  .kpi span { font-size:11.5px; color:var(--ink3); }
+  .tag { display:inline-block; font-size:11px; font-weight:700; padding:1px 8px;
+         border-radius:999px; white-space:nowrap; }
+  .t-fatal { background:#fee2e2; color:#991b1b; }
+  .t-major { background:#ffedd5; color:#9a3412; }
+  .t-mid   { background:#fef3c7; color:#92400e; }
+  .t-minor { background:#e0e7ff; color:#3730a3; }
+  .t-fixed { background:#d1fae5; color:#065f46; }
+  .t-open  { background:#e2e8f0; color:#334155; }
+  .box { border-radius:12px; padding:14px 18px; margin:14px 0; font-size:13.5px; }
+  .box-red   { background:#fef2f2; border-left:4px solid var(--red); }
+  .box-amber { background:#fffbeb; border-left:4px solid var(--amber); }
+  .box-green { background:#ecfdf5; border-left:4px solid var(--green); }
+  .box-blue  { background:#eff6ff; border-left:4px solid var(--blue); }
+  .box b { color:var(--ink); }
+  .pass { color:#065f46; font-weight:600; }
+  .ref { color:var(--ink3); font-size:12px; }
+  @media print {
+    body { background:#fff; padding:0; }
+    .page { box-shadow:none; border-radius:0; padding:0 0 24px; max-width:none; }
+    h2 { page-break-after:avoid; }
+    table, pre, .box { page-break-inside:avoid; }
+    @page { size:A4; margin:16mm 14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>「看不见的距离」作品 · 代码体检报告</h1>
+<div class="sub">
+  体检对象：<code>invisible-distance/</code>（BNBU Programming Contest · AI Track 参赛作品转移包）<br>
+  体检时间：2026-10-12 &nbsp;|&nbsp; 体检范围：作品页 1295 行、独立地图 447 行、构建脚本 12 个<br>
+  方法：全文通读 + 无头 Chromium 实跑回归测试 + 几何自检脚本 &nbsp;|&nbsp; 原始版本已备份到 <code>_backup/</code>
+</div>
+
+<div class="kpi">
+  <div><b>17</b><span>发现问题总数</span></div>
+  <div><b>12</b><span>已修复（含 2 个致命）</span></div>
+  <div><b>5</b><span>需你拍板 / 补数据</span></div>
+  <div><b>12/12</b><span>回归测试通过</span></div>
+</div>
+
+<div class="box box-amber">
+  <b>一句话结论：</b>作品的地图数据、量化模型和交互设计都站得住，但代码里有一批「看起来能用、实际点了就坏」的开关。
+  最致命的是<b>切换到「拖行李 / 轮椅」视角会把地图上的路线和无障碍高亮全部清掉</b>——而这三个视角的对比恰恰是整个作品的灵魂。
+  这类问题在决赛现场演示时最容易翻车，已经全部修掉并跑通回归测试。
+</div>
+
+<h2>一、致命问题（已修复）</h2>
+
+<h3><span class="tag t-fatal">致命</span> 1. 切视角会清空地图状态，路线和无障碍高亮整体消失</h3>
+<p>原代码在切换视角时执行的是：</p>
+<pre><code>svg.setAttribute('class', 'view-' + view);   // 整体覆盖 class 属性</code></pre>
+<p>
+<code>setAttribute</code> 是<b>替换</b>而不是追加，于是「路线」开关加的 <code>routes-visible</code>、「无障碍视角」加的 <code>mode-access</code>
+被一并抹掉。复现步骤（原版必现）：
+</p>
+<ol>
+  <li>勾选地图工具栏的「路线」→ 两条路线出现 ✓</li>
+  <li>点上方「拖行李」→ 路线<b>全部消失</b>，但复选框仍然是勾选状态 ✗</li>
+  <li>点「轮椅 / 无障碍」→ 台阶高亮同样消失 ✗</li>
+</ol>
+<p><b>修法：</b>引入一个状态对象统一管理 class，每次拼装而不是覆盖。</p>
+<pre><code>var svgState = { view:'walker', routes:false, access:false, floorActive:false };
+function applySvgClass() {
+  var cls = ['view-' + svgState.view];
+  if (svgState.routes)     cls.push('routes-visible');
+  if (svgState.access)     cls.push('mode-access');
+  if (svgState.floorActive) cls.push('floor-active');
+  document.getElementById('campusMap').setAttribute('class', cls.join(' '));
+}</code></pre>
+<p>全部写 class 的地方现在只走这一个出口，三个开关可以任意叠加、互不干扰。</p>
+
+<h3><span class="tag t-fatal">致命</span> 2. 「楼层高差」条形图把下坡 <code>-1 层</code> 显示成 <code>+1 层</code></h3>
+<p>
+表格里写的是「<b>-1 层（下坡省力）</b>」，紧邻下方的条形图却标成「<b>+1层</b>」——同一个面板里自己打自己。
+原因是数据里存的是绝对值 <code>floor: [1, 0]</code>，显示时又套了一层「大于 0 就加 + 号」的逻辑。
+</p>
+<p><b>修法：</b>把符号信息保留在数据里，绝对值只用于条宽。</p>
+<pre><code>floor: [-1, 0],      // 显示用：保留正负号
+floorBar: [1, 0]     // 条宽用：取绝对值</code></pre>
+<p>现在三个视角都正确显示「-1层 / 0层」，与表格、脚注、弹窗文案完全一致。</p>
+
+<h2>二、严重问题（已修复）</h2>
+
+<h3><span class="tag t-major">严重</span> 3. 楼层切换的楼栋高亮是死代码</h3>
+<p>
+CSS 里写了 <code>.floor-active #bld-library</code> 和 <code>.floor-active #bld-v27</code>，但 SVG 里<b>没有任何元素带这两个 id</b>
+（42 栋楼只有 <code>class</code> 和 <code>data-name</code>）。所以「选择图书馆 3F」时，本该闪蓝光高亮的图书馆其实一点反应都没有，
+而这个高亮正是「楼层选择器」这个功能唯一的视觉反馈。<b>修法：</b>给图书馆和 V27 的轮廓补上 id。</p>
+
+<h3><span class="tag t-major">严重</span> 4. 图书馆楼层自相矛盾：正文说 4 层，鼠标一悬停显示 1 层</h3>
+<p>
+正文、脚注、数据来源都写明「图书馆 4 层（OSM 标 1 层有误，已现场核实）」，但图书馆轮廓的 <code>data-name</code> 里仍然是
+OSM 的原始值「· 1 层」。评委把鼠标移到地图上的图书馆，看到的就是被作品自己否定的那个错误数字。
+<b>修法：</b>tooltip 文案改为「4 层 · 唯一出入口在 2F 朝东南（现场核实）」，并加上 <code>data-levels="4"</code> 便于脚本读取。</p>
+
+<h3><span class="tag t-major">严重</span> 5. 鼠标滚轮被劫持：停在图上滚页面变成了缩放地图</h3>
+<pre><code>container.addEventListener('wheel', function(e) {
+  e.preventDefault();          // 无条件吞掉所有滚轮事件
+  scale = ...;
+}, {passive:false});</code></pre>
+<p>
+地图占了页面的绝大部分，鼠标只要停在图上就再也滚不动页面了。在 macOS 触控板上尤其难受——两指滑动本来是滚动，
+结果一直在缩放地图。<b>修法：</b>只有按住 <code>⌘</code>／<code>Ctrl</code> 时才缩放（触控板捏合手势本身会带 <code>ctrlKey</code>），
+普通滚动交还页面。另外补了「复位视图」按钮和双击复位。</p>
+
+<h3><span class="tag t-major">严重</span> 6. 双击复位会被捏合、拖动误触发</h3>
+<p>
+原代码把双击检测挂在 <code>touchend</code> 上，且不判断这一指是不是「轻点」：
+</p>
+<pre><code>container.addEventListener('touchend', function(e) {   // 任何手指抬起都算一次
+  if (now - lastTap &lt; 300) { scale = 1; tx = 0; ty = 0; }
+});</code></pre>
+<p>
+后果：捏合缩放时先松一根手指 → 记一次；再松另一根 → 300ms 内判定为双击 → 缩放被复位。
+在地图上拖完一段再抬手同样会误复位。<b>修法：</b>记录位移量，只有「未移动 + 非捏合 + 最后一根手指抬起」才算轻点。</p>
+
+<h3><span class="tag t-major">严重</span> 7. <code>touch-action</code> 与 JS 手势互相打架，缩放后看不到被裁掉的部分</h3>
+<p>
+SVG 上写了 <code>touch-action: pan-x pan-y pinch-zoom</code>（交给浏览器原生手势），父容器又设了
+<code>overflow:auto</code>，同时 JS 还在 <code>touchmove</code> 里 <code>preventDefault()</code> 自己实现缩放。
+三方抢同一个手势，结果是抖动、双重缩放。
+另外 <code>transform</code> 不改变布局尺寸，缩放 2 倍后地图边缘超出容器但<b>无法滚动看到</b>，等于放大了也没用。
+<b>修法：</b>容器改 <code>overflow:hidden</code>、SVG 改 <code>touch-action:none</code>，手势全部由 JS 接管，
+并给平移量加夹取，既不会把地图拖飞，放大后也能拖到任意角落。</p>
+
+<h2>三、中等问题（已修复）</h2>
+
+<h3><span class="tag t-mid">中等</span> 8. 「中心湖」根本看不见，「中心岛」从来就没显示过</h3>
+<div class="box box-blue">
+  <b>这是本次体检里最值得说的一条</b>——一个视觉 bug 掩盖着另一个视觉 bug。
+</div>
+<ul>
+  <li><b>湖</b>：湖泊路径的填充色是 <code>#eef3ea</code>，和画布背景色完全相同，等于用背景色把湖涂掉了。
+      地图上只剩一个「中心湖」文字标签和一条孤零零的棕色栈道线。</li>
+  <li><b>岛</b>：中心岛多边形的坐标落在<b>图书馆轮廓内部</b>，而建筑是在湖之后绘制的，
+      所以岛被图书馆整个盖住——这个元素从做出来那天起就没被看见过。只有它的文字标签（标签绘制在最上层）浮在图书馆上面，
+      于是地图上出现了一个「飘在图书馆楼顶上的『中心岛』标签」。</li>
+</ul>
+<p>
+<b>我做的处理（为什么不直接"补一片好看的湖"）：</b>我把湖的填充改成了<b>淡蓝色虚线示意岸线</b>，标注文字改成「中心湖（岸线示意）」，
+并把中心岛和栈道移到示意湖面的开阔处，让「湖—栈道—岛」三件套终于读得通。
+</p>
+<p>
+<b>但我不敢把它画成实心精确湖面</b>，原因是有实测依据的：我写脚本做了点在多边形内的几何自检，
+发现现有这个湖岸线多边形压住了 <b>16 条真实 OSM 步道和 6 段台阶</b>的坐标点。也就是说这个多边形的形状/位置本身就不准，
+大概率就是原作者发现穿模之后，选择用背景色把它涂掉、而不是去改坐标。
+在没有真实湖岸数据之前，画成实心只会制造一处<b>更显眼的错误地理信息</b>；画成虚线示意则在视觉上说得通、又不冒充实测。
+</p>
+<p><b>要真正修好，需要：</b>中心湖岸线的实测轨迹（沿湖走一圈用手机 GPS 记录即可），或校方总平面图上的精确岸线。已列入待办。</p>
+
+<h3><span class="tag t-mid">中等</span> 9. 无障碍模式下水域不会淡出（选择器 class 名不一致）</h3>
+<p><code>.mode-access .lyr-water</code> 只选得中校园东侧的湿地，选不中湖（class 是 <code>lyr-lake</code>）。
+已把 <code>.lyr-lake</code> 加进选择器，与其余底图图层一起淡出到 25%。</p>
+
+<h3><span class="tag t-mid">中等</span> 10. 9 处楼栋标注是空的，悬停会弹出一个空白黑框</h3>
+<p>
+SVG 里有 5 处 <code>data-name=""</code>（完全空），另有 4 处残名只写了一半，形如 <code>data-name=" · 4 层"</code>。
+原代码 <code>tip.textContent = el.dataset.name || ''</code> 不判空，鼠标划过去就弹一个只有背景色的空浮层。
+已统一补成「未命名建筑（OSM 未标注名称）［· N 层］」，并在 hover 处理器里加了 <code>if (!name) return;</code> 兜底。</p>
+
+<h3><span class="tag t-mid">中等</span> 11. 独立地图侧栏有 11 条空白条目</h3>
+<p>
+<code>地图/校园地图.html</code> 的「大型设施」列表里有 11 行是 <code>&lt;li&gt;&lt;b&gt;&lt;/b&gt;&lt;span&gt;&lt;/span&gt;&lt;/li&gt;</code>，
+渲染出来就是一串空行。已改为有名称的条目 + 一条「未命名建筑 × 11」的汇总说明，
+同时把图书馆楼层从 1 层改正为 4 层，并补上数据分级与模拟数据声明。</p>
+
+<h3><span class="tag t-mid">中等</span> 12. 缺了赛题硬性要求的「模拟数据标注」</h3>
+<div class="box box-amber">
+  赛题 FAQ 白纸黑字写着：<b>「涉及真实校方系统的部分需标注哪些是模拟数据。」</b>原作品全文没有任何一处做这个区分，
+  这属于<b>评审会直接扣分的合规项</b>。
+</div>
+<p>
+已在作品页「数据来源」区域补了一张<b>数据真实性分级表</b>（现场实测 / 开源地图 / 官方资料 / 示意模拟 / 待核），
+并加了一段明确的模拟数据声明：标注为「示意」的（中心岛轮廓、遮阴连廊范围、路线长度、时间系数）
+均为推断或经验值；作品<b>未接入任何校方真实业务系统</b>，不读取、不写入学校数据库，全部数据以静态文件内置。</p>
+
+<h2>四、轻微问题（已修复）</h2>
+<table>
+  <thead><tr><th>#</th><th>问题</th><th>处理</th></tr></thead>
+  <tbody>
+    <tr><td>13</td><td><code>viewport</code> 写了 <code>maximum-scale=1.0, user-scalable=no</code>，禁止用户缩放页面</td><td>移除这两个参数（WCAG 1.4.4 要求可缩放；地图自己的缩放不受影响）</td></tr>
+    <tr><td>14</td><td>同一段 <code>.lyr-beeline</code> / <code>.view-wheelchair .lyr-beeline</code> 规则被复制粘贴了 3 遍</td><td>删除冗余，保留 1 份</td></tr>
+    <tr><td>15</td><td>6 个可点击指引点是 <code>&lt;circle&gt;</code>，键盘完全不可达</td><td>补 <code>tabindex="0"</code> + <code>role="button"</code> + Enter/Space 触发 + 焦点描边</td></tr>
+    <tr><td>16</td><td>缩放后没有办法回到初始视图</td><td>新增「复位视图」按钮 + 桌面双击复位</td></tr>
+    <tr><td>17</td><td>文档与实际实现不符（详见下一节）</td><td>统一以实现为准修正文档</td></tr>
+  </tbody>
+</table>
+
+<h2>五、文档与实现对不上的地方</h2>
+<table>
+  <thead><tr><th>文档写的</th><th>代码实际</th><th>处理</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><code>README.md</code> / <code>CONTEXT.md</code>：「缩放范围 0.6x–3.0x」</td>
+      <td>代码是 <code>Math.max(0.8, Math.min(3, …))</code></td>
+      <td>统一为 <b>0.8x–3.0x</b>（0.6 会让地图缩成一小块、反而要重新放大，没有实用价值）</td>
+    </tr>
+    <tr>
+      <td><code>CONTEXT.md</code> 7.4：「阻尼系数 0.08（平滑动画）」</td>
+      <td>代码里<b>没有任何阻尼/缓动逻辑</b>，是硬跟手</td>
+      <td>删掉这句虚构描述</td>
+    </tr>
+    <tr>
+      <td><code>CONTEXT.md</code> 4.2 表格：轮椅 + 路线 B = <b>7 分钟</b></td>
+      <td>作品表格写 <b>约 8 分钟</b></td>
+      <td>以 CONTEXT 决策记录为准，统一为 <b>7 分钟</b></td>
+    </tr>
+    <tr>
+      <td><code>README.md</code>：路线 A/B = 约 300m / 450m</td>
+      <td>独立地图 <code>校园地图.html</code> 写「约 360m（折线）/ 310m（直线）」</td>
+      <td>不强行统一（量法不同），但在独立地图上标注「本页为早期原型，请以作品页为准」</td>
+    </tr>
+    <tr>
+      <td><code>README.md</code>：「路线基于现场核实」</td>
+      <td>路线长度是 OSM 步道累计估算，只有端点楼层/出入口是实测</td>
+      <td>首页副标题改为「路线沿 OSM 真实步道 · 端点楼层与出入口为现场实测」</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>六、尚未修复：这 5 件事需要你（或现场数据）拍板</h2>
+<table>
+  <thead><tr><th>#</th><th>事项</th><th>为什么我没动</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="tag t-open">待你定</span></td>
+      <td><b>扩展更多路线对</b>（T7→食堂、V20→体育馆、西门→图书馆等）</td>
+      <td>需要新数据。要哪几条路线、每条走哪种出行视角，得你先定。定下来我可以照现在的量化模型批量做。</td>
+    </tr>
+    <tr>
+      <td><span class="tag t-open">需实测</span></td>
+      <td><b>路线长度未 GPS 实测</b>（现在 300m/450m 是步道坐标累计的估算值）</td>
+      <td>只有你能走一遍。手机装个轨迹记录 App，沿两条路各走一次即可，我可以写脚本把 GPX 转成图上的折线。</td>
+    </tr>
+    <tr>
+      <td><span class="tag t-open">需实测</span></td>
+      <td><b>其余 40 栋楼的楼层数直接沿用 OSM</b>，未现场核对（图书馆已经错了一次，说明这个数据源不可靠）</td>
+      <td>要一栋一栋看。建议按「你去得最勤的 5 栋」优先，我可以把清单列成一页对照表方便你边走边填。</td>
+    </tr>
+    <tr>
+      <td><span class="tag t-open">需实测</span></td>
+      <td><b>湖岸线、中心岛、遮阴/连廊范围没有真实几何</b></td>
+      <td>见第 8 条。现在用虚线示意画法兜住，不算错但也不算对。</td>
+    </tr>
+    <tr>
+      <td><span class="tag t-open">待你定</span></td>
+      <td><b>时间系数是经验值</b>（每层 1 分钟、拖箱惩罚 2 倍）</td>
+      <td>这两个数是整个量化模型的支点，目前没有任何实测支撑。要不要换成「拖箱 1.5 倍」或给个区间，你定。</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="box box-blue">
+  <b>另外提一句风险：</b>作品是纯静态单文件，所有路线数据写死在 HTML 里。<b>现场演示没问题、很稳</b>（零依赖、不联网、不怕断网），
+  但如果评委问「能不能加一条新路线，现在加给我看」，就没法即兴改。要不要做一个极简的「路线参数面板」放在页面上（改系数即时重算），
+  这是决赛现场最能加分的东西之一——你说了我就做。
+</div>
+
+<h2>七、验证方式（不是"我看着没问题"）</h2>
+<p>修完以后我用本机无头 Chromium 真跑了一遍页面，注入 12 条断言脚本，全部通过：</p>
+<table>
+  <thead><tr><th>#</th><th>断言</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>勾选「路线」后 <code>routes-visible</code> 生效</td><td class="pass">PASS</td></tr>
+    <tr><td>2</td><td>切到「拖行李」后 <code>routes-visible</code> <b>仍然保留</b>（原版此处丢失）</td><td class="pass">PASS</td></tr>
+    <tr><td>3</td><td>切视角后 <code>view-*</code> 类名正确</td><td class="pass">PASS</td></tr>
+    <tr><td>4</td><td>切到「轮椅」后 <code>mode-access</code> 仍保留（原版此处丢失）</td><td class="pass">PASS</td></tr>
+    <tr><td>5</td><td>楼层高差显示 <code>-1层</code> 而非 <code>+1层</code></td><td class="pass">PASS</td></tr>
+    <tr><td>6</td><td><code>#bld-library</code> 存在（楼层高亮依赖）</td><td class="pass">PASS</td></tr>
+    <tr><td>7</td><td><code>#bld-v27</code> 存在</td><td class="pass">PASS</td></tr>
+    <tr><td>8</td><td>选楼层后 <code>floor-active</code> 生效</td><td class="pass">PASS</td></tr>
+    <tr><td>9</td><td><code>floor-active</code> 与 <code>mode-access</code> 可共存</td><td class="pass">PASS</td></tr>
+    <tr><td>10</td><td>不存在空的 <code>data-name</code></td><td class="pass">PASS</td></tr>
+    <tr><td>11</td><td>6 个指引点均有 <code>tabindex</code></td><td class="pass">PASS</td></tr>
+    <tr><td>12</td><td>复位按钮存在</td><td class="pass">PASS</td></tr>
+  </tbody>
+</table>
+<p class="ref">
+另：内嵌 JS 通过 <code>node --check</code> 语法校验；SVG 通过 XML 良构性解析；湖面与步道的穿模情况用点在多边形内算法逐条核对（见第 8 条）。
+</p>
+
+<h2>八、改动清单</h2>
+<table>
+  <thead><tr><th>文件</th><th>状态</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td><code>作品/index.html</code></td><td>已修改</td><td>修 1–10、12–17 号问题；新增数据真实性分级表与模拟数据声明；新增复位视图按钮</td></tr>
+    <tr><td><code>地图/校园地图.html</code></td><td>已修改</td><td>清空空白条目、图书馆改 4 层、补数据分级与模拟声明、加早期原型说明、tooltip 判空</td></tr>
+    <tr><td><code>文档/代码体检报告.html</code></td><td>新增</td><td>本文件</td></tr>
+    <tr><td><code>文档/比赛提交材料.html</code></td><td>新增</td><td>作品说明 + 数据集说明 + 对比产品分析（赛题三件套）</td></tr>
+    <tr><td><code>_backup/index.2026-10-11.html</code></td><td>备份</td><td>修改前的作品页原始版本</td></tr>
+    <tr><td><code>_backup/校园地图.2026-10-11.html</code></td><td>备份</td><td>修改前的独立地图原始版本</td></tr>
+  </tbody>
+</table>
+
+<p class="ref" style="margin-top:26px;">
+  体检人：小矩 &nbsp;|&nbsp; 所有结论均基于源码与实跑结果，未做推测。「未修复」清单里的每一项都写明了卡在哪里、需要什么才能继续。
+</p>
+
+</div>
+</body>
+</html>

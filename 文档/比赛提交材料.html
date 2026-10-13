@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>「看不见的距离」比赛提交材料</title>
+<style>
+  :root {
+    --ink:#0f172a; --ink2:#334155; --ink3:#64748b; --line:#e2e8f0;
+    --primary:#4f46e5; --red:#dc2626; --green:#059669; --amber:#d97706; --blue:#2563eb;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; padding:32px 40px 80px; background:#f0f2f5; color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    line-height:1.8; -webkit-font-smoothing:antialiased;
+  }
+  .page { max-width:960px; margin:0 auto; background:#fff; padding:60px 68px 80px;
+          border-radius:18px; box-shadow:0 12px 40px rgba(15,23,42,.08); }
+
+  /* 封面 */
+  .cover { text-align:center; padding:26px 0 40px; border-bottom:3px solid #f1f5f9; margin-bottom:8px; }
+  .cover .kicker { font-size:12.5px; letter-spacing:3px; color:var(--primary); font-weight:700; }
+  .cover h1 { font-size:38px; margin:14px 0 6px; letter-spacing:-1px;
+              background:linear-gradient(135deg,#4f46e5,#7c3aed); -webkit-background-clip:text;
+              -webkit-text-fill-color:transparent; background-clip:text; }
+  .cover .en { font-size:14px; color:var(--ink3); letter-spacing:1.5px; text-transform:uppercase; }
+  .cover .quote { margin:26px auto 0; max-width:560px; font-size:17px; font-weight:600;
+                  color:var(--ink); line-height:1.7; }
+  .cover .meta { margin-top:26px; font-size:13px; color:var(--ink3); }
+  .cover .meta b { color:var(--ink2); }
+
+  h2 { font-size:21px; margin:52px 0 16px; padding:0 0 10px; border-bottom:2px solid #f1f5f9; }
+  h2 .num { color:var(--primary); margin-right:8px; }
+  h3 { font-size:16px; margin:30px 0 8px; color:var(--ink); }
+  h4 { font-size:14px; margin:20px 0 6px; color:var(--ink2); }
+  p, li { font-size:14px; color:var(--ink2); }
+  ul, ol { padding-left:22px; }
+  li { margin:5px 0; }
+  code { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:12.5px;
+         background:#f1f5f9; border-radius:5px; padding:1px 6px; }
+  pre { background:#0f172a; color:#e2e8f0; border-radius:12px; padding:16px 18px;
+        overflow-x:auto; font-size:12.5px; line-height:1.65; }
+  pre code { background:none; color:inherit; padding:0; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; }
+  th, td { border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top; }
+  th { background:#f8fafc; font-weight:600; color:var(--ink2); font-size:12px; }
+  .box { border-radius:12px; padding:15px 20px; margin:16px 0; font-size:13.5px; }
+  .box-blue  { background:#eff6ff; border-left:4px solid var(--blue); }
+  .box-green { background:#ecfdf5; border-left:4px solid var(--green); }
+  .box-amber { background:#fffbeb; border-left:4px solid var(--amber); }
+  .box b { color:var(--ink); }
+  .hl { background:linear-gradient(180deg,transparent 62%,#c7d2fe 62%); font-weight:600; color:var(--ink); }
+  .tag { display:inline-block; font-size:10.5px; font-weight:700; padding:1px 7px; border-radius:999px; white-space:nowrap; }
+  .tag-real { background:#d1fae5; color:#065f46; }
+  .tag-osm  { background:#e0e7ff; color:#3730a3; }
+  .tag-doc  { background:#e0f2fe; color:#075985; }
+  .tag-sim  { background:#fef3c7; color:#92400e; }
+  .toc { background:#f8fafc; border:1px solid var(--line); border-radius:14px; padding:18px 24px; margin-top:30px; }
+  .toc h4 { margin:0 0 8px; font-size:13px; color:var(--ink3); letter-spacing:1px; }
+  .toc ol { margin:0; }
+  .toc li { font-size:13.5px; }
+  .metric { display:flex; flex-wrap:wrap; gap:12px; margin:18px 0; }
+  .metric div { flex:1 1 150px; background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:13px 16px; }
+  .metric b { display:block; font-size:20px; line-height:1.35; color:var(--primary); }
+  .metric span { font-size:11.5px; color:var(--ink3); }
+  .ref { color:var(--ink3); font-size:12px; }
+  .pagebreak { page-break-before:always; }
+
+  @media print {
+    body { background:#fff; padding:0; }
+    .page { box-shadow:none; border-radius:0; padding:0 0 24px; max-width:none; }
+    h2 { page-break-after:avoid; }
+    h3, h4 { page-break-after:avoid; }
+    table, pre, .box, .metric { page-break-inside:avoid; }
+    @page { size:A4; margin:16mm 14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ============ 封面 ============ -->
+<div class="cover">
+  <div class="kicker">BNBU PROGRAMMING CONTEST · AI TRACK</div>
+  <h1>看不见的距离</h1>
+  <div class="en">The Invisible Distance</div>
+  <div class="quote">「什么时候，最短的路不是最近的路？」<br>同一段路，三种人生，三种「最近」。</div>
+  <div class="meta">
+    选题：<b>The Invisible Distance（看不见的距离）</b><br>
+    作品形态：零依赖单文件 Web 交互地图 &nbsp;|&nbsp; 场景：北师港浸大（BNBU）一期校园 · 图书馆 → V27 雨果楼<br>
+    提交日期：2026-10-12
+  </div>
+</div>
+
+<div class="toc">
+  <h4>本材料包含赛题要求的内容</h4>
+  <ol>
+    <li>作品说明</li>
+    <li>数据集说明（含数据真实性分级与<b>模拟数据标注</b>）</li>
+    <li>对比产品分析（Google Maps / 高德地图；Wheelmap.org）</li>
+    <li>核心设计决策与技术取舍</li>
+    <li>开源与既有物料声明</li>
+    <li>AI 使用说明</li>
+  </ol>
+</div>
+
+<!-- ============ 一、作品说明 ============ -->
+<h2><span class="num">一、</span>作品说明</h2>
+
+<h3>1.1 选题与理由</h3>
+<p>
+本届四道选题中，我们选择了 <b>The Invisible Distance</b>，理由有三：
+</p>
+<ul>
+  <li><b>可量化。</b>「哪条路更近」是一个能用数字回答的问题。我们把它拆成「平地距离 + 楼层高差 × 基准时间」，
+      每一项都有明确的计量单位，结论可以被验算，而不是靠形容词。</li>
+  <li><b>切口小、场景熟悉。</b>不做整个校园导航，只做<b>图书馆 → V27 雨果楼</b>这一段。这一段同时具备「近路带台阶」与
+      「远路全平路」两个选项，是能一句话说清、又足够说明问题的最小完整案例。</li>
+  <li><b>结论会反转——而且实测真的反转了我们自己的预设。</b>项目最初按地图估算认为「台阶路 A 更短」；2026-10-12 用运动 App 实测推翻：
+      A 实际 537 m，比户外平路 B（470 m）更长。真正的反转藏在「距离最短」与「代价最低」的分离——台阶旁的坡道、沿途补给的差异，
+      以及一条需要楼梯/电梯的更短室内路线（采集中）。<b>同一组数据，对不同的人答案不同</b>——这正是赛题想问的东西。</li>
+</ul>
+
+<h3>1.2 核心洞察</h3>
+<div class="box box-blue">
+  <b>命题：</b>地图软件给出的「最近」，衡量的是<b>平面距离</b>；而人走一段路真正付出的代价，还包括
+  <b>楼层的垂直高差</b>、<b>台阶这种物理门槛</b>，以及<b>你当时带着什么东西、身体处于什么状态</b>。<br>
+  <b>结论：</b>当这些被地图忽略的变量足够大时，「最短的路」和「最近的路」就会分道扬镳——这就是那条看不见的距离。
+</div>
+<p>落到本校这一段路上，它具体长这样：</p>
+<table>
+  <thead><tr><th>视角</th><th>推荐路线</th><th>路线 A（台阶/坡道路）</th><th>路线 B（户外平路）</th><th>为什么这么推荐</th></tr></thead>
+  <tbody>
+    <tr><td><b>普通行人</b></td><td>B</td><td><b>实测</b> 537 m / 6 分 31 秒 / −1 层台阶（旁有坡道）</td><td><b>实测</b> 470 m / 6 分 00 秒 / 0 层</td><td>实测更短更快；A 的价值在沿途补给与坡道选项</td></tr>
+    <tr><td><b>拖行李</b></td><td>B</td><td>537 m / 约 13 分钟（台阶惩罚 ×2，可绕坡道）</td><td>470 m / 6 分钟 / 0 层</td><td>全程无台阶最省心；B 沿途最近补给点偏离约 30 m</td></tr>
+    <tr><td><b>轮椅 / 无障碍</b></td><td>B</td><td>537 m / 约 8.5 分钟（台阶旁坡道可用：电动/人推可上）</td><td>470 m / 约 7 分钟 / 0 层</td><td>更短且全程平缓；坡度与路面宽度未测量，不构成无障碍通行保证</td></tr>
+  </tbody>
+</table>
+<p class="ref">
+  高差数据来自现场实测：图书馆→V27 全程为 <b>−1 层（下坡）</b>，台阶旁有坡道可替代；图书馆唯一出入口在 2F、朝东南（湖侧）、无台阶；
+  V27 入口位于楼体拐弯处，无台阶、有电梯通达全楼层。两条路线的长度与耗时为 2026-10-12 运动 App 实测（A 537 m / 6:31、B 470 m / 6:00）。
+</p>
+
+<h3>1.3 作品内容与交互</h3>
+<p>作品是一个可在任意浏览器直接打开的单文件网页（无需服务器、无需联网），打开即见校园真实地图。主要交互：</p>
+<table>
+  <thead><tr><th>功能</th><th>做了什么</th><th>想说明什么</th></tr></thead>
+  <tbody>
+    <tr><td><b>三视角切换</b></td><td>普通行人 / 拖行李 / 轮椅·无障碍，一键切换推荐路线、对比表与条形图</td><td>同一组数据，三种推荐——作品的核心论点</td></tr>
+    <tr><td><b>楼层选择器</b></td><td>选择图书馆或 V27 的当前楼层，查看该层的出入口状态与出发动作，地图上高亮对应楼栋</td><td>「你从几楼出发」也在改变最近的路：图书馆 1F 没有出口，必须先上到 2F</td></tr>
+    <tr><td><b>地图图层开关</b></td><td>步行小径 / 楼栋标注 / 路线 / 无障碍视角</td><td>无障碍视角下全部台阶以红色加粗高亮，直观暴露障碍分布</td></tr>
+    <tr><td><b>可点击指引点</b></td><td>路线上的 6 个关键节点（图书馆 2F 出口、台阶段、两处转角、会贤邨广场、V27 入口）</td><td>把「为什么这样走」拆到节点级别，评委可以逐点核对</td></tr>
+    <tr><td><b>两条路线叠图对比</b></td><td>路线 A 与路线 B 同时画在地图上，切换视角时强调对应那条</td><td>让「近路」和「安全路」的空间差异肉眼可见</td></tr>
+  </tbody>
+</table>
+
+<h3>1.4 量化模型</h3>
+<p>把「走一段路有多累」写成一个可计算的式子，是整个作品的技术核心：</p>
+<pre><code>真实代价 = 平地距离 + 楼层高差 × 基准时间
+
+平地距离   ：沿 OSM 实际步道累加（米）
+楼层高差   ：上 N 层取正、下 N 层取负，只算楼层差、不数单个台阶
+基准时间   ：每层楼梯约 1 分钟（上下同）
+拖行李惩罚 ：涉及下坡台阶时，时间代价翻倍（行李失控风险）
+轮椅通行   ：二元判断——路线含 steps（台阶）= 不可达；全 footway = 可达</code></pre>
+<p>
+模型做了一个刻意的简化：<b>不数台阶级数，只算楼层差</b>。因为台阶的高度在校园里基本一致，数级数会引入大量测量噪声，
+而楼层差是每个人都能立刻感知、也能用楼层选择器直接验证的量。
+</p>
+
+<h3>1.5 技术实现</h3>
+<ul>
+  <li><b>纯前端零依赖。</b>HTML5 + CSS3 + 原生 JavaScript，无框架、无第三方库、无 CDN。整个作品就是<b>一个 HTML 文件</b>，
+      拷到任何一台电脑、用任何现代浏览器打开都能跑，不依赖网络——这一点在决赛现场演示时是实打实的优势。</li>
+  <li><b>真实坐标投影成矢量图。</b>用 Python 脚本把 OpenStreetMap 的经纬度按墨卡托变体投影为 SVG 路径
+      （<code>kx = 1/cos(22.35°)</code>，投影范围以楼栋多边形为准，避免校外道路把地图撑大），
+      再用脚本逐层组装成最终页面。地图是矢量图，放大不糊。</li>
+  <li><b>分层渲染与绘制顺序。</b>水域 → 绿地 → 遮阴区 → 道路 → 步道 → 台阶 → 建筑 → 路线 → 标记 → 文字，共 15 层，
+      每一层可以独立开关。</li>
+  <li><b>移动端手势。</b>单指拖动 + 双指捏合缩放（0.8×–3.0×）+ 双击复位 + 「复位视图」按钮；
+      平移量做了夹取，放大后可以拖到任意角落而不会把地图拖出视野。</li>
+  <li><b>构建链可复现。</b>12 个脚本按执行顺序编号（抓取 OSM → 提取官方资料 → 投影渲染 SVG → 组装原型 → 美化 → 路线具体化 → 交互优化），
+      每一步的输入输出都有文件留痕，换台机器也能重新生成整套地图。</li>
+</ul>
+
+<h3>1.6 原创性说明</h3>
+<ul>
+  <li><b>视角模型是原创的。</b>现有地图产品不区分「同一段路对不同身体条件的人意味着什么」。本作品把
+      <b>身体条件</b>（能否走台阶）和<b>携带物</b>（拖箱的风险）作为一等公民纳入路径代价，这是作品的主要创新点。</li>
+  <li><b>数据采集过程本身是作品的一部分。</b>赛题 FAQ 明确说明「数据采集本身也可以作为作品的一部分」。
+      作品里的楼层数、出入口位置与朝向、入口有无台阶、电梯通达范围、全程高差、台阶段落，
+      全部由作者实地步行核实，并据此<b>修正了 OpenStreetMap 的错误数据</b>（图书馆被社区标注为 1 层，实际 4 层）。</li>
+  <li><b>端到端自制。</b>从数据采集、几何投影、地图绘制到交互实现，全部自行完成，未使用任何现成地图 SDK 或导航引擎。</li>
+</ul>
+
+<!-- ============ 二、数据集说明 ============ -->
+<h2 class="pagebreak"><span class="num">二、</span>数据集说明</h2>
+
+<h3>2.1 数据真实性分级与模拟数据标注</h3>
+<div class="box box-amber">
+  <b>合规声明（对应赛题 FAQ「涉及真实校方系统的部分需标注哪些是模拟数据」）：</b><br>
+  本作品<b>未接入任何校方真实业务系统</b>——不读取、不写入学校数据库，不做身份认证，不调用校内接口。
+  全部数据以<b>静态文件</b>形式内置于作品页与转移包中，离线可运行。<br>
+  下表中标注为 <span class="tag tag-sim">示意/模拟</span> 的数据项，均为<b>推断结果或经验取值，不是实测值</b>，不应被当作精确测绘或权威数据使用。
+</div>
+<table>
+  <thead><tr><th>层级</th><th>数据项</th><th>来源</th><th>可信度</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="tag tag-real">现场实测</span></td>
+      <td>图书馆 4 层；图书馆唯一出入口在 2F、朝东南（湖侧）、无台阶；图书馆电梯全楼层互通；<br>
+          V27 入口在楼体拐弯处、无台阶、电梯通达全楼层；图书馆→V27 全程 −1 层（下坡）；沿途存在一段下坡台阶路</td>
+      <td>作者实地步行核实</td><td><b>最高</b></td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-osm">开源地图</span></td>
+      <td>42 栋建筑的轮廓与经纬度、29 条主路、83 条步行道、32 段台阶、2 处水域、6 处校门</td>
+      <td>OpenStreetMap Overpass API（relation 18704403），2026-10-11 抓取</td><td>高</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-doc">官方资料</span></td>
+      <td>楼栋中文名与英文名、校园总平面形态、有盖连廊与林荫道分布</td>
+      <td>校方《Campus Discovery》官方手册；官方 3D 导览（4dmodel.com）；Ronald Lu &amp; Partners 设计说明</td><td>中</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-real">现场实测</span></td>
+      <td><b>①</b> 路线长度与耗时——<b>2026-10-12 运动 App 实测</b>：A 537 m / 6 分 31 秒、B 470 m / 6 分 00 秒（起终点严格为图书馆 2F 出口 → V27 1F 入口，均速 78–82 m/min）；<br>
+        <b>②</b> 台阶旁坡道可用性——现场查看并拍照，电动 / 人推轮椅可上（坡度、宽度未测量）；<br>
+        <b>③</b> 沿途补给分布——A 沿途有咖啡店、便利店、教学楼、厕所稍偏即达；B 沿途最近补给点偏离路线约 30 m（本次查看）
+      </td>
+      <td>团队成员步行实测</td><td><b>高</b></td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-doc">卫星图参照</span></td>
+      <td>中心湖岸线与湖心岛形状——<b>目测描绘自 2026-10-12 高德卫星图</b>，以 T4 教学楼 / 文化创意群落 / 演艺厅等 OSM 地物对齐位置（非 GPS 轨迹，形状可信、精度为目测级）</td>
+      <td>卫星截图 + OSM 锚点</td><td>中</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-sim">示意 / 模拟</span></td>
+      <td>
+        <b>①</b> 基准时间系数（每层楼 1 分钟）与拖行李惩罚系数（2 倍）——<b>经验取值</b>，无实测支撑；<br>
+        <b>②</b> 轮椅与拖行李的预估时间——按经验系数估算（轮椅 470 m ≈ 7 分钟），待轮椅实测；<br>
+        <b>③</b> 遮阴/连廊多边形范围——依建筑设计文字描述绘制的示意范围，非精确测绘；<br>
+        <b>④</b> 室内候选路线（C）——实地走访发现、初报更短，正手绘测量中，<b>数据尚未纳入页面</b>
+      </td>
+      <td>推断 / 经验取值</td><td><b>低，仅示意</b></td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-sim">待核</span></td>
+      <td>除图书馆与 V27 外，其余 40 栋建筑的楼层数直接采用 OSM 社区标注（<code>building:levels</code>），<b>未逐一现场核对</b>。
+          图书馆已证实 OSM 标注有误（1 层 → 实际 4 层），因此该项数据存在已知偏差风险。</td>
+      <td>OpenStreetMap 社区标注</td><td>中低</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>2.2 数据集文件清单</h3>
+<table>
+  <thead><tr><th>文件</th><th>内容</th><th>格式 / 规模</th></tr></thead>
+  <tbody>
+    <tr><td><code>数据/osm_full.json</code></td><td>原始 OSM 数据全量：建筑、道路、步道、台阶、水域、校门</td><td>JSON，约 230 KB</td></tr>
+    <tr><td><code>数据/osm_buildings.json</code></td><td>OSM 建筑子集（轮廓 + 名称 + 楼层标注）</td><td>JSON，约 16 KB</td></tr>
+    <tr><td><code>数据/UICDiscover20190515.pdf</code></td><td>校方《Campus Discovery》官方手册原件（手绘全景图 + 楼栋命名表）</td><td>PDF，约 20 MB</td></tr>
+    <tr><td><code>数据/hp1_tour.xml</code> / <code>hp2_tour.xml</code></td><td>官方 3D 导览 krpano 配置（教学区航拍点 / 体育区航拍点）</td><td>XML</td></tr>
+    <tr><td><code>数据/楼栋数据清单.md</code></td><td>现场核对用清单：A1–A5 路线核心数据项 + 全校楼栋扩展数据表（含 OSM 参考值）</td><td>Markdown</td></tr>
+    <tr><td><code>地图/campus_phase1.svg</code></td><td>校园总平面矢量图（可直接在浏览器或矢量软件中编辑）</td><td>SVG，约 53 KB</td></tr>
+    <tr><td><code>作品/index.html</code></td><td>参赛作品本体：地图、图层、路线、量化对比全部内联在单文件里</td><td>HTML，约 108 KB</td></tr>
+    <tr><td><code>脚本/*.py</code></td><td>构建链 12 个脚本，按执行顺序编号，可复现整套地图</td><td>Python 3.13</td></tr>
+    <tr><td><code>文档/</code></td><td>本提交材料、代码体检报告</td><td>HTML（A4 可打印）</td></tr>
+  </tbody>
+</table>
+
+<h3>2.3 采集与处理方法</h3>
+<ol>
+  <li><b>几何数据</b>：通过 Overpass API 按校区 Relation（18704403）与 BBox（22.3500°N–22.3550°N，113.5120°E–113.5190°E）拉取，
+      过滤出建筑 / 道路 / 步道 / 台阶 / 水域 / 校门六类要素。</li>
+  <li><b>投影</b>：以楼栋多边形为投影范围基准（排除校外道路防止地图被撑大），使用墨卡托变体
+      <code>kx = 1/cos(22.35°) ≈ 1.083</code> 把经纬度转成 SVG 平面坐标。</li>
+  <li><b>校正</b>：用官方 3D 导览的航拍全景（DJI_0089，22.35243833°N / 113.51640050°E）与官方手册手绘图校正湖面走向、
+      路线走向与台阶标记；用现场实测数据覆盖 OSM 的楼层与出入口信息。</li>
+  <li><b>成本计算</b>：对每条候选路线沿步道逐段累加水平距离，再按「楼层差 × 1 分钟/层」计入垂直代价，按视角套用惩罚系数。</li>
+  <li><b>验证</b>：作品页的每一个结论都可以在页面上就地核对——把鼠标移到图书馆/台阶上读 tooltip、
+      打开无障碍视角数一数台阶分布、切换楼层选择器看起点条件怎么变。</li>
+</ol>
+
+<h3>2.4 许可与引用</h3>
+<ul>
+  <li>OpenStreetMap 数据 © OpenStreetMap contributors，<b>ODbL 许可</b>。作品内已注明来源。</li>
+  <li>校方《Campus Discovery》手册 © BNBU/UIC；官方 3D 导览数据 © 4dmodel.com / 学校官方；建筑设计参考资料 © Ronald Lu &amp; Partners。
+      上述资料<b>仅用于赛事作品的数据校正与命名对照，不对外分发原文件</b>。</li>
+  <li>作品代码与自制数据由作者本人创作。</li>
+</ul>
+
+<!-- ============ 三、对比产品分析 ============ -->
+<h2 class="pagebreak"><span class="num">三、</span>对比产品分析</h2>
+<p>
+我们选择两个已有产品做对照：一个代表<b>「最强大的通用导航」</b>，一个代表<b>「最贴近无障碍议题的专门产品」</b>。
+前者说明「主流地图为什么看不见这段距离」，后者说明「看见了一部分，但还差什么」。
+</p>
+
+<h3>3.1 对比对象一：Google Maps / 高德地图（通用导航产品）</h3>
+<div class="box box-blue">
+  <b>它的强项我们承认，并且用到了：</b>全球路网覆盖、实时路况、公交接驳、步行导航、基于大数据的通行时间预测。
+  这些能力本作品完全没有，也不打算做。
+</div>
+<p><b>但在校园内部，它有三个结构性盲区：</b></p>
+<ol>
+  <li><b>把楼外的路网当成全部。</b>这类产品的路径规划在<b>二维路网</b>上寻优——它知道 A 点到 B 点的平面距离，
+      但不知道你为了走这条路要下 1 层楼。在本校这一段路上，平面距离更短的台阶近路总会被优先推荐，
+      而「下台阶」这件事在以平面拓扑为核心的数据模型里根本不是一个可比较的量。</li>
+  <li><b>不区分「谁在走」。</b>算法会针对「步行 / 骑行 / 驾车」给出不同结果，但没有「拖着 20 公斤行李的人」
+      这个模式。而在这条路上，行李恰恰是让推荐结果反转的那个变量。</li>
+  <li><b>室内楼层信息缺失或不可信。</b>主流产品的校园建筑多为一个色块或一个点，楼层、出入口在哪一层、
+      有没有电梯，基本没有。本作品里的图书馆就是最好的例子：OSM 把它标成 1 层，实际是 4 层，且唯一出入口在 2 层。
+      这类错误只能靠人到现场才能发现。</li>
+</ol>
+
+<h3>3.2 对比对象二：Wheelmap.org / 无障碍地图类产品</h3>
+<div class="box box-green">
+  <b>它做对的事：</b>把「无障碍」作为一等信息来采集。Wheelmap 这类产品用「完全无障碍 / 部分无障碍 / 不可达」
+  三档标记地点的轮椅可用性，让轮椅使用者第一次有了可查的信息源。
+</div>
+<p><b>它的局限也正好是我们要补的：</b></p>
+<ol>
+  <li><b>标的是「点」，不是「路」。</b>无障碍地图告诉你「这栋楼进得去」，但不会告诉你
+      「从图书馆到 V27 怎么走才不用上台阶」。而真正让人卡住的往往不是某个门的宽窄，而是<b>一段不得不经过的台阶</b>。</li>
+  <li><b>二元标注，缺少代价。</b>「可达」内部没有代价分档：绕得多远、坡道坡不坡、沿途有没有补给——这些「够不够近」的关键变量没有位置。
+      而现实中轮椅使用者的决策几乎全在这一档里：不是能不能去，是<b>要多花多少代价</b>去。</li>
+  <li><b>数据依赖众包，更新慢、覆盖不均。</b>校园这类小尺度场景往往没有足够多的标注者。</li>
+</ol>
+
+<h3>3.3 六维度对比</h3>
+<table>
+  <thead>
+    <tr><th>维度</th><th>Google Maps / 高德地图</th><th>Wheelmap.org 等无障碍地图</th><th>本作品</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>覆盖粒度</b></td>
+      <td>全球路网；校园建筑为色块/点</td>
+      <td>无障碍<u>地点</u>为主</td>
+      <td><b>单段路线做到节点级</b>：6 个关键节点逐一标注可点击</td>
+    </tr>
+    <tr>
+      <td><b>楼层与高差</b></td>
+      <td>基本无；不把高差计入路径代价</td>
+      <td>通常不涉及</td>
+      <td><b>核心变量</b>：楼层差 × 基准时间直接进入代价公式，端点楼层可交互选择</td>
+    </tr>
+    <tr>
+      <td><b>台阶 / 物理门槛</b></td>
+      <td>不单独建模</td>
+      <td>标在<u>入口</u>：有无台阶、门宽</td>
+      <td><b>标在路线上</b>：无障碍视角一键高亮全部台阶，作为可达性的二元判据</td>
+    </tr>
+    <tr>
+      <td><b>使用者建模</b></td>
+      <td>出行方式（步行/骑行/驾车）</td>
+      <td>轮椅使用者单一视角</td>
+      <td><b>三种视角并行</b>：普通行人 / 拖行李 / 轮椅，同一组数据得出三种推荐</td>
+    </tr>
+    <tr>
+      <td><b>结论呈现</b></td>
+      <td>给一条路线 + 一个时间</td>
+      <td>给一个等级标签</td>
+      <td><b>给对比</b>：两条路线并排叠图 + 指标表 + 条形图，让「为什么反转」一眼可见</td>
+    </tr>
+    <tr>
+      <td><b>数据来源</b></td>
+      <td>商业采集 + 众包，不可见</td>
+      <td>众包，更新依赖社区活跃度</td>
+      <td><b>全链路公开可查</b>：OSM 开源数据 + 官方资料 + 现场实测，分级标注可信度，错误可修正</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>3.4 结论：主流产品算的是「最短」，我们算的是「最近」</h3>
+<p>
+把两条路线放在一起看，这个差别就很具体了：
+</p>
+<div class="metric">
+  <div><b>537 m</b><span>路线 A 实测距离 —— 预设中的「近路」，实测反而更长</span></div>
+  <div><b>−1 层</b><span>路线 A 的隐藏高差 —— 拖箱的人是风险，轮椅的人是墙壁</span></div>
+  <div><b>470 m</b><span>路线 B 实测距离 —— 「绕行路」实测更短更快</span></div>
+  <div><b>三种推荐</b><span>同一组数据得出的答案 —— A / B / B</span></div>
+</div>
+<p>
+主流地图产品处理「最短」，是因为它的数据模型里只有平面这一维，这是<b>模型层面的盲区，不是算法不够好</b>。
+无障碍产品处理了「能不能」，但还没处理「代价多少」。
+本作品想说的是：<span class="hl">把「谁在走」当成路径规划的一等输入，那段看不见的距离就显现出来了</span>——
+它可能是 1 层楼的高差，可能是拖箱时的一次失控，也可能是轮椅面前一道过不去的台阶。
+</p>
+
+<div class="box box-green">
+  <b>作品最想留下的一句话：</b>同一段路，三种人生，三种「最近」。地图上的最短，从来就不等于你脚下最近的那条。
+</div>
+
+<!-- ============ 四、核心设计决策与技术取舍 ============ -->
+<div class="pagebreak"></div>
+<h2><span class="num">四、</span>核心设计决策与技术取舍</h2>
+
+<p>
+赛题要求说明核心设计决策与技术取舍。以下六组决策，每一条都写清「为什么不是另一种做法」。
+</p>
+
+<h3>4.1 零依赖单文件 HTML，而不是框架 + 构建链</h3>
+<p>
+作品是一个<b>不引用任何外部资源</b>的单文件 HTML（无 CDN、无字体包、无图标库、无 JS 框架）。
+理由：演示环境的网络状况不可控，任何外部依赖都是现场翻车点；单文件意味着拷到任何一台电脑、断网也能完整运行。
+代价是代码体积集中在一份文件里、可维护性下降——我们用 <code>脚本/verify_page.py</code> 的 33 条自动化回归断言来对冲这一代价。
+</p>
+
+<h3>4.2 量化口径「只算楼层差，不数台阶」</h3>
+<p>
+台阶的<b>级数</b>既没有可靠来源，也随路线记录粒度变化，把级数当变量会让结论不可复现。
+我们把口径收敛为<b>「楼层高差 × 基准时间」</b>：图书馆（4 层，出入口在 2F）→ V27（7 层，1F 入口）全程净高差 −1 层，
+这一数字可以现场步行核实，是稳定的。
+代价是无法区分「3 级台阶」和「30 级台阶」——因此作品明确声明：结论基于有限次现场查看，<b>不构成无障碍通行保证</b>。
+</p>
+
+<h3>4.3 OSM 坐标打底 + 一手核实修正，而不是全信或全弃</h3>
+<p>
+OpenStreetMap 的楼栋轮廓与步道走向是现成的、坐标级的底料，放弃它等于凭空画地图；
+但它的社区标注并非全对——例如本例中 OSM 把图书馆标为 <code>building:levels=1</code>，而现场核实是 <b>4 层</b>。
+我们的取舍：轮廓/步道用 OSM，<b>与可达性相关的关键字段（楼层、出入口、有无台阶、电梯）全部以现场实测为准</b>，
+并把「哪些字段来自哪里」写进作品页的数据真实性分级表。
+</p>
+
+<h3>4.4 三视角对比，而不是通用无障碍路径规划引擎</h3>
+<p>
+引入完整的 routing 引擎（OSRM / Valhalla 等）可以算任意起终点的无障碍路径，但会把作品变成「另一个导航产品」，
+而赛题问的是「<b>为什么最短不等于最近</b>」这个认知问题。
+我们选择把一条路讲透：同一组数据，在「普通行人 / 拖行李 / 轮椅」三种身份下输出三种不同推荐（A / B / B），
+用反转本身来说明盲区。代价是覆盖面只有一段示例路线，这一点已在对比产品分析中如实标注。
+</p>
+
+<h3>4.5 湖岸线用虚线示意，而不是实心精确多边形</h3>
+<p>
+几何自检发现：中心湖的岸线多边形与 16 条真实 OSM 步道、6 段台阶的坐标存在压盖，说明岸线形状本身不可靠。
+我们<b>不画实心湖面</b>，改用虚线示意岸线并标注「岸线示意」——在拿到实测轨迹前，不假装比数据更精确。
+这是本作品「数据诚实性优先于视觉完成度」原则的一个具体体现。
+</p>
+
+<h3>4.6 把「命题 / 方法 / 结论」写进作品页正文</h3>
+<p>
+本赛道的预选由 AI Agent 按评审规则打分，Agent 读到的就是作品页本身——所以作品页<b>首屏</b>就有结构化的
+「命题（最短 ≠ 最近）→ 方法（真实坐标 + 现场实测 + 三身份量化）→ 结论（实测 537 m vs 470 m，推荐 B / B / B，室内路线 C 采集中）」陈述，
+核心数字在页面正文前 400 字内可读，而不是埋在提交材料里。
+</p>
+
+<!-- ============ 五、开源与既有物料声明 ============ -->
+<h2><span class="num">五、</span>开源与既有物料声明</h2>
+
+<p>本作品使用的外部物料与既有内容如下，除此之外无其他依赖：</p>
+
+<table>
+  <thead>
+    <tr><th style="width:180px;">物料</th><th>来源与许可</th><th>用法</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OpenStreetMap 数据</td>
+      <td>© OpenStreetMap contributors，许可 <b>ODbL 1.0</b>（开放数据库许可，允许演绎作品需署名并以相同许可共享）</td>
+      <td>楼栋轮廓与经纬度、道路/步道/台阶走向、水域、校门位置（relation 18704403，2026-10-11 抓取）；作品页已标注来源与抓取日期</td>
+    </tr>
+    <tr>
+      <td>校方官方资料</td>
+      <td>BNBU《Campus Discovery》官方手册、官方 3D 校园导览</td>
+      <td>楼栋命名、连廊与林荫道分布、校园总平面参考；仅作描述性参考，未复制其图面</td>
+    </tr>
+    <tr>
+      <td>字体与图标</td>
+      <td>未引入第三方字体或图标库</td>
+      <td>使用系统字体栈（PingFang SC / Microsoft YaHei / Arial），图标为内联 SVG 手绘</td>
+    </tr>
+    <tr>
+      <td>第三方代码库</td>
+      <td><b>无</b></td>
+      <td>页面逻辑为原生 JavaScript，无任何 npm / CDN 依赖</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="box box-amber">
+  <b>比赛开始前已有代码声明：</b>本项目<b>未使用任何比赛开始前已存在的代码</b>——作品页、构建脚本与回归测试脚本均为本次参赛期间从零编写。
+  与比赛选题同名的往届/他人作品未被参考或复用。
+  <span class="ref">（请团队在提交前核实这句与实际情况一致；若有赛前素材，请在此处逐项列出并说明用途。）</span>
+</div>
+
+<!-- ============ 六、AI 使用说明 ============ -->
+<h2><span class="num">六、</span>AI 使用说明</h2>
+
+<p>
+按赛题要求披露本作品使用 AI 的方式与范围：
+</p>
+
+<table>
+  <thead>
+    <tr><th style="width:150px;">环节</th><th>AI 参与方式</th><th>人的角色</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>选题与设计决策</td>
+      <td>AI 提供备选方案与利弊分析，供参考</td>
+      <td><b>全部决策由团队做出</b>：选题、量化口径（楼层差 × 基准时间）、三视角结构、单文件形态</td>
+    </tr>
+    <tr>
+      <td>现场数据采集</td>
+      <td><b>AI 不参与</b>（AI 不在现场）</td>
+      <td>楼层、出入口位置与朝向、有无台阶、电梯通达范围均由团队成员<b>步行实地核实</b>后录入；AI 不会生成任何标注为「实测」的数据</td>
+    </tr>
+    <tr>
+      <td>作品代码</td>
+      <td>AI 编程助手参与代码编写、重构与调试；改动后运行自动化回归测试（33 条断言）验证</td>
+      <td>团队提出需求、审读每一处改动并确认交互效果</td>
+    </tr>
+    <tr>
+      <td>文档撰写</td>
+      <td>AI 依据团队口述的要点起草本材料与页面文案</td>
+      <td>团队逐条审核、修改并对最终表述负责</td>
+    </tr>
+    <tr>
+      <td>数据分析</td>
+      <td>AI 协助做几何自检（如湖岸线压盖步道的射线法检测）与地图投影计算</td>
+      <td>结论口径与数据取舍由团队确认</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="box box-blue">
+  <b>一句话总结：</b>AI 是我们的<b>编程与写作协作者</b>，不是数据来源——所有「现场实测」结论都来自团队成员的实地查看；
+  所有可能出错的推断都在作品页中标为「示意/模拟」并附免责声明。
+  <span class="ref">（提交前请补全所用 AI 工具与模型的具体名称及版本，例如「腾讯 WorkBuddy / DeepSeek」等，以符合披露要求。）</span>
+</div>
+
+<p class="ref" style="margin-top:30px;">
+  附：作品内含完整的数据真实性分级表与模拟数据声明；代码层面的已知问题与修复记录见 <code>文档/代码体检报告.html</code>；
+  完整决策过程、用户核实数据原文、修改历史见 <code>CONTEXT.md</code>。
+</p>
+
+</div>
+</body>
+</html>

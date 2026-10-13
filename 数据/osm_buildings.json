@@ -1,0 +1,732 @@
+[
+  {
+    "osm_id": 305187092,
+    "name": "学三食堂",
+    "name_zh": null,
+    "name_en": "Canteen No.3",
+    "building": "yes",
+    "amenity": "restaurant",
+    "lat": 22.3516293,
+    "lon": 113.5274045
+  },
+  {
+    "osm_id": 305226945,
+    "name": "海华苑8栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 8",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3507458,
+    "lon": 113.5246275
+  },
+  {
+    "osm_id": 305226946,
+    "name": "海华苑7栋",
+    "name_zh": null,
+    "name_en": "Haihua Yuan Block 7",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3503274,
+    "lon": 113.524492
+  },
+  {
+    "osm_id": 305226947,
+    "name": "海华苑3栋",
+    "name_zh": null,
+    "name_en": "Haihua Yuan Block 3",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3498613,
+    "lon": 113.5245498
+  },
+  {
+    "osm_id": 305226948,
+    "name": "海华苑6栋",
+    "name_zh": null,
+    "name_en": "Haihua Yuan Block 6",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.350615,
+    "lon": 113.5252968
+  },
+  {
+    "osm_id": 305226950,
+    "name": "海华苑1栋",
+    "name_zh": null,
+    "name_en": "Haihua Yuan  Block 1",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3508056,
+    "lon": 113.527532
+  },
+  {
+    "osm_id": 305226957,
+    "name": "海华苑9栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 9",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3525608,
+    "lon": 113.5246983
+  },
+  {
+    "osm_id": 305226958,
+    "name": "海华苑10栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 10",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3525194,
+    "lon": 113.5238076
+  },
+  {
+    "osm_id": 305226960,
+    "name": "海华苑11栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 11",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3520489,
+    "lon": 113.5232305
+  },
+  {
+    "osm_id": 305226961,
+    "name": "海华苑12栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 12",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3514648,
+    "lon": 113.5231371
+  },
+  {
+    "osm_id": 305226962,
+    "name": "海华苑13栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 13",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3509389,
+    "lon": 113.5235009
+  },
+  {
+    "osm_id": 305226963,
+    "name": "海华苑14栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 14",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3507083,
+    "lon": 113.523115
+  },
+  {
+    "osm_id": 305226964,
+    "name": "海华苑15栋",
+    "name_zh": null,
+    "name_en": "Haihua Garden Block 15",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3504817,
+    "lon": 113.5235116
+  },
+  {
+    "osm_id": 305246453,
+    "name": "调梅祠",
+    "name_zh": null,
+    "name_en": null,
+    "building": "church",
+    "amenity": null,
+    "lat": 22.3570261,
+    "lon": 113.5109063
+  },
+  {
+    "osm_id": 664082908,
+    "name": "T2 人文楼",
+    "name_zh": "T2 人文楼",
+    "name_en": "T2 Humanities Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3523537,
+    "lon": 113.5148681
+  },
+  {
+    "osm_id": 664082909,
+    "name": "T3 格物楼",
+    "name_zh": "T3 格物楼",
+    "name_en": "T3 Science Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3527163,
+    "lon": 113.5145511
+  },
+  {
+    "osm_id": 664082910,
+    "name": "T1 厚德楼",
+    "name_zh": "T1 厚德楼",
+    "name_en": "T1 Business and Management Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.351915,
+    "lon": 113.5152254
+  },
+  {
+    "osm_id": 664082911,
+    "name": "演艺厅",
+    "name_zh": "演艺厅",
+    "name_en": "Performance Theatre",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3513726,
+    "lon": 113.516394
+  },
+  {
+    "osm_id": 664082912,
+    "name": "行政楼",
+    "name_zh": "行政楼",
+    "name_en": "Administration Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3509595,
+    "lon": 113.5161159
+  },
+  {
+    "osm_id": 664082913,
+    "name": "大学会堂",
+    "name_zh": "大学会堂",
+    "name_en": "University Hall",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3510594,
+    "lon": 113.5157747
+  },
+  {
+    "osm_id": 664082915,
+    "name": "体育馆",
+    "name_zh": null,
+    "name_en": "Sport Complex",
+    "building": "yes",
+    "amenity": null,
+    "lat": 22.3515491,
+    "lon": 113.5147104
+  },
+  {
+    "osm_id": 664093256,
+    "name": "T4 教学楼",
+    "name_zh": "T4 教学楼",
+    "name_en": "T4 Teaching Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3530078,
+    "lon": 113.5167889
+  },
+  {
+    "osm_id": 664093257,
+    "name": "T5 教学楼",
+    "name_zh": "T5 教学楼",
+    "name_en": "T5 Teaching Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3531857,
+    "lon": 113.5163064
+  },
+  {
+    "osm_id": 664093258,
+    "name": "T6 教学楼",
+    "name_zh": "T6 教学楼",
+    "name_en": "T6 Teaching Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3533494,
+    "lon": 113.5157827
+  },
+  {
+    "osm_id": 664093260,
+    "name": "T7 教学楼",
+    "name_zh": "T7 教学楼",
+    "name_en": "T7 Teaching Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3535979,
+    "lon": 113.5153218
+  },
+  {
+    "osm_id": 664093261,
+    "name": "T8 博简楼",
+    "name_zh": "T8 博简楼",
+    "name_en": "T8 CEFC Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3538129,
+    "lon": 113.5148064
+  },
+  {
+    "osm_id": 664093272,
+    "name": "V28 莎翁楼",
+    "name_zh": "V28 莎翁楼",
+    "name_en": "V28 Shakespeare House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.352459,
+    "lon": 113.5136481
+  },
+  {
+    "osm_id": 664093273,
+    "name": "V27 雨果楼",
+    "name_zh": "V27 雨果楼",
+    "name_en": "V27 Hugo House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3535077,
+    "lon": 113.5126791
+  },
+  {
+    "osm_id": 664093274,
+    "name": "榆栈",
+    "name_zh": null,
+    "name_en": null,
+    "building": "yes",
+    "amenity": null,
+    "lat": 22.3531148,
+    "lon": 113.5125158
+  },
+  {
+    "osm_id": 664093275,
+    "name": "V26 歌德楼",
+    "name_zh": "V26 歌德楼",
+    "name_en": "V26 Goethe House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3533624,
+    "lon": 113.5133833
+  },
+  {
+    "osm_id": 664093276,
+    "name": "V25 东坡楼",
+    "name_zh": "V25 东坡楼",
+    "name_en": "V25 Dong Po House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.35316,
+    "lon": 113.5139027
+  },
+  {
+    "osm_id": 664093277,
+    "name": "V23 雪芹楼",
+    "name_zh": "V23 雪芹楼",
+    "name_en": "V23 Xue Qin House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3544759,
+    "lon": 113.5137204
+  },
+  {
+    "osm_id": 664093278,
+    "name": "V24 阳明楼",
+    "name_zh": "V24 阳明楼",
+    "name_en": "V24 Yang Ming House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3543628,
+    "lon": 113.5133521
+  },
+  {
+    "osm_id": 664093280,
+    "name": "V20 笃行楼",
+    "name_zh": "V20 笃行楼",
+    "name_en": "V20 Du Xing House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3543334,
+    "lon": 113.5152025
+  },
+  {
+    "osm_id": 664093281,
+    "name": "V19 真知楼",
+    "name_zh": "V19 真知楼",
+    "name_en": "V19 Zhen Zhi House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3547471,
+    "lon": 113.5151693
+  },
+  {
+    "osm_id": 664093283,
+    "name": "V21 博文楼",
+    "name_zh": "V21 博文楼",
+    "name_en": "V21 Bo Wen House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3547258,
+    "lon": 113.5144959
+  },
+  {
+    "osm_id": 664093285,
+    "name": "V22 雅志楼",
+    "name_zh": "V22 雅志楼",
+    "name_en": "V22 Ya Zhi House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3543053,
+    "lon": 113.514478
+  },
+  {
+    "osm_id": 664093286,
+    "name": "V18 抱朴楼",
+    "name_zh": "V18 抱朴楼",
+    "name_en": "V18 Bao Pu House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3541478,
+    "lon": 113.5160236
+  },
+  {
+    "osm_id": 664093287,
+    "name": "V17 仁爱楼",
+    "name_zh": "V17 仁爱楼",
+    "name_en": "V17 Ren Ai House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3547119,
+    "lon": 113.5159151
+  },
+  {
+    "osm_id": 664093288,
+    "name": "V16 尚贤楼",
+    "name_zh": "V16 尚贤楼",
+    "name_en": "V16 Shang Xian House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3538832,
+    "lon": 113.5169717
+  },
+  {
+    "osm_id": 664093289,
+    "name": "V15 明心楼",
+    "name_zh": "V15 明心楼",
+    "name_en": "V15 Ming Xin House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3542448,
+    "lon": 113.5167935
+  },
+  {
+    "osm_id": 664093290,
+    "name": "文化创意群落",
+    "name_zh": "文化创意群落",
+    "name_en": "Cultural Creativity Clusters",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.351782,
+    "lon": 113.5174394
+  },
+  {
+    "osm_id": 664093294,
+    "name": "T29 教学楼",
+    "name_zh": "T29 教学楼",
+    "name_en": "T29 Teaching Building",
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3539434,
+    "lon": 113.5138758
+  },
+  {
+    "osm_id": 1081327620,
+    "name": "V29 容闳楼",
+    "name_zh": "V29 容闳楼",
+    "name_en": "V29 Yung Wing House",
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3529774,
+    "lon": 113.5131832
+  },
+  {
+    "osm_id": 1191912603,
+    "name": "京华苑3栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "apartments",
+    "amenity": null,
+    "lat": 22.348926,
+    "lon": 113.5220973
+  },
+  {
+    "osm_id": 1191912604,
+    "name": "京华苑2栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "apartments",
+    "amenity": null,
+    "lat": 22.3487696,
+    "lon": 113.521972
+  },
+  {
+    "osm_id": 1191912605,
+    "name": "京华苑4栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "apartments",
+    "amenity": null,
+    "lat": 22.3494486,
+    "lon": 113.5220609
+  },
+  {
+    "osm_id": 1191912606,
+    "name": "京华苑5栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "apartments",
+    "amenity": null,
+    "lat": 22.350096,
+    "lon": 113.5221792
+  },
+  {
+    "osm_id": 1191919129,
+    "name": "燕华苑5栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3498389,
+    "lon": 113.5265111
+  },
+  {
+    "osm_id": 1191919130,
+    "name": "燕华苑6栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3497093,
+    "lon": 113.5266128
+  },
+  {
+    "osm_id": 1191919131,
+    "name": "燕华苑3栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3499726,
+    "lon": 113.5269057
+  },
+  {
+    "osm_id": 1191919132,
+    "name": "燕华苑4栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3496813,
+    "lon": 113.5271287
+  },
+  {
+    "osm_id": 1191919133,
+    "name": "燕华苑1栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3500675,
+    "lon": 113.5273371
+  },
+  {
+    "osm_id": 1191919134,
+    "name": "燕华苑2栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3499549,
+    "lon": 113.5275384
+  },
+  {
+    "osm_id": 1214519739,
+    "name": "东一教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3463865,
+    "lon": 113.5234614
+  },
+  {
+    "osm_id": 1214519741,
+    "name": "东三教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.345427,
+    "lon": 113.5235345
+  },
+  {
+    "osm_id": 1214519742,
+    "name": "郎平中心",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3476129,
+    "lon": 113.5213327
+  },
+  {
+    "osm_id": 1214519743,
+    "name": "西二教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3457976,
+    "lon": 113.5216734
+  },
+  {
+    "osm_id": 1214519744,
+    "name": "东二教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3458254,
+    "lon": 113.5235796
+  },
+  {
+    "osm_id": 1214519745,
+    "name": "西一教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "yes",
+    "amenity": null,
+    "lat": 22.3463348,
+    "lon": 113.5216568
+  },
+  {
+    "osm_id": 1214519746,
+    "name": "大讲堂",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3474034,
+    "lon": 113.5237273
+  },
+  {
+    "osm_id": 1215983507,
+    "name": "学习资源中心",
+    "name_zh": "学习资源中心",
+    "name_en": "Learning Resource Center",
+    "building": "university",
+    "amenity": "library",
+    "lat": 22.3524876,
+    "lon": 113.5157786
+  },
+  {
+    "osm_id": 1217299358,
+    "name": "莫氏大宗祠",
+    "name_zh": "莫氏大宗祠",
+    "name_en": "Mo's Ancestral Temple",
+    "building": "yes",
+    "amenity": null,
+    "lat": 22.3567378,
+    "lon": 113.5110988
+  },
+  {
+    "osm_id": 1255224489,
+    "name": "会同书院",
+    "name_zh": "会同书院",
+    "name_en": "Huitong Academy",
+    "building": "yes",
+    "amenity": null,
+    "lat": 22.355871,
+    "lon": 113.511386
+  },
+  {
+    "osm_id": 1312454952,
+    "name": "燕华苑7栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.3493378,
+    "lon": 113.5254991
+  },
+  {
+    "osm_id": 1312454953,
+    "name": "燕华苑8栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "school",
+    "amenity": null,
+    "lat": 22.3488082,
+    "lon": 113.5245514
+  },
+  {
+    "osm_id": 1312456805,
+    "name": "京华苑1栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "dormitory",
+    "amenity": null,
+    "lat": 22.348861,
+    "lon": 113.5214991
+  },
+  {
+    "osm_id": 1366161990,
+    "name": "会同社区党群服务中心",
+    "name_zh": null,
+    "name_en": null,
+    "building": "public",
+    "amenity": "community_centre",
+    "lat": 22.3465419,
+    "lon": 113.508059
+  },
+  {
+    "osm_id": 1388933770,
+    "name": "西三教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "construction",
+    "amenity": null,
+    "lat": 22.3452668,
+    "lon": 113.5216052
+  },
+  {
+    "osm_id": 1456313935,
+    "name": "音乐厅",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.347583,
+    "lon": 113.5223201
+  },
+  {
+    "osm_id": 1456313936,
+    "name": "理科综合教学楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3473489,
+    "lon": 113.5225433
+  },
+  {
+    "osm_id": 1566690956,
+    "name": "北师港浸大教师公寓公寓1栋",
+    "name_zh": null,
+    "name_en": null,
+    "building": "apartments",
+    "amenity": null,
+    "lat": 22.346526,
+    "lon": 113.5183331
+  },
+  {
+    "osm_id": 1566751596,
+    "name": "理科楼",
+    "name_zh": null,
+    "name_en": null,
+    "building": "university",
+    "amenity": null,
+    "lat": 22.3467522,
+    "lon": 113.5238433
+  }
+]
