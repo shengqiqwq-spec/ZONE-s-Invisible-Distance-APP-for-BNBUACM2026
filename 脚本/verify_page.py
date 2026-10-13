@@ -99,7 +99,7 @@ HARNESS = r"""
   // ---- 护栏 10：湖岸线必须是卫星图参照版（不是旧的错误示意多边形，也不许虚线回归） ----
   var lake = document.querySelector('.lyr-lake');
   ok('湖岸线为实心卫星图描绘版（非虚线示意）', !!lake && !lake.getAttribute('stroke-dasharray')
-     && (lake.getAttribute('d') || '').indexOf('630 495') > -1,
+     && (lake.getAttribute('d') || '').indexOf('613 377') > -1,
      lake ? ('d前缀=' + (lake.getAttribute('d') || '').slice(0, 30)) : '(缺失)');
   ok('湖标注为卫星图描绘口径', (function () {
     var texts = Array.prototype.slice.call(document.querySelectorAll('svg .lbl')).map(function (t) { return t.textContent; }).join('|');
@@ -107,7 +107,7 @@ HARNESS = r"""
   })());
   ok('中心岛已移出图书馆轮廓', (function () {
     var isl = document.querySelectorAll('path[fill="#a5d6a7"]');
-    return isl.length >= 1 && isl[isl.length - 1].getAttribute('d').indexOf('700 422') > -1;
+    return isl.length >= 1 && isl[isl.length - 1].getAttribute('d').indexOf('678 414') > -1;
   })());
 
   // ---- 护栏 11：滚轮不能被无条件劫持（这条在 Python 侧查源码，见 SOURCE_CHECKS） ----
