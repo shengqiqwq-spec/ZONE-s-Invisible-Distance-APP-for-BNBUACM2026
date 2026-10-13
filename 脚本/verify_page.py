@@ -33,6 +33,12 @@ HARNESS = r"""
   var svg = document.getElementById('campusMap');
   var $ = function (id) { return document.getElementById(id); };
 
+  // 默认语言为英文；先捕获默认态，再切回简中跑既有断言（均以简体中文口径书写）
+  var DEF_title = document.title, DEF_h1 = document.querySelector('h1').textContent,
+      DEF_lang = document.documentElement.getAttribute('lang'),
+      DEF_active = document.querySelector('[data-lang-btn].active').dataset.langBtn;
+  if (typeof setLang === 'function') setLang('zh');
+
   // ---- 护栏 1：切视角不能清空地图 class（原致命 bug） ----
   $('cbRoute').checked = true; $('cbRoute').dispatchEvent(new Event('change'));
   ok('勾选「路线」后 routes-visible 生效', svg.classList.contains('routes-visible'), svg.getAttribute('class'));
@@ -174,9 +180,13 @@ HARNESS = r"""
   ok('「现场核查记录」面板存在', srcTxt.indexOf('现场核查记录') > -1 && srcTxt.indexOf('绕建筑步行一周') > -1);
   ok('楼内移动系数已写进数据分级表并标注模拟', srcTxt.indexOf('楼内垂直移动') > -1);
 
-  // ---- 护栏 20（2026-10-13 晚）：中英文界面切换 ----
-  ok('中英切换按钮存在（中文 / EN，页头 + 控制栏）',
-     document.querySelectorAll('[data-lang-btn]').length >= 2);
+  // ---- 护栏 20（2026-10-13 晚）：三语界面切换（EN 默认 / 繁 / 简） ----
+  ok('三语切换按钮存在（EN / 繁 / 简）',
+     document.querySelectorAll('[data-lang-btn]').length >= 3);
+  ok('默认语言为英文（标题 / h1 / html lang）',
+     DEF_title.indexOf('Invisible Distance') > -1 &&
+     /^The Invisible Distance/.test(DEF_h1) &&
+     DEF_lang === 'en' && DEF_active === 'en');
   ok('切到 EN 后页头与推荐徽章变英文、切回中文能还原', (function () {
     if (typeof setLang !== 'function') return false;
     setLang('en');
@@ -186,6 +196,25 @@ HARNESS = r"""
     setLang('zh');
     var backZh = document.querySelector('h1').textContent.indexOf('看不见') > -1;
     return h1.indexOf('Invisible Distance') > -1 && badge.indexOf('Route B') > -1 && !stillZh && backZh;
+  })());
+  ok('切到繁体后标题/楼层/提示条为繁体且 html lang=zh-Hant', (function () {
+    if (typeof setLang !== 'function') return false;
+    setLang('hant');
+    var h1 = document.querySelector('h1').textContent;
+    var ft = $('floorContent').textContent;
+    var mh = $('mapHint').textContent;
+    var lang = document.documentElement.getAttribute('lang');
+    var good = h1.indexOf('看不見的距離') > -1 && h1.indexOf('圖書館') > -1
+      && ft.indexOf('戶外地面層') > -1 && ft.indexOf('可自由通行') > -1
+      && mh.indexOf('路線') > -1 && mh.indexOf('臺階') > -1
+      && lang === 'zh-Hant';
+    setLang('zh');
+    return good;
+  })());
+  ok('繁体转换正确处理歧义词（分钟→分鐘 / 这里→這裡）', (function () {
+    if (typeof s2t !== 'function') return false;
+    return s2t('约 1 分钟') === '約 1 分鐘' && s2t('从这里继续') === '從這裡繼續'
+      && s2t('最后') === '最後' && s2t('发现') === '發現';
   })());
   ok('切到 EN 后地图 SVG 标签无中文残留', (function () {
     if (typeof setLang !== 'function') return false;
@@ -295,7 +324,7 @@ SOURCE_CHECKS = [
     ('电梯等候分时值写入（1 分钟 / 3–5 分钟）',
      lambda s: '3–5 分钟' in s and '约 1 分钟' in s),
 
-    # ---- P4 批次（2026-10-13 晚）：中英文界面切换 ----
+    # ---- P4 批次（2026-10-13 晚）：三语界面切换（EN 默认 / 繁 / 简） ----
     ('中英切换引擎存在（data-i18n 标注 + setLang + 英文词典）',
      lambda s: 'data-lang-btn' in s and 'function setLang' in s and "'th.grid'" in s and "'footer.insight'" in s),
     ('双语动态数据存在（FLOOR_DATA / VIEWS 分 zh / en）',
@@ -303,6 +332,11 @@ SOURCE_CHECKS = [
                and bool(re.search(r'var VIEWS\s*=\s*\{\s*zh\s*:', s))),
     ('中文原文靠快照还原（切回中文不需中文词典）',
      lambda s: 'function snapshotStatic' in s and 'dataset.zh' in s and 'zhHtml' in s),
+    ('三语引擎存在（默认英文 + 繁体按钮 + 运行时简转繁）',
+     lambda s: "var LANG = 'en'" in s and 'data-lang-btn="hant"' in s
+               and 'function s2t' in s and 'function zhOrEn' in s and 'var W2T' in s),
+    ('繁体动态分支存在（deepS2T 生成 FLOOR_DATA.hant / VIEWS.hant）',
+     lambda s: 'function deepS2T' in s and 'FLOOR_DATA.hant = deepS2T' in s and 'VIEWS.hant = deepS2T' in s),
 ]
 
 

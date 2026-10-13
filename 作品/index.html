@@ -482,8 +482,9 @@
 <div class="wrap">
   <header>
     <div class="lang-switch switch-row lang-top" role="group" aria-label="语言 / Language">
-      <button type="button" data-lang-btn="zh" class="active" aria-pressed="true">中文</button>
-      <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      <button type="button" data-lang-btn="en" class="active" aria-pressed="true">EN</button>
+      <button type="button" data-lang-btn="hant" aria-pressed="false">繁</button>
+      <button type="button" data-lang-btn="zh" aria-pressed="false">简</button>
     </div>
     <h1 data-i18n="h1">看不见的距离 · 图书馆 → V27</h1>
     <div class="sub" data-i18n-html="sub">
@@ -1295,7 +1296,42 @@
    · 动态内容（楼层、路线对比、提示条、电梯时段、建筑名）用双语
      数据 + 重新渲染。
    ============================================================ */
-var LANG = 'zh';
+// 简->繁映射（构建期由 zhconv 整词转换生成，运行时最长匹配）
+var W2T = {'看不见的距离':'看不見的距離', '图书馆':'圖書館', '缩放手势全部由':'縮放手勢全部由', '避免与浏览器原生手势打架':'避免與瀏覽器原生手勢打架', '命题':'命題', '结论':'結論', '相近产品对比':'相近產品對比', '语言':'語言', '三种人生':'三種人生', '三种':'三種', '底图基于':'底圖基於', '真实坐标投影':'真實坐標投影', '路线沿':'路線沿', '真实步道':'真實步道', '端点楼层与出入口为现场实测':'端點樓層與出入口為現場實測', '方法与结论':'方法與結論', '地图上的':'地圖上的', '最短路径':'最短路徑', '不等于每个人真实世界里的':'不等於每個人真實世界裡的', '常规导航只算平面距离':'常規導航只算平面距離', '楼层高差':'樓層高差', '台阶':'臺階', '轮椅的通行条件':'輪椅的通行條件', '雨果楼':'雨果樓', '为例':'為例', '基于':'基於', '真实坐标与步道':'真實坐標與步道', '叠加':'疊加', '现场实测':'現場實測', '的楼层':'的樓層', '轮椅':'輪椅', '三种身份':'三種身份', '距离':'距離', '基准时间':'基準時間', '沿途补给':'沿途補給', '量化比较路线':'量化比較路線', '与路线':'與路線', '户外平路':'戶外平路', '实测反转了预设':'實測反轉了預設', '原以为的':'原以為的', '台阶近路':'臺階近路', '实测':'實測', '反而比户外平路':'反而比戶外平路', '更长':'更長', '而新发现的室内路线距离更短':'而新發現的室內路線距離更短', '却要付楼梯':'卻要付樓梯', '电梯的代价':'電梯的代價', '数据采集中':'數據採集中', '距离最短的那条路':'距離最短的那條路', '未必是对每个人最近的那条':'未必是對每個人最近的那條', '室内路线':'室內路線', '与电梯时段':'與電梯時段', '第三条候选路线':'第三條候選路線', '室内':'室內', '走法已确认':'走法已確認', '图书馆出门到':'圖書館出門到', '电梯':'電梯', '楼梯':'樓梯', '层':'層', '教学楼一层室内通道到':'教學樓一層室內通道到', '按与':'按與', '同口径的坐标累计估算':'同口徑的坐標累計估算', '全程约':'全程約', '介于':'介於', '与':'與', '之间':'之間', '室内段为手绘直线':'室內段為手繪直線', '它斜切了户外绕行段':'它斜切了戶外繞行段', '全程无台阶':'全程無臺階', '连续行进':'連續行進', '所以实地走起来体感更近':'所以實地走起來體感更近', '电梯等候':'電梯等候', '教学区':'教學區', '每小时前':'每小時前', '分钟约':'分鐘約', '分钟':'分鐘', '分钟课间约':'分鐘課間約', '宿舍区电梯无此分时':'宿舍區電梯無此分時', '电梯时段':'電梯時段', '切换':'切換', '自动':'自動', '课间':'課間', '非课间':'非課間', '无障碍':'無障礙', '当前楼层':'當前樓層', '选择当前楼层':'選擇當前樓層', '户外':'戶外', '地面层':'地面層', '学习资源中心':'學習資源中心', '无出入口':'無出入口', '需上楼':'需上樓', '无台阶':'無臺階', '需电梯下至':'需電梯下至', '有电梯':'有電梯', '教学区电梯等候时间按课间':'教學區電梯等候時間按課間', '非课间变化':'非課間變化', '宿舍区无此分时':'宿舍區無此分時', '选择电梯时段':'選擇電梯時段', '按系统时间':'按系統時間', '等候约':'等候約', '左侧':'左側', '真实地图':'真實地圖', '步行小径':'步行小徑', '楼栋标注':'樓棟標註', '路线':'路線', '无障碍视角':'無障礙視角', '复位视图':'復位視圖', '一期校园平面图':'一期校園平面圖', '标注图书馆到':'標註圖書館到', '的两条路线':'的兩條路線', '有盖连廊':'有蓋連廊', '林荫道':'林蔭道', '人文楼':'人文樓', '格物楼':'格物樓', '厚德楼':'厚德樓', '演艺厅':'演藝廳', '行政楼':'行政樓', '大学会堂':'大學會堂', '体育馆':'體育館', '未命名建筑':'未命名建築', '未标注名称':'未標註名稱', '教学楼':'教學樓', '博简楼':'博簡樓', '莎翁楼':'莎翁樓', '入口在楼体拐弯处':'入口在樓體拐彎處', '现场核实':'現場核實', '榆栈':'榆棧', '歌德楼':'歌德樓', '东坡楼':'東坡樓', '雪芹楼':'雪芹樓', '阳明楼':'陽明樓', '笃行楼':'篤行樓', '真知楼':'真知樓', '博文楼':'博文樓', '雅志楼':'雅志樓', '抱朴楼':'抱樸樓', '仁爱楼':'仁愛樓', '尚贤楼':'尚賢樓', '明心楼':'明心樓', '文化创意群落':'文化創意群落', '容闳楼':'容閎樓', '朝东南':'朝東南', '朋友手绘':'朋友手繪', '楼梯下':'樓梯下', '室内通道':'室內通道', '手绘估算':'手繪估算', '终':'終', '门':'門', '岸线按用户手绘':'岸線按用戶手繪', '中心岛':'中心島', '大学学道':'大學學道', '亲民路':'親民路', '路线关键点指引标记':'路線關鍵點指引標記', '指引弹窗':'指引彈窗', '默认隐藏':'默認隱藏', '通过':'通過', '控制显示':'控制顯示', '出口无台阶':'出口無臺階', '出门后左转选路线':'出門後左轉選路線', '右转选路线':'右轉選路線', '台阶路段':'臺階路段', '从此处下台阶':'從此處下臺階', '直达地面层':'直達地面層', '省力捷径':'省力捷徑', '建议绕行路线':'建議繞行路線', '转角':'轉角', '沿步道继续向西':'沿步道繼續向西', '直达':'直達', '会贤邨广场':'會賢邨廣場', '经过的开放广场区域':'經過的開放廣場區域', '本次查看未见台阶':'本次查看未見臺階', '未测量坡度与路面宽度':'未測量坡度與路面寬度', '从这里继续向西可达':'從這裡繼續向西可達', '向南绕行':'向南繞行', '转向南':'轉向南', '经体育馆方向绕行':'經體育館方向繞行', '入口位于楼栋拐弯处':'入口位於樓棟拐彎處', '有电梯通达全楼层':'有電梯通達全樓層', '和路线':'和路線', '均到达此入口':'均到達此入口', '最后折返点':'最後折返點', '改主意要趁现在':'改主意要趁現在', '拖着行李走到这里还来得及掉头':'拖著行李走到這裡還來得及掉頭', '回台阶路口的路比走完':'回臺階路口的路比走完', '更远':'更遠', '按路线长度估算':'按路線長度估算', '非实测':'非實測', '长度待定':'長度待定', '方向直线':'方向直線', '遮阴':'遮陰', '连廊区':'連廊區', '可点击指引点':'可點擊指引點', '宿舍楼':'宿舍樓', '大型设施':'大型設施', '数据来源':'數據來源', '真实坐标':'真實坐標', '官方手册':'官方手冊', '用户现场实测':'用戶現場實測', '入口无台阶':'入口無臺階', '沿真实':'沿真實', '含台阶下坡':'含臺階下坡', '步道经体育馆':'步道經體育館', '绕行':'繞行', '本次现场查看未见台阶':'本次現場查看未見臺階', '点击地图上的彩色圆点可查看详细指引':'點擊地圖上的彩色圓點可查看詳細指引', '层级':'層級', '数据项':'數據項', '来源':'來源', '楼层数':'樓層數', '出入口位置与朝向':'出入口位置與朝向', '入口有无台阶':'入口有無臺階', '电梯通达范围':'電梯通達範圍', '全程楼层高差':'全程樓層高差', '台阶段落':'臺階段落', '两条路线的长度与耗时':'兩條路線的長度與耗時', '运动':'運動', '台阶旁坡道可用性':'臺階旁坡道可用性', '电动':'電動', '坡度与宽度未测量':'坡度與寬度未測量', '沿途补给分布':'沿途補給分布', '沿途商铺':'沿途商鋪', '厕所丰富':'廁所豐富', '沿途暂未发现直达补给':'沿途暫未發現直達補給', '团队成员步行实地核实':'團隊成員步行實地核實', '轨迹':'軌跡', '卫星图参照':'衛星圖參照', '中心湖岸线与中心岛形状':'中心湖岸線與中心島形狀', '按队员':'按隊員', '手绘轨迹数字化':'手繪軌跡數位化', '以学习资源中心':'以學習資源中心', '文化创意群落等地物对齐位置':'文化創意群落等地物對齊位置', '高德卫星截图':'高德衛星截圖', '地物锚点':'地物錨點', '开源地图':'開源地圖', '楼栋轮廓与经纬度':'樓棟輪廓與經緯度', '台阶走向':'臺階走向', '校门位置':'校門位置', '官方资料':'官方資料', '楼栋命名':'樓棟命名', '连廊与林荫道分布':'連廊與林蔭道分布', '校园总平面示意':'校園總平面示意', '手册':'手冊', '导览':'導覽', '模拟':'模擬', '连廊多边形范围':'連廊多邊形範圍', '每层':'每層', '分钟与拖行李':'分鐘與拖行李', '倍的时间系数':'倍的時間係數', '楼内垂直移动时间系数':'樓內垂直移動時間係數', '行人楼梯':'行人樓梯', '行李与轮椅电梯':'行李與輪椅電梯', '轮椅与行李的预估时间':'輪椅與行李的預估時間', '按经验系数估算':'按經驗係數估算', '待实测':'待實測', '设计文字描述推断或经验取值':'設計文字描述推斷或經驗取值', '一层室内通道至':'一層室內通道至', '走法结构已由队友手绘确认':'走法結構已由隊友手繪確認', '但室内无法':'但室內無法', '长度按与':'長度按與', '同口径坐标累计':'同口徑坐標累計', '估算约':'估算約', '地图上为手绘示意线':'地圖上為手繪示意線', '除图书馆与':'除圖書館與', '其余楼栋的楼层数直接采用':'其餘樓棟的樓層數直接採用', '社区标注':'社區標註', '未逐一现场核对':'未逐一現場核對', '队友手绘':'隊友手繪', '模拟数据声明':'模擬數據聲明', '楼栋楼层':'樓棟樓層', '连廊':'連廊', '遮阴范围':'遮陰範圍', '中心岛形态':'中心島形態', '标注为':'標註為', '的均为推断或经验值':'的均為推斷或經驗值', '未接入任何校方真实业务系统':'未接入任何校方真實業務系統', '不读取':'不讀取', '不写入学校数据库':'不寫入學校資料庫', '全部数据以静态文件形式内置于本页面':'全部數據以靜態文件形式內置於本頁面', '本作品为比赛演示原型':'本作品為比賽演示原型', '路线结论基于':'路線結論基於', '有限次数的步行现场查看':'有限次數的步行現場查看', '未测量坡度':'未測量坡度', '路面宽度':'路面寬度', '路缘高差':'路緣高差', '铺装状况':'鋪裝狀況', '也未纳入实时状况':'也未納入實時狀況', '临时围挡':'臨時圍擋', '天气':'天氣', '季节性积水等':'季節性積水等', '页面中':'頁面中', '未见台阶':'未見臺階', '仅描述本次查看所见':'僅描述本次查看所見', '不构成任何路线绝对安全或完全无障碍的保证':'不構成任何路線絕對安全或完全無障礙的保證', '实际出行请以现场标识':'實際出行請以現場標識', '校方信息与自身判断为准':'校方信息與自身判斷為準', '模型参数':'模型參數', '点开可复算结论':'點開可復算結論', '参数':'參數', '性质':'性質', '行人时间':'行人時間', '拖行李时间惩罚':'拖行李時間懲罰', '仅当所选路线含台阶段':'僅當所選路線含臺階段', '经验值':'經驗值', '轮椅平地时间':'輪椅平地時間', '低于行人速度的经验估算':'低於行人速度的經驗估算', '待轮椅实测':'待輪椅實測', '每层基准时间':'每層基準時間', '楼内垂直移动':'樓內垂直移動', '行人走楼梯':'行人走樓梯', '轮椅乘电梯':'輪椅乘電梯', '台阶旁有坡道可替代':'臺階旁有坡道可替代', '本次查看电动':'本次查看電動', '宽度未测量':'寬度未測量', '路线按坡道绕行估算时间':'路線按坡道繞行估算時間', '现场查看':'現場查看', '照片记录':'照片記錄', '电梯等候时间':'電梯等候時間', '约':'約', '队友实地经验值':'隊友實地經驗值', '推荐判定':'推薦判定', '真实代价':'真實代價', '平地时间':'平地時間', '身份系数':'身份係數', '两条路线取代价更低者':'兩條路線取代價更低者', '台阶对轮椅为一票否决':'臺階對輪椅為一票否決', '换任何一组参数':'換任何一組參數', '比如你认为拖行李惩罚应是':'比如你認為拖行李懲罰應是', '结论的边界就会移动':'結論的邊界就會移動', '这正是本作品想展示的':'這正是本作品想展示的', '推荐不是客观事实':'推薦不是客觀事實', '而是模型与参数的函数':'而是模型與參數的函數', '现场核查记录':'現場核查記錄', '哪些字段是怎么核实的':'哪些欄位是怎麼核實的', '核查项':'核查項', '结果':'結果', '图书馆楼层数':'圖書館樓層數', '电梯楼层按键':'電梯樓層按鍵', '楼层索引牌':'樓層索引牌', '社区标注为':'社區標註為', '已按现场修正':'已按現場修正', '图书馆出入口':'圖書館出入口', '绕建筑步行一周':'繞建築步行一周', '东南侧':'東南側', '出口处无台阶':'出口處無臺階', '楼层数与入口':'樓層數與入口', '现场目视':'現場目視', '电梯按键':'電梯按鍵', '电梯通达':'電梯通達', '从图书馆':'從圖書館', '净下':'淨下', '下坡台阶段':'下坡臺階段', '即路线':'即路線', '的台阶':'的臺階', '沿途台阶':'沿途臺階', '沿体育馆':'沿體育館', '本次查看未发现台阶':'本次查看未發現臺階', '两条路线长度与耗时':'兩條路線長度與耗時', '轨迹记录':'軌跡記錄', '起终点严格为图书馆':'起終點嚴格為圖書館', '台阶旁坡道电动':'臺階旁坡道電動', '沿两条路线走访记录':'沿兩條路線走訪記錄', '厕所稍偏即达':'廁所稍偏即達', '最近补给点偏离路线约':'最近補給點偏離路線約', '队友实地走了一遍并手绘轨迹':'隊友實地走了一遍並手繪軌跡', '室内段无法':'室內段無法', '长度待手绘定稿':'長度待手繪定稿', '核查时间':'核查時間', '比赛筹备期间':'比賽籌備期間', '方式为步行实地查看与拍照记录':'方式為步行實地查看與拍照記錄', '右侧':'右側', '楼层信息':'樓層信息', '路线对比':'路線對比', '楼层状态':'樓層狀態', '选择上方':'選擇上方', '查看该层的出入口与可达性':'查看該層的出入口與可達性', '切换上方视角':'切換上方視角', '观察推荐如何反转':'觀察推薦如何反轉', '推荐路线':'推薦路線', '指标':'指標', '仅指':'僅指', '本次步行现场查看未发现台阶':'本次步行現場查看未發現臺階', '路缘高差与铺装状况':'路緣高差與鋪裝狀況', '不代表该路线绝对安全或完全无障碍':'不代表該路線絕對安全或完全無障礙', '预估时间':'預估時間', '的差异':'的差異', '一句话说明白本作品做了什么它们没做的':'一句話說明白本作品做了什麼它們沒做的', '与相近产品的对比':'與相近產品的對比', '和现成导航':'和現成導航', '无障碍产品比':'無障礙產品比', '这个作品做了什么不同的':'這個作品做了什麼不同的', '三款相近产品各自解决了':'三款相近產品各自解決了', '路怎么走':'路怎麼走', '哪里能去':'哪裡能去', '但都没把':'但都沒把', '同一条路':'同一條路', '对不同的人最近程度不同':'對不同的人最近程度不同', '这件事作为核心来算':'這件事作為核心來算', '产品':'產品', '没做到':'沒做到', '正是本作品的切入点':'正是本作品的切入點', '完整步行导航':'完整步行導航', '实时路况':'實時路況', '公交换乘':'公交換乘', '覆盖范围极广':'覆蓋範圍極廣', '路线推荐按':'路線推薦按', '单一':'單一', '口径':'口徑', '输出':'輸出', '拖着':'拖著', '坐轮椅':'坐輪椅', '而改变推荐':'而改變推薦', '楼层高差基本不参与路线权重':'樓層高差基本不參與路線權重', '全球众包的':'全球眾包的', '无障碍地点':'無障礙地點', '标注':'標註', '能否进店':'能否進店', '有无坡道等':'有無坡道等', '这栋楼':'這棟樓', '这家店能不能进':'這家店能不能進', '不做点与点之间的路线推荐':'不做點與點之間的路線推薦', '走这段路要多付出多少代价':'走這段路要多付出多少代價', '现场实测的楼层':'現場實測的樓層', '行李与轮椅的通行条件':'行李與輪椅的通行條件', '一起纳入推荐权重':'一起納入推薦權重', '并展示同一路线在三种身份下推荐如何反转':'並展示同一路線在三種身份下推薦如何反轉', '覆盖范围仅限':'覆蓋範圍僅限', '单段示例路线':'單段示例路線', '非实时':'非實時', '路况结论基于有限次现场查看':'路況結論基於有限次現場查看', '不构成无障碍通行保证':'不構成無障礙通行保證', '实测数据反转了预设':'實測數據反轉了預設', '比户外平路':'比戶外平路', '而距离更短的室内路线':'而距離更短的室內路線', '要付楼梯':'要付樓梯', '地图上的最短':'地圖上的最短', '从来就不等于你脚下最近的那条':'從來就不等於你腳下最近的那條', '层朝湖':'層朝湖', '入口无台阶有电梯':'入口無臺階有電梯', '层台阶':'層臺階', '沿途补给丰富':'沿途補給豐富', '全程未见台阶':'全程未見臺階', '最近补给点偏离约':'最近補給點偏離約', '长度与耗时为':'長度與耗時為', '路况数据基于有限次现场查看':'路況數據基於有限次現場查看', '出行请以现场实际情况为准':'出行請以現場實際情況為準', '视角切换':'視角切換', '中英文界面切换':'中英文界面切換', '静态节点用':'靜態節點用', '首次运行快照中文原文':'首次運行快照中文原文', '时用':'時用', '词典替换':'詞典替換', '时还原快照':'時還原快照', '无需中文词典':'無需中文詞典', '动态内容':'動態內容', '楼层':'樓層', '提示条':'提示條', '建筑名':'建築名', '用双语':'用雙語', '数据':'數據', '建筑':'建築', '静态节点':'靜態節點', '应用':'應用', '查看该位置的路线指引':'查看該位置的路線指引', '重渲染动态内容':'重渲染動態內容', '双语动态数据':'雙語動態數據', '户外地面层':'戶外地面層', '地面层视角':'地面層視角', '所有户外路线均可通行':'所有戶外路線均可通行', '入口均直接可达':'入口均直接可達', '从地面出发':'從地面出發', '路线选择取决于你的身体条件':'路線選擇取決於你的身體條件', '无直接出入口':'無直接出入口', '没有通往户外的出入口':'沒有通往戶外的出入口', '你必须乘坐电梯或走楼梯到':'你必須乘坐電梯或走樓梯到', '才能从唯一的出口离开建筑':'才能從唯一的出口離開建築', '先上楼到':'先上樓到', '再选择路线':'再選擇路線', '或路线':'或路線', '可直接出发':'可直接出發', '是图书馆唯一有出入口的楼层':'是圖書館唯一有出入口的樓層', '出口朝东南':'出口朝東南', '出门后可选路线':'出門後可選路線', '这是理想的出发楼层':'這是理想的出發樓層', '出门即可选择任意路线':'出門即可選擇任意路線', '整栋楼有互通电梯':'整棟樓有互通電梯', '可乘电梯或走楼梯下至':'可乘電梯或走樓梯下至', '再从':'再從', '出口离开':'出口離開', '电梯可通全楼层':'電梯可通全樓層', '入口层':'入口層', '可直接到达':'可直接到達', '的入口层':'的入口層', '入口位于整栋楼的拐弯处':'入口位於整棟樓的拐彎處', '楼内有电梯可通达全楼层':'樓內有電梯可通達全樓層', '从户外到达后可直接从':'從戶外到達後可直接從', '入口进入':'入口進入', '没有通往户外的直接出入口':'沒有通往戶外的直接出入口', '需乘电梯或走楼梯下至':'需乘電梯或走樓梯下至', '入口进出':'入口進出', '再出入建筑':'再出入建築', '电梯全楼层通达':'電梯全樓層通達', '从':'從', '目标层':'目標層', '状态机':'狀態機', '楼内前置':'樓內前置', '接进代价模型':'接進代價模型', '行李电梯':'行李電梯', '轮椅必须电梯':'輪椅必須電梯', '视角数据':'視角數據', '实测更短更快':'實測更短更快', '的那条才是更短更快的那条':'的那條才是更短更快的那條', '的价值在别处':'的價值在別處', '便利店与厕所':'便利店與廁所', '台阶段还有坡道可选':'臺階段還有坡道可選', '旁有坡道可绕':'旁有坡道可繞', '处':'處', '商铺':'商鋪', '最近补给偏离约':'最近補給偏離約', '轮椅通行':'輪椅通行', '的台阶段必须减速控箱':'的臺階段必須減速控箱', '走坡道则距离更长':'走坡道則距離更長', '实测更短的路线':'實測更短的路線', '是明确更省心的选择':'是明確更省心的選擇', '沿途最近补给点偏离路线约':'沿途最近補給點偏離路線約', '出发前先安排好':'出發前先安排好', '台阶惩罚':'臺階懲罰', '下坡高风险':'下坡高風險', '可绕坡道':'可繞坡道', '下坡拖箱危险':'下坡拖箱危險', '拖行李风险':'拖行李風險', '无':'無', '全程平缓':'全程平緩', '的台阶旁本次查看发现有坡道可替代':'的臺階旁本次查看發現有坡道可替代', '电动或人推可上':'電動或人推可上', '但整体更长':'但整體更長', '更绕':'更繞', '更短且全程未见台阶':'更短且全程未見臺階', '仍是更优选择':'仍是更優選擇', '坡度与路面宽度未测量':'坡度與路面寬度未測量', '一条更短的室内路线正在采集中':'一條更短的室內路線正在採集中', '它需要走楼梯':'它需要走樓梯', '等电梯':'等電梯', '对轮椅未必友好':'對輪椅未必友好', '坡道绕行':'坡道繞行', '你当前在':'你當前在', '到达入口后还需':'到達入口後還需', '当前身份约':'當前身份約', '这段':'這段', '是两条路线共同承担的成本':'是兩條路線共同承擔的成本', '当前身份':'當前身份', '不可达':'不可達', '地图已显示两条路线':'地圖已顯示兩條路線', '蓝':'藍', '绿':'綠', '切换上方':'切換上方', '视角':'視角', '看结论如何变化':'看結論如何變化', '点地图上的橙色圆点可展开分段指引':'點地圖上的橙色圓點可展開分段指引', '路线当前已隐藏':'路線當前已隱藏', '勾选上方':'勾選上方', '即可在地图上叠加路线':'即可在地圖上疊加路線', '进行对比':'進行對比', '教学区分时模型':'教學區分時模型', '当前为':'當前為', '手动选择':'手動選擇', '地图图层开关':'地圖圖層開關', '路线指引点':'路線指引點', '地图平移':'地圖平移', '缩放':'縮放', '语言开关':'語言開關', '启动':'啟動'};
+var C2T = {'给':'給', '约':'約', '视':'視', '暂':'暫', '仅':'僅', '亲':'親', '须':'須', '权':'權', '边':'邊', '异':'異', '详':'詳', '续':'續', '准':'準', '声':'聲', '总':'總', '简':'簡', '阶':'階', '过':'過', '识':'識', '优':'優', '严':'嚴', '写':'寫', '构':'構', '择':'擇', '该':'該', '并':'並', '艺':'藝', '朴':'樸', '厅':'廳', '产':'產', '却':'卻', '论':'論', '盖':'蓋', '层':'層', '弹':'彈', '员':'員', '学':'學', '预':'預', '蓝':'藍', '断':'斷', '从':'從', '说':'說', '进':'進', '团':'團', '长':'長', '显':'顯', '轨':'軌', '则':'則', '脚':'腳', '话':'話', '体':'體', '书':'書', '对':'對', '着':'著', '园':'園', '卫':'衛', '侧':'側', '荫':'蔭', '么':'麼', '双':'雙', '纬':'緯', '采':'採', '锚':'錨', '键':'鍵', '创':'創', '铺':'鋪', '备':'備', '来':'來', '标':'標', '换':'換', '机':'機', '访':'訪', '页':'頁', '广':'廣', '积':'積', '词':'詞', '叠':'疊', '离':'離', '补':'補', '价':'價', '们':'們', '围':'圍', '组':'組', '个':'個', '荐':'薦', '读':'讀', '区':'區', '圆':'圓', '启':'啟', '关':'關', '间':'間', '当':'當', '纳':'納', '终':'終', '爱':'愛', '惩':'懲', '处':'處', '题':'題', '见':'見', '统':'統', '运':'運', '开':'開', '质':'質', '复':'復', '认':'認', '担':'擔', '罚':'罰', '现':'現', '经':'經', '态':'態', '参':'參', '轮':'輪', '远':'遠', '证':'證', '筑':'築', '为':'為', '静':'靜', '点':'點', '册':'冊', '筹':'籌', '继':'繼', '势':'勢', '观':'觀', '后':'後', '览':'覽', '阳':'陽', '细':'細', '计':'計', '岛':'島', '选':'選', '条':'條', '规':'規', '验':'驗', '赛':'賽', '净':'淨', '设':'設', '决':'決', '队':'隊', '东':'東', '阴':'陰', '资':'資', '还':'還', '时':'時', '绘':'繪', '绝':'絕', '无':'無', '户':'戶', '风':'風', '挡':'擋', '馆':'館', '弯':'彎', '贤':'賢', '绿':'綠', '应':'應', '厕':'廁', '节':'節', '场':'場', '级':'級', '输':'輸', '宽':'寬', '议':'議', '转':'轉', '动':'動', '际':'際', '据':'據', '临':'臨', '绕':'繞', '内':'內', '迹':'跡', '栋':'棟', '范':'範', '连':'連', '于':'於', '笃':'篤', '这':'這', '务':'務', '结':'結', '电':'電', '与':'與', '业':'業', '请':'請', '台':'臺', '状':'狀', '栈':'棧', '缘':'緣', '里':'裡', '记':'記', '图':'圖', '门':'門', '钟':'鍾', '较':'較', '确':'確', '拟':'擬', '险':'險', '闳':'閎', '极':'極', '线':'線', '众':'眾', '气':'氣', '况':'況', '导':'導', '齐':'齊', '种':'種', '项':'項', '楼':'樓', '缓':'緩', '语':'語', '浏':'瀏', '称':'稱', '习':'習', '缩':'縮', '测':'測', '达':'達', '数':'數', '单':'單', '库':'庫', '两':'兩', '丰':'豐', '发':'發', '头':'頭', '余':'餘', '装':'裝', '课':'課', '实':'實', '碍':'礙', '击':'擊', '减':'減', '隐':'隱', '会':'會', '没':'沒', '变':'變', '别':'別', '径':'徑', '录':'錄'};
+
+/* ===== 运行时简->繁转换（实为「简体中文」的繁体展示） ===== */
+function s2t(str){
+  if(!str) return str;
+  var out='', i=0, n=str.length;
+  while(i<n){
+    var c=str.charAt(i);
+    var cc=c.charCodeAt(0);
+    if(cc>=0x4e00 && cc<=0x9fff){
+      var best=null, bestLen=0;
+      for(var L=Math.min(8, n-i); L>=1; L--){
+        var seg=str.substr(i,L);
+        if(W2T[seg]!==undefined){ best=W2T[seg]; bestLen=L; break; }
+      }
+      if(best!==null){ out+=best; i+=bestLen; }
+      else { out+=(C2T[c]||c); i++; }
+    } else { out+=c; i++; }
+  }
+  return out;
+}
+function zhOrEn(zhStr, enStr){
+  if(LANG==='en') return enStr;
+  if(LANG==='hant') return s2t(zhStr);
+  return zhStr;
+}
+function deepS2T(o){
+  if(typeof o==='string') return s2t(o);
+  if(Array.isArray(o)) return o.map(deepS2T);
+  if(o && typeof o==='object'){ var r={}; for(var k in o) r[k]=deepS2T(o[k]); return r; }
+  return o;
+}
+
+var LANG = 'en';
 
 var EN = {
   'doc.title': 'The Invisible Distance · Library → V27',
@@ -1481,34 +1517,35 @@ function applyStatic() {
   var en = LANG === 'en';
   document.querySelectorAll('[data-i18n]').forEach(function (el) {
     var k = el.dataset.i18n;
-    el.textContent = en ? (EN[k] !== undefined ? EN[k] : el.dataset.zh) : el.dataset.zh;
+    el.textContent = (LANG==='en') ? (EN[k] !== undefined ? EN[k] : el.dataset.zh) : (LANG==='hant' ? s2t(el.dataset.zh) : el.dataset.zh);
   });
   document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
     var k = el.dataset.i18nHtml;
-    el.innerHTML = en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhHtml) : el.dataset.zhHtml;
+    el.innerHTML = (LANG==='en') ? (EN[k] !== undefined ? EN[k] : el.dataset.zhHtml) : (LANG==='hant' ? s2t(el.dataset.zhHtml) : el.dataset.zhHtml);
   });
   document.querySelectorAll('[data-i18n-label]').forEach(function (el) {
     var k = el.dataset.i18nLabel;
-    el.setAttribute('label', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhLabel) : el.dataset.zhLabel);
+    el.setAttribute('label', (LANG==='en') ? (EN[k] !== undefined ? EN[k] : el.dataset.zhLabel) : (LANG==='hant' ? s2t(el.dataset.zhLabel) : el.dataset.zhLabel));
   });
   document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
     var k = el.dataset.i18nAria;
-    el.setAttribute('aria-label', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhAria) : el.dataset.zhAria);
+    el.setAttribute('aria-label', (LANG==='en') ? (EN[k] !== undefined ? EN[k] : el.dataset.zhAria) : (LANG==='hant' ? s2t(el.dataset.zhAria) : el.dataset.zhAria));
   });
   document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
     var k = el.dataset.i18nTitle;
-    el.setAttribute('title', en ? (EN[k] !== undefined ? EN[k] : el.dataset.zhTitle) : el.dataset.zhTitle);
+    el.setAttribute('title', (LANG==='en') ? (EN[k] !== undefined ? EN[k] : el.dataset.zhTitle) : (LANG==='hant' ? s2t(el.dataset.zhTitle) : el.dataset.zhTitle));
   });
-  document.documentElement.setAttribute('lang', en ? 'en' : 'zh-CN');
-  document.title = en ? EN['doc.title'] : '看不见的距离 · 图书馆 → V27';
-  document.body.classList.toggle('lang-en', en);
+  document.documentElement.setAttribute('lang', LANG==='en' ? 'en' : (LANG==='hant' ? 'zh-Hant' : 'zh-CN'));
+  document.title = LANG==='en' ? EN['doc.title'] : (LANG==='hant' ? s2t('看不见的距离 · 图书馆 → V27') : '看不见的距离 · 图书馆 → V27');
+  document.body.classList.toggle('lang-en', LANG==='en');
+  document.body.classList.toggle('lang-hant', LANG==='hant');
   document.querySelectorAll('[data-lang-btn]').forEach(function (b) {
     var on = b.dataset.langBtn === LANG;
     b.classList.toggle('active', on);
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
   document.querySelectorAll('.guide-dot').forEach(function (d) {
-    d.setAttribute('aria-label', en ? 'View route guidance for this point' : '查看该位置的路线指引');
+    d.setAttribute('aria-label', zhOrEn('查看该位置的路线指引', 'View route guidance for this point'));
   });
   // 重渲染动态内容
   renderFloor(currentFloor);
@@ -1602,6 +1639,7 @@ var FLOOR_DATA = {
       routeNote: 'Go down to 1F first, then enter or exit. The lift serves every floor.' }
   }
 };
+FLOOR_DATA.hant = deepS2T(FLOOR_DATA.zh);
 
 var FLOOR_META = {
   'ground': { building: 'outdoor', floorNum: 0, exitFloor: 0 },
@@ -1628,15 +1666,13 @@ function indoorInfo(floorKey) {
   var isLib = m.building === 'library';
   var down = m.floorNum > m.exitFloor;
   var action;
-  if (LANG === 'zh') {
-    action = isLib
-      ? '从 ' + m.floorNum + 'F ' + (down ? '下' : '上') + '到 ' + m.exitFloor + 'F 出口'
-      : '从 ' + m.exitFloor + 'F 入口 ' + (down ? '上' : '下') + '到 ' + m.floorNum + 'F 目标层';
-  } else {
-    action = isLib
-      ? 'from ' + m.floorNum + 'F ' + (down ? 'down' : 'up') + ' to the ' + m.exitFloor + 'F exit'
-      : 'from the ' + m.exitFloor + 'F entrance ' + (down ? 'up' : 'down') + ' to ' + m.floorNum + 'F';
-  }
+  var zAction = isLib
+    ? '从 ' + m.floorNum + 'F ' + (down ? '下' : '上') + '到 ' + m.exitFloor + 'F 出口'
+    : '从 ' + m.exitFloor + 'F 入口 ' + (down ? '上' : '下') + '到 ' + m.floorNum + 'F 目标层';
+  var eAction = isLib
+    ? 'from ' + m.floorNum + 'F ' + (down ? 'down' : 'up') + ' to the ' + m.exitFloor + 'F exit'
+    : 'from the ' + m.exitFloor + 'F entrance ' + (down ? 'up' : 'down') + ' to ' + m.floorNum + 'F';
+  action = (LANG === 'en') ? eAction : (LANG === 'hant' ? s2t(zAction) : zAction);
   return { n: n, action: action, isLib: isLib };
 }
 
@@ -1779,6 +1815,7 @@ var VIEWS = {
     }
   }
 };
+VIEWS.hant = deepS2T(VIEWS.zh);
 
 function renderView(view) {
   var v = VIEWS[LANG][view];
@@ -1796,17 +1833,14 @@ function renderView(view) {
     var coef = INDOOR_COEF[view] || 1;
     var addMin = info.n * coef;
     addTxt = (addMin === Math.floor(addMin)) ? String(addMin) : addMin.toFixed(1);
-    if (LANG === 'zh') {
-      var ctx = info.isLib
-        ? '你当前在 ' + FLOOR_DATA.zh[currentFloor].title + '，需先'
-        : '目的地是 ' + FLOOR_DATA.zh[currentFloor].title + '，到达入口后还需';
-      noteText = ctx + info.action + '（当前身份约 +' + addTxt + ' 分）——这段「楼内前置」是两条路线共同承担的成本。' + noteText;
-    } else {
-      var ctxE = info.isLib
-        ? 'You are on ' + FLOOR_DATA.en[currentFloor].title + '; first '
-        : 'Your destination is ' + FLOOR_DATA.en[currentFloor].title + '; after reaching the entrance, ';
-      noteText = ctxE + info.action + ' (about +' + addTxt + ' min for you now) — this indoor leg is a cost shared by both routes. ' + noteText;
-    }
+    var ctxZh = info.isLib
+      ? '你当前在 ' + FLOOR_DATA[LANG][currentFloor].title + '，需先'
+      : '目的地是 ' + FLOOR_DATA[LANG][currentFloor].title + '，到达入口后还需';
+    var ctxEn = info.isLib
+      ? 'You are on ' + FLOOR_DATA.en[currentFloor].title + '; first '
+      : 'Your destination is ' + FLOOR_DATA.en[currentFloor].title + '; after reaching the entrance, ';
+    var ctx = (LANG === 'en') ? ctxEn : ctxZh;
+    noteText = ctx + info.action + zhOrEn('（当前身份约 +' + addTxt + ' 分）——这段「楼内前置」是两条路线共同承担的成本。', ' (about +' + addTxt + ' min for you now) — this indoor leg is a cost shared by both routes. ') + noteText;
   }
   document.getElementById('note').textContent = noteText;
 
@@ -1816,12 +1850,10 @@ function renderView(view) {
     var tr = document.createElement('tr');
     tr.className = 'indoor-row';
     var td0 = document.createElement('td');
-    td0.textContent = (LANG === 'zh' ? '楼内前置' : 'Indoor leg');
+    td0.textContent = zhOrEn('楼内前置', 'Indoor leg');
     var td1 = document.createElement('td');
     td1.colSpan = 2;
-    td1.textContent = LANG === 'zh'
-      ? info.action + '（' + info.n + ' 层 · 当前身份 +约 ' + addTxt + ' 分）'
-      : info.action + ' (' + info.n + ' floor(s) · about +' + addTxt + ' min for you)';
+    td1.textContent = zhOrEn(info.action + '（' + info.n + ' 层 · 当前身份 +约 ' + addTxt + ' 分）', info.action + ' (' + info.n + ' floor(s) · about +' + addTxt + ' min for you)');
     tr.appendChild(td0); tr.appendChild(td1);
     tbody.appendChild(tr);
   }
@@ -1842,11 +1874,13 @@ function renderView(view) {
   var maxFloor = Math.max(v.floorBar[0], v.floorBar[1]) || 1;
   setBar('barDistA', 'valDistA', v.dist[0], maxDist, v.dist[0] + 'm');
   setBar('barDistB', 'valDistB', v.dist[1], maxDist, v.dist[1] + 'm');
-  setBar('barTimeA', 'valTimeA', v.time[0], maxTime, v.time[0] === 0 ? (LANG === 'zh' ? '不可达' : 'N/A') : v.time[0] + (LANG === 'zh' ? '分' : ' min'));
-  setBar('barTimeB', 'valTimeB', v.time[1], maxTime, v.time[1] + (LANG === 'zh' ? '分' : ' min'));
+  var timeUnit = (LANG === 'en') ? ' min' : '分';
+  var naTxt = zhOrEn('不可达', 'N/A');
+  setBar('barTimeA', 'valTimeA', v.time[0], maxTime, v.time[0] === 0 ? naTxt : v.time[0] + timeUnit);
+  setBar('barTimeB', 'valTimeB', v.time[1], maxTime, v.time[1] + timeUnit);
   var fA = v.floor[0], fB = v.floor[1];
-  var ufA = LANG === 'zh' ? '层' : (Math.abs(fA) === 1 ? ' floor' : ' floors');
-  var ufB = LANG === 'zh' ? '层' : (Math.abs(fB) === 1 ? ' floor' : ' floors');
+  var ufA = (LANG === 'en') ? (Math.abs(fA) === 1 ? ' floor' : ' floors') : (LANG === 'hant' ? '層' : '层');
+  var ufB = (LANG === 'en') ? (Math.abs(fB) === 1 ? ' floor' : ' floors') : (LANG === 'hant' ? '層' : '层');
   setBar('barFloorA', 'valFloorA', v.floorBar[0], maxFloor, fA + ufA);
   setBar('barFloorB', 'valFloorB', v.floorBar[1], maxFloor, fB + ufB);
 }
@@ -1885,15 +1919,15 @@ var mapHint = document.getElementById('mapHint');
 function updateMapHint() {
   mapHint.classList.toggle('off', !svgState.routes);
   if (svgState.routes) {
-    mapHint.innerHTML = LANG === 'zh'
-      ? '<b>地图已显示两条路线：</b>蓝＝路线 A（台阶/坡道路，实测 537 m ／ −1 层）；绿＝路线 B（户外平路，实测 470 m ／ 0 层）。' +
-        '切换上方「视角」（行人 / 行李 / 轮椅）看结论如何变化；点地图上的橙色圆点可展开分段指引。'
-      : '<b>Both routes are shown on the map:</b> blue = Route A (stairs / sloped path, measured 537 m / −1 floor); green = Route B (outdoor flat path, measured 470 m / 0 floors). ' +
-        'Switch the persona above (pedestrian / luggage / wheelchair) to see how the conclusion changes; click an orange dot on the map to expand the step-by-step guidance.';
+    mapHint.innerHTML = zhOrEn(
+      '<b>地图已显示两条路线：</b>蓝＝路线 A（台阶/坡道路，实测 537 m ／ −1 层）；绿＝路线 B（户外平路，实测 470 m ／ 0 层）。' +
+      '切换上方「视角」（行人 / 行李 / 轮椅）看结论如何变化；点地图上的橙色圆点可展开分段指引。',
+      '<b>Both routes are shown on the map:</b> blue = Route A (stairs / sloped path, measured 537 m / −1 floor); green = Route B (outdoor flat path, measured 470 m / 0 floors). ' +
+      'Switch the persona above (pedestrian / luggage / wheelchair) to see how the conclusion changes; click an orange dot on the map to expand the step-by-step guidance.');
   } else {
-    mapHint.innerHTML = LANG === 'zh'
-      ? '<b>路线当前已隐藏。</b>勾选上方「路线」，即可在地图上叠加路线 A / B 进行对比。'
-      : '<b>Routes are hidden.</b> Tick “Routes” above to overlay Route A / B on the map for comparison.';
+    mapHint.innerHTML = zhOrEn(
+      '<b>路线当前已隐藏。</b>勾选上方「路线」，即可在地图上叠加路线 A / B 进行对比。',
+      '<b>Routes are hidden.</b> Tick “Routes” above to overlay Route A / B on the map for comparison.');
   }
 }
 updateMapHint();
@@ -1911,14 +1945,18 @@ function renderElevatorWait() {
   if (!el) return;
   var p = resolveElevatorPeriod();
   var auto = elevatorPeriod === 'auto';
-  if (LANG === 'zh') {
-    el.innerHTML = (p === 'peak'
-      ? '约 <b>3–5 分钟</b>（当前为<b>课间</b>）'
-      : '约 <b>1 分钟</b>（当前为<b>非课间</b>）') + (auto ? '' : ' · 手动选择');
-  } else {
+  if (LANG === 'en') {
     el.innerHTML = (p === 'peak'
       ? 'about <b>3–5 min</b> (currently a <b>class break</b>)'
       : 'about <b>1 min</b> (currently outside class breaks)') + (auto ? '' : ' · manual');
+  } else {
+    el.innerHTML = zhOrEn(
+      (p === 'peak'
+        ? '约 <b>3–5 分钟</b>（当前为<b>课间</b>）'
+        : '约 <b>1 分钟</b>（当前为<b>非课间</b>）') + (auto ? '' : ' · 手动选择'),
+      (p === 'peak'
+        ? 'about <b>3–5 min</b> (currently a <b>class break</b>)'
+        : 'about <b>1 min</b> (currently outside class breaks)') + (auto ? '' : ' · manual'));
   }
 }
 document.getElementById('elevatorPeriod').addEventListener('change', function () {
@@ -1952,7 +1990,7 @@ document.querySelectorAll('.bld').forEach(function (el) {
   el.addEventListener('mousemove', function (ev) {
     var raw = el.dataset.name;
     if (!raw) return;
-    tip.textContent = (LANG === 'en') ? enName(raw) : raw;
+    tip.textContent = (LANG === 'en') ? enName(raw) : (LANG === 'hant' ? s2t(raw) : raw);
     tip.style.left = (ev.clientX + 14) + 'px';
     tip.style.top = (ev.clientY + 14) + 'px';
     tip.classList.add('visible');
